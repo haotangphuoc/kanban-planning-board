@@ -1,0 +1,19 @@
+# Verify the Lab Agreement for a given user.
+
+stages:
+    - setup
+    - build
+    - test
+
+verify-agreement:
+    stage: test
+    tags:
+        - ugrad
+    script:
+        - echo "Checking Directory Structure..."
+        - test -d LabAgreement
+        - test -f LabAgreement/signature.sig
+        - echo "Success on Directory Structure."
+        - user=$( pwd | grep -o '[^/]*$' )
+        - echo "Checking contents matches CSID = '"$user"'..."
+        - ./CI/verify.sh $user LabAgreement/signature.sig
