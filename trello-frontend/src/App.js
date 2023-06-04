@@ -1,57 +1,22 @@
-import logo from "./logo.svg";
-
 import "./App.css";
+import Header from "./Components/Header";
+import Dashboard from "./Pages/Dashboard";
+import Login from "./Pages/Login.js";
+import Register from "./Pages/Register.js";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">
-            Trello-Clone
-          </a>
+const App = () => (
+  <BrowserRouter>
+    <Header />
+    <main>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/Pages/Login.js" element={<Login />} />
 
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-              <a class="nav-link" href="/">
-                Home
-              </a>
-
-              <a class="nav-link" href="/about">
-                About
-              </a>
-            </div>
-
-            <div class="navbar-nav ms-auto">
-              <a class="nav-link" href="/login">
-                Login
-              </a>
-
-              <a class="nav-link" href="/register">
-                Register
-              </a>
-
-              <a class="nav-link" href="/logout">
-                Logout
-              </a>
-            </div>
-          </div>
-        </div>
-      </nav>
-    </div>
-  );
-}
+        <Route path="/Pages/Register.js" element={<Register />} />
+      </Routes>
+    </main>
+  </BrowserRouter>
+);
 
 export default App;
