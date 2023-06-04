@@ -5,13 +5,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>Landing Page</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        ></a>
+        <h1>Landing Page</h1>
       </header>
     </div>
   );
