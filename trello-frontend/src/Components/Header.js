@@ -1,4 +1,4 @@
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Container } from "react-bootstrap";
 
 const Header = () => {
   return (
@@ -6,17 +6,7 @@ const Header = () => {
       <Container>
         <Navbar.Brand href="/">Trello-Clone</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link>Create</Nav.Link>
-            <Nav.Link>Item</Nav.Link>
-            <Nav.Link>Item</Nav.Link>
-          </Nav>
-          <Nav>
-            <Nav.Link href="../Pages/Login.js">Login</Nav.Link>
-            <Nav.Link href="../Pages/Register.js"> Register</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
+        <Navbar.Collapse id="responsive-navbar-nav"></Navbar.Collapse>
       </Container>
     </Navbar>
   );
