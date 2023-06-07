@@ -5,6 +5,8 @@ const Header = () => {
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
         <Navbar.Brand href="/">Trello-Clone</Navbar.Brand>
+        <Navbar.Brand href="../Pages/Homepage.js">Homepage</Navbar.Brand>
+        <Navbar.Brand href="../Pages/Workspace.js">Workspace</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav"></Navbar.Collapse>
       </Container>

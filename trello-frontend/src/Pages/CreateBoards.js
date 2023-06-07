@@ -1,7 +1,16 @@
 import { React, useState } from "react";
-import { Container, Row, Form, Col, Card, Button, Nav } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Form,
+  Col,
+  Card,
+  Button,
+  Stack,
+  Nav,
+} from "react-bootstrap";
 
-const Homepage = () => {
+const CreateBoards = () => {
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = (event) => {
@@ -18,44 +27,40 @@ const Homepage = () => {
       <Container>
         <Row>
           <div>
-            <h2 style={{ paddingTop: 38, paddingBottom: 24 }}>Workspaces</h2>
-            <Card>
-              <Card.Body>
-                <Row className="mb-3">
-                  <Card.Title>
-                    <Nav.Link href="../Pages/Workspace.js">
-                      Workspace Name
-                    </Nav.Link>
-                  </Card.Title>
-                  <Card.Text>Description</Card.Text>
-                  <Card.Title>
-                    <Nav.Link href="#">Workspace Title</Nav.Link>
-                  </Card.Title>
-                  <Card.Text>Description</Card.Text>
-                </Row>
-              </Card.Body>
-            </Card>
-            <h4 style={{ paddingTop: 38, paddingBottom: 24 }}>
-              Let's build a Workspace
-            </h4>
+            <Stack
+              className="mx-auto"
+              direction="horizontal"
+              style={{ paddingTop: 38 }}
+            >
+              <div style={{ paddingBottom: 12 }}>
+                <Card.Title>
+                  <Nav.Link href="../Pages/Workspace.js">
+                    &#60; Workspace
+                  </Nav.Link>
+                </Card.Title>
+              </div>
+            </Stack>
+            <h1 style={{ paddingTop: 38, paddingBottom: 38 }}>
+              Create a board
+            </h1>
             <Card>
               <Card.Body>
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                   <Row className="mb-3">
                     <Form.Group as={Col} md="4" controlId="validationCustom01">
-                      <Form.Label>Workspace name</Form.Label>
+                      <Form.Label>Board name</Form.Label>
                       <Form.Control
                         required
                         type="text"
-                        placeholder="Enter a workspace name"
+                        placeholder="Enter a board name"
                       />
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                       <Form.Control.Feedback type="invalid">
-                        Please enter a workspace name.
+                        Please enter a board name.
                       </Form.Control.Feedback>
                       <br />
                       <Form.Group controlId="validationCustom01">
-                        <Form.Label>Workspace description</Form.Label>
+                        <Form.Label>Board description</Form.Label>
                         <Form.Control
                           as="textarea"
                           aria-label="With textarea"
@@ -76,4 +81,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default CreateBoards;

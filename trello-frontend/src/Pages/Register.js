@@ -86,6 +86,14 @@ const Register = () => {
                 className="mb-3"
                 controlId="formBasicCheckbox"
               ></Form.Group>
+
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>
+                  Security Question: What's your favourite colour?
+                </Form.Label>
+                <Form.Control type="text" placeholder="Enter answer" required />
+              </Form.Group>
+
               <Button variant="primary" type="submit">
                 Submit
               </Button>

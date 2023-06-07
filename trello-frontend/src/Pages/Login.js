@@ -1,13 +1,5 @@
 import { React, useState } from "react";
-import {
-  Container,
-  Row,
-  Form,
-  Stack,
-  Button,
-  ListGroup,
-  Card,
-} from "react-bootstrap";
+import { Container, Row, Form, Stack, Button } from "react-bootstrap";
 
 const Login = () => {
   return (
@@ -31,6 +23,12 @@ const Login = () => {
                 className="mb-3"
                 controlId="formBasicCheckbox"
               ></Form.Group>
+              <Stack className="mx-auto" direction="horizontal" gap={1}>
+                <div className="ms-auto" style={{ paddingBottom: 12 }}>
+                  <a href="#">Forgot password?</a>
+                </div>
+              </Stack>
+
               <Button variant="primary" type="submit">
                 Submit
               </Button>

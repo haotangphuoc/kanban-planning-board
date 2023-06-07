@@ -4,7 +4,10 @@ import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login.js";
 import Register from "./Pages/Register.js";
 import Homepage from "./Pages/Homepage";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import CreateWorkspace from "./Pages/Workspace";
+import CreateBoards from "./Pages/CreateBoards";
+import Board from "./Pages/Board";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => (
   <BrowserRouter>
@@ -15,6 +18,9 @@ const App = () => (
         <Route path="/Pages/Login.js" element={<Login />} />
         <Route path="/Pages/Homepage.js" element={<Homepage />} />
         <Route path="/Pages/Register.js" element={<Register />} />
+        <Route path="/Pages/Workspace.js" element={<CreateWorkspace />} />
+        <Route path="/Pages/CreateBoards.js" element={<CreateBoards />} />
+        <Route path="/Pages/Board.js" element={<Board />} />
       </Routes>
     </main>
   </BrowserRouter>
