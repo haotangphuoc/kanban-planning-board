@@ -1,5 +1,14 @@
 import { React, useState } from "react";
-import { Container, Row, Form, Col, Card, Button, Nav } from "react-bootstrap";
+import {
+  Container,
+  Stack,
+  Row,
+  Form,
+  Col,
+  Card,
+  Button,
+  Nav,
+} from "react-bootstrap";
 
 const Homepage = () => {
   const [validated, setValidated] = useState(false);
@@ -18,6 +27,11 @@ const Homepage = () => {
       <Container>
         <Row>
           <div>
+            <Stack className="mx-auto" direction="horizontal" gap={1}>
+              <div className="ms-auto" style={{ paddingBottom: 12 }}>
+                <a href="/">Logout</a>
+              </div>
+            </Stack>
             <h2 style={{ paddingTop: 38, paddingBottom: 24 }}>Workspaces</h2>
             <Card>
               <Card.Body>

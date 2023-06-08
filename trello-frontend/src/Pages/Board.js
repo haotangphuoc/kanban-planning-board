@@ -4,9 +4,11 @@ import {
   Row,
   Stack,
   Nav,
-  Button,
+  Form,
+  Col,
   ListGroup,
   Card,
+  Button,
 } from "react-bootstrap";
 
 const Board = () => {
@@ -32,14 +34,54 @@ const Board = () => {
             <h3 style={{ paddingTop: 38 }}>Board Name</h3>
             <h6>Description</h6>
             <br />
-            <Card style={{ width: "18rem" }}>
-              <Card.Header>Featured</Card.Header>
-              <ListGroup variant="flush">
-                <ListGroup.Item>Cras justo odio</ListGroup.Item>
-                <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
-              </ListGroup>
-            </Card>
+            <Row xs={1} md={2} className="g-4">
+              <Col>
+                <Card>
+                  <Card.Header>Card Name</Card.Header>
+                  <ListGroup variant="flush">
+                    <ListGroup.Item>
+                      <Form.Check type="checkbox" label="Task 1" />
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Form.Check type="checkbox" label="Task 2" />
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Form.Check type="checkbox" label="Task 3" />
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Button variant="primary">Add a card</Button>
+                    </ListGroup.Item>
+                  </ListGroup>
+                </Card>
+              </Col>
+              <Col>
+                <Card>
+                  <Card.Header>Card Name</Card.Header>
+                  <ListGroup variant="flush">
+                    <ListGroup.Item>
+                      <Form.Check type="checkbox" label="Task 1" />
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Form.Check type="checkbox" label="Task 2" />
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Form.Check type="checkbox" label="Task 3" />
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Button variant="primary">Add a card</Button>
+                    </ListGroup.Item>
+                  </ListGroup>
+                </Card>
+              </Col>
+            </Row>
+            <br />
+            <Stack className="mx-auto" direction="horizontal" gap={1}>
+              <div className="ms-auto" style={{ paddingBottom: 12 }}>
+                <Button variant="danger" type="submit">
+                  Delete board
+                </Button>
+              </div>
+            </Stack>
           </div>
         </Row>
       </Container>
