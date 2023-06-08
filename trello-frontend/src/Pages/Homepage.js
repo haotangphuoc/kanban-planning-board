@@ -28,22 +28,30 @@ const Homepage = () => {
         <Row>
           <div>
             <Stack className="mx-auto" direction="horizontal" gap={1}>
-              <div className="ms-auto" style={{ paddingBottom: 12 }}>
+              <div className="ms-auto" style={{ paddingTop: 8 }}>
                 <a href="/">Logout</a>
               </div>
             </Stack>
-            <h2 style={{ paddingTop: 38, paddingBottom: 24 }}>Workspaces</h2>
+            <h2 style={{ paddingTop: 24, paddingBottom: 24 }}>Workspaces</h2>
             <Card>
               <Card.Body>
                 <Row className="mb-3">
                   <Card.Title>
                     <Nav.Link href="../Pages/Workspace.js">
                       Workspace Name
+                      <Button variant="danger" style={{ marginLeft: 25 }}>
+                        Delete
+                      </Button>
                     </Nav.Link>
                   </Card.Title>
                   <Card.Text>Description</Card.Text>
                   <Card.Title>
-                    <Nav.Link href="#">Workspace Title</Nav.Link>
+                    <Nav.Link href="../Pages/Workspace.js">
+                      Workspace Name
+                      <Button variant="danger" style={{ marginLeft: 25 }}>
+                        Delete
+                      </Button>
+                    </Nav.Link>
                   </Card.Title>
                   <Card.Text>Description</Card.Text>
                 </Row>
@@ -57,7 +65,7 @@ const Homepage = () => {
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                   <Row className="mb-3">
                     <Form.Group as={Col} md="4" controlId="validationCustom01">
-                      <Form.Label>Workspace name</Form.Label>
+                      <Form.Label>Workspace Name</Form.Label>
                       <Form.Control
                         required
                         type="text"

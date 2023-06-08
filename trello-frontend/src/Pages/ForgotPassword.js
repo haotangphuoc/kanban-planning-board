@@ -1,5 +1,13 @@
 import { React, useState } from "react";
-import { Container, Row, Form, Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Form,
+  Button,
+  Card,
+  Stack,
+  Nav,
+} from "react-bootstrap";
 
 const ForgotPassword = () => {
   const [validated, setValidated] = useState(false);
@@ -44,6 +52,17 @@ const ForgotPassword = () => {
       <Container>
         <Row>
           <div>
+            <Stack
+              className="mx-auto"
+              direction="horizontal"
+              style={{ paddingTop: 38 }}
+            >
+              <div style={{ paddingBottom: 12 }}>
+                <Card.Title>
+                  <Nav.Link href="/">&#60; Back</Nav.Link>
+                </Card.Title>
+              </div>
+            </Stack>
             <h1 style={{ paddingTop: 38, paddingBottom: 38 }}>
               Reset Password
             </h1>

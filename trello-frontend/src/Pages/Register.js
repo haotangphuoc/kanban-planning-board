@@ -3,6 +3,7 @@ import {
   Container,
   Row,
   Form,
+  Nav,
   Stack,
   Button,
   Col,
@@ -53,7 +54,18 @@ const Register = () => {
       <Container>
         <Row>
           <div>
-            <h1 style={{ paddingTop: 38, paddingBottom: 38 }}>Sign-Up</h1>
+            <Stack
+              className="mx-auto"
+              direction="horizontal"
+              style={{ paddingTop: 24 }}
+            >
+              <div style={{ paddingBottom: 12 }}>
+                <Card.Title>
+                  <Nav.Link href="/">&#60; Back</Nav.Link>
+                </Card.Title>
+              </div>
+            </Stack>
+            <h1 style={{ paddingTop: 24, paddingBottom: 38 }}>Sign-Up</h1>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <Row className="mb-3">
                 <Form.Group as={Col} md="4" controlId="validationCustom01">

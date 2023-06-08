@@ -1,5 +1,13 @@
-import { React, useState } from "react";
-import { Container, Row, Form, Stack, Button } from "react-bootstrap";
+import { React } from "react";
+import {
+  Container,
+  Row,
+  Form,
+  Card,
+  Nav,
+  Stack,
+  Button,
+} from "react-bootstrap";
 
 const Login = () => {
   return (
@@ -7,7 +15,18 @@ const Login = () => {
       <Container>
         <Row>
           <div>
-            <h1 style={{ paddingTop: 38, paddingBottom: 38 }}>Login</h1>
+            <Stack
+              className="mx-auto"
+              direction="horizontal"
+              style={{ paddingTop: 24 }}
+            >
+              <div style={{ paddingBottom: 12 }}>
+                <Card.Title>
+                  <Nav.Link href="/">&#60; Back</Nav.Link>
+                </Card.Title>
+              </div>
+            </Stack>
+            <h1 style={{ paddingTop: 24, paddingBottom: 38 }}>Login</h1>
             <Form>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>

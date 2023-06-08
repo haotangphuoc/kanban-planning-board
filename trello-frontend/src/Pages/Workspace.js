@@ -26,11 +26,45 @@ const CreateWorkspace = () => {
             </div>
           </Stack>
           <div>
-            <h3 style={{ paddingTop: 38 }}>Workspace Name</h3>
-            <h6>Description</h6>
-
+            <h2 style={{ paddingTop: 38 }}>Workspaces</h2>
             <br />
-
+            <h4>Workspace Name</h4>
+            <h6>Description</h6>
+            <br />
+            <Card>
+              <Card.Header>
+                <Nav variant="tabs" defaultActiveKey="#boards">
+                  <Nav.Item>
+                    <Nav.Link href="#boards">Boards</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link href="../Pages/CreateBoards.js">
+                      Create a board
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link href="../Pages/Members.js">Members</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link href="../Pages/Settings.js">Settings</Nav.Link>
+                  </Nav.Item>
+                </Nav>
+              </Card.Header>
+              <Card.Body>
+                <Card.Title>
+                  <Nav.Link href="../Pages/Board.js">Board Title</Nav.Link>
+                </Card.Title>
+                <Card.Text>Description</Card.Text>
+                <Card.Title>
+                  <Nav.Link href="#">Board Title</Nav.Link>
+                </Card.Title>
+                <Card.Text>Description</Card.Text>
+              </Card.Body>
+            </Card>
+            <br />
+            <h4>Workspace Name 2</h4>
+            <h6>Description</h6>
+            <br />
             <Card>
               <Card.Header>
                 <Nav variant="tabs" defaultActiveKey="#boards">

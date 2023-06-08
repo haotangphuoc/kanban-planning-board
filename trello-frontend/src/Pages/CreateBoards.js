@@ -40,9 +40,9 @@ const CreateBoards = () => {
                 </Card.Title>
               </div>
             </Stack>
-            <h1 style={{ paddingTop: 38, paddingBottom: 38 }}>
+            <h2 style={{ paddingTop: 38, paddingBottom: 38 }}>
               Create a board
-            </h1>
+            </h2>
             <Card>
               <Card.Body>
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>

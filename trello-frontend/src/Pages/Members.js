@@ -30,9 +30,9 @@ const Members = () => {
                 </Card.Title>
               </div>
             </Stack>
-            <h1 style={{ paddingTop: 38, paddingBottom: 38 }}>
+            <h2 style={{ paddingTop: 38, paddingBottom: 38 }}>
               Workspace Members
-            </h1>
+            </h2>
             <Card>
               <Card.Body>
                 <Form>
