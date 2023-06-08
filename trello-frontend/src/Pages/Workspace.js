@@ -43,10 +43,10 @@ const CreateWorkspace = () => {
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link href="#members">Members</Nav.Link>
+                    <Nav.Link href="../Pages/Members.js">Members</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link href="#settings">Settings</Nav.Link>
+                    <Nav.Link href="../Pages/Settings.js">Settings</Nav.Link>
                   </Nav.Item>
                 </Nav>
               </Card.Header>

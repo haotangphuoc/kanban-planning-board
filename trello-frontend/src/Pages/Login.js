@@ -25,7 +25,7 @@ const Login = () => {
               ></Form.Group>
               <Stack className="mx-auto" direction="horizontal" gap={1}>
                 <div className="ms-auto" style={{ paddingBottom: 12 }}>
-                  <a href="#">Forgot password?</a>
+                  <a href="../Pages/ForgotPassword.js">Forgot password?</a>
                 </div>
               </Stack>
 
