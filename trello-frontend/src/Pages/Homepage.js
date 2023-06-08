@@ -39,18 +39,12 @@ const Homepage = () => {
                   <Card.Title>
                     <Nav.Link href="../Pages/Workspace.js">
                       Workspace Name
-                      <Button variant="danger" style={{ marginLeft: 25 }}>
-                        Delete
-                      </Button>
                     </Nav.Link>
                   </Card.Title>
                   <Card.Text>Description</Card.Text>
                   <Card.Title>
                     <Nav.Link href="../Pages/Workspace.js">
                       Workspace Name
-                      <Button variant="danger" style={{ marginLeft: 25 }}>
-                        Delete
-                      </Button>
                     </Nav.Link>
                   </Card.Title>
                   <Card.Text>Description</Card.Text>
