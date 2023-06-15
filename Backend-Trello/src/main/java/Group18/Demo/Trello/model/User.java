@@ -67,4 +67,89 @@ public class User {
             joinColumns = @JoinColumn(name="user_id", referencedColumnName = "user_id"),
             inverseJoinColumns = @JoinColumn(name="task_id", referencedColumnName = "task_id"))
     private List<Task> tasks;
+
+    //Constructor
+    public User(int id, String email, String password, String questionAns, String firstName, String lastName) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.questionAns = questionAns;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        //Initialization of list can be added here
+    }
+
+    //Getters and setters
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getQuestionAns() {
+        return questionAns;
+    }
+
+    public void setQuestionAns(String questionAns) {
+        this.questionAns = questionAns;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public List<Workspace> getWorkspaces() {
+        return workspaces;
+    }
+
+    public void setWorkspaces(List<Workspace> workspaces) {
+        this.workspaces = workspaces;
+    }
+
+    public List<Board> getBoards() {
+        return boards;
+    }
+
+    public void setBoards(List<Board> boards) {
+        this.boards = boards;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
 }

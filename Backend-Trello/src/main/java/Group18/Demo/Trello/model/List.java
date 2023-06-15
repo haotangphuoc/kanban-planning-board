@@ -35,4 +35,44 @@ public class List {
 
     @OneToMany(mappedBy = "list")
     private java.util.List<Task> tasks;
+
+    //Constructor
+    public List(int id, String status) {
+        this.id = id;
+        this.status = status;
+        //Initialization of list can be added here
+    }
+
+    //Getters and setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public java.util.List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(java.util.List<Task> tasks) {
+        this.tasks = tasks;
+    }
 }

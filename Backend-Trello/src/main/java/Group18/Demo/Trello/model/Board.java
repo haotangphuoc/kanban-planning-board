@@ -39,4 +39,53 @@ public class Board {
 
     @OneToMany(mappedBy = "board")
     private List<Group18.Demo.Trello.model.List> lists;
+
+    //Constructor
+    public Board(int id, String title) {
+        this.id = id;
+        this.title = title;
+        //Initialization of list can be added here
+    }
+
+    //Getters and setters
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public Workspace getWorkspace() {
+        return workspace;
+    }
+
+    public void setWorkspace(Workspace workspace) {
+        this.workspace = workspace;
+    }
+
+    public List<Group18.Demo.Trello.model.List> getLists() {
+        return lists;
+    }
+
+    public void setLists(List<Group18.Demo.Trello.model.List> lists) {
+        this.lists = lists;
+    }
 }
