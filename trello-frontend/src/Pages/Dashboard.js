@@ -3,7 +3,14 @@ import { Container, Row, Card, Button } from "react-bootstrap";
 
 const Dashboard = () => {
   return (
-    <div style={{ minHeight: "93vh" }}>
+    <div
+      style={{
+        minHeight: "93vh",
+        backgroundImage: 'url("public/homepage-bg.jpeg")',
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <Container>
         <Row>
           <div>
