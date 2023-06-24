@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 )
 public class List {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(
             name = "list_id",
             nullable = false

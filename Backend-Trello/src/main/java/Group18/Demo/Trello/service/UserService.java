@@ -76,4 +76,16 @@ public class UserService {
         User user = userRepository.findById(userId).get();
         return user.getTasks();
     }
+
+    public User findByEmailAndPassword(String email, String password) {
+        return userRepository.findByEmailAndPassword(email,password);
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public Boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
 }

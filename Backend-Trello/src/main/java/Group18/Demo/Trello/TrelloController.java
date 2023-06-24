@@ -1,35 +1,40 @@
 package Group18.Demo.Trello;
 
-import Group18.Demo.Trello.model.User;
-import Group18.Demo.Trello.model.Workspace;
+import Group18.Demo.Trello.model.*;
 import Group18.Demo.Trello.repository.UserRepository;
 import Group18.Demo.Trello.repository.WorkspaceRepository;
+import Group18.Demo.Trello.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 public class TrelloController {
     @Autowired
-    UserRepository userRepository;
+    WorkspaceService workspaceService;
+
     @Autowired
-    WorkspaceRepository workspaceRepository;
+    UserService userService;
+
+    @Autowired
+    BoardService boardService;
+
+    @Autowired
+    TaskService taskService;
+
+    @Autowired
+    ListService listService;
 
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody User user) {
         try {
-            if(userRepository.existsByEmail(user.getEmail())){
+            if(userService.existsByEmail(user.getEmail())){
                 return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
             }
 
-            User _tutorial = userRepository
-                    .save(new User(-1, user.getEmail(), user.getPassword(), user.getQuestionAns(), user.getFirstName(), user.getLastName()));
+            userService.saveUser(new User(-1, user.getEmail(), user.getPassword(), user.getQuestionAns(), user.getFirstName(), user.getLastName()));
             return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -39,7 +44,7 @@ public class TrelloController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody User user) {
         try {
-            User userRes = userRepository.findByEmailAndPassword(user.getEmail(),user.getPassword());
+            User userRes = userService.findByEmailAndPassword(user.getEmail(),user.getPassword());
             if(userRes==null){
                 return new ResponseEntity<>("Invalid email or password!", HttpStatus.BAD_REQUEST);
             }
@@ -53,17 +58,89 @@ public class TrelloController {
     public ResponseEntity<String> createWorkspace(@RequestBody User user) {
 
         try {
-            User userInDb = userRepository.findById(user.getId()).get();
+            User userInDb = userService.getUser(user.getId());
             if(userInDb==null){
                 return new ResponseEntity<>("Can't find user object!", HttpStatus.BAD_REQUEST);
             }
             userInDb.setWorkspaces(user.getWorkspaces());
             for(Workspace workspace:user.getWorkspaces()){
-                workspaceRepository.save(workspace);
+                workspaceService.saveWorkspace(workspace);
             }
-            userRepository.save(userInDb);
+            userService.saveUser(userInDb);
             return new ResponseEntity<>("Create workspace successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/createBoard")
+    public ResponseEntity<String> createBoard(@RequestBody User user) {
+
+        try {
+            User userInDb = userService.getUser(user.getId());
+            if(userInDb==null){
+                return new ResponseEntity<>("Can't find user object!", HttpStatus.BAD_REQUEST);
+            }
+            userInDb.setBoards(user.getBoards());
+            for(Board board:user.getBoards()){
+                Workspace workspaceInDb = workspaceService.getWorkspace(board.getWorkspace().getId());
+                board.setWorkspace(workspaceInDb);
+                boardService.saveBoard(board);
+            }
+            return new ResponseEntity<>("Create board successfully!", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/deleteBoard")
+    public ResponseEntity<String> deleteBoard(@RequestParam("boardId") Integer boardId) {
+
+        try {
+            String res = boardService.deleteBoard(boardId);
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @PostMapping("/resetPassword")
+    public ResponseEntity<String> resetPassword(@RequestBody User user) {
+        try {
+            User userInDb = userService.findByEmail(user.getEmail());
+            if(userInDb==null){
+                return new ResponseEntity<>("Can't find user object!", HttpStatus.BAD_REQUEST);
+            }
+            if(!user.getQuestionAns().equals(userInDb.getQuestionAns())){
+                return new ResponseEntity<>("Your answer is not correct!", HttpStatus.BAD_REQUEST);
+            }
+            userInDb.setPassword(user.getPassword());
+            userService.saveUser(userInDb);
+            return new ResponseEntity<>("Reset password successfully!", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @PostMapping("/addMembersToWorkspace")
+    public ResponseEntity<String> addMembersToWorkspace(@RequestBody Workspace workspace) {
+
+        try {
+            Workspace workspaceInDb = workspaceService.getWorkspace(workspace.getId());
+            if(workspaceInDb==null){
+                return new ResponseEntity<>("Can't find workspace object!", HttpStatus.BAD_REQUEST);
+            }
+            for(User user:workspace.getUsers()){
+                User userInDb = userService.findByEmail(user.getEmail());
+                userInDb.getWorkspaces().add(workspaceInDb);
+                userService.saveUser(userInDb);
+            }
+            //workspaceService.saveWorkspace(workspaceInDb);
+            return new ResponseEntity<>("Add members to workspace successfully!", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
