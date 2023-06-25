@@ -12,11 +12,14 @@ const Login = () => {
     const password = event.target.elements.password.value;
   
     try {
+      console.log(JSON.stringify({ email, password }))
       // Perform the database query or validation
       const response = await fetch("http://localhost:8001/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          'Access-Control-Allow-Origin':'*',
+          'Access-Crontrol-Allow-Methods':'POST,PATCH,OPTION'
         },
         body: JSON.stringify({ email, password }),
       });
@@ -27,7 +30,7 @@ const Login = () => {
         console.log("User is authenticated");
       } else {
         // Invalid credentials or other error
-        const data = await response.json();
+        const data = await response;
         const errorMessage = data.message || "Login failed";
         setErrorMessage(errorMessage);
       }

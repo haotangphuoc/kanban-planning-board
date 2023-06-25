@@ -44,6 +44,7 @@ public class TrelloController {
     }
 
     @PostMapping("/login")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> login(@RequestBody User user) {
         try {
             User userRes = userService.findByEmailAndPassword(user.getEmail(),user.getPassword());
