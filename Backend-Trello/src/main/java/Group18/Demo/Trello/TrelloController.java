@@ -28,11 +28,12 @@ public class TrelloController {
     ListService listService;
 
     @PostMapping("/signup")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> signup(@RequestBody User user) {
         try {
-            if(userService.existsByEmail(user.getEmail())){
-                return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
-            }
+//            if(userService.existsByEmail(user.getEmail())){
+//                return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
+//            }
 
             userService.saveUser(new User(-1, user.getEmail(), user.getPassword(), user.getQuestionAns(), user.getFirstName(), user.getLastName()));
             return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);

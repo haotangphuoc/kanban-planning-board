@@ -28,10 +28,13 @@ const Register = () => {
     };
 
     try {
+      console.log(JSON.stringify(data))
       const response = await fetch("http://localhost:8001/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          'Access-Control-Allow-Origin':'*',
+          'Access-Crontrol-Allow-Methods':'POST,PATCH,OPTION'
         },
         body: JSON.stringify(data),
       });
@@ -40,7 +43,7 @@ const Register = () => {
         throw new Error("Request failed with status " + response.status);
       }
 
-      const responseData = await response.json();
+      const responseData = await response;
       console.log(responseData);
     } catch (error) {
       console.error("Request encountered an error:", error);
