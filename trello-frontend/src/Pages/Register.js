@@ -1,14 +1,5 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Row,
-  Form,
-  Nav,
-  Stack,
-  Button,
-  Col,
-  Card,
-} from "react-bootstrap";
+import { Container, Row, Form, Nav, Stack, Button, Col, Card } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 
 const Register = () => {
@@ -16,17 +7,18 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
+    } else {
+      await connectDB(form);
     }
-    connectDB(form);
     setValidated(true);
   };
 
-  const connectDB = (form) => {
+  const connectDB = async (form) => {
     const data = {
       email: form.elements.email.value,
       password: password,
@@ -35,21 +27,24 @@ const Register = () => {
       lastName: form.elements.lastName.value,
     };
 
-    fetch('http://localhost:8001/api/signup', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Request encountered an error:", error);
+    try {
+      const response = await fetch("http://localhost:8001/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
+
+      if (!response.ok) {
+        throw new Error("Request failed with status " + response.status);
+      }
+
+      const responseData = await response.json();
+      console.log(responseData);
+    } catch (error) {
+      console.error("Request encountered an error:", error);
+    }
   };
 
   const handlePasswordChange = (event) => {
@@ -176,7 +171,7 @@ const Register = () => {
                 </Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Group className="mb-3" controlId="formBasicQuestionAns">
                 <Form.Label>
                   Security Question: What's your favourite colour?
                 </Form.Label>
