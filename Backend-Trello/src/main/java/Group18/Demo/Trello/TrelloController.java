@@ -37,6 +37,7 @@ public class TrelloController {
             userService.saveUser(new User(-1, user.getEmail(), user.getPassword(), user.getQuestionAns(), user.getFirstName(), user.getLastName()));
             return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -50,6 +51,7 @@ public class TrelloController {
             }
             return new ResponseEntity<>("User login successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -69,6 +71,7 @@ public class TrelloController {
             userService.saveUser(userInDb);
             return new ResponseEntity<>("Create workspace successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -89,6 +92,7 @@ public class TrelloController {
             }
             return new ResponseEntity<>("Create board successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -100,6 +104,7 @@ public class TrelloController {
             String res = boardService.deleteBoard(boardId);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -119,6 +124,7 @@ public class TrelloController {
             userService.saveUser(userInDb);
             return new ResponseEntity<>("Reset password successfully!", HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
