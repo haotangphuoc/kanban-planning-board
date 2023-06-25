@@ -1,17 +1,11 @@
-import { React, useState } from "react";
-import {
-  Container,
-  Row,
-  Form,
-  Button,
-  Card,
-  Stack,
-  Nav,
-} from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Row, Form, Button, Card, Stack, Nav } from "react-bootstrap";
 
 const ForgotPassword = () => {
   const [validated, setValidated] = useState(false);
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [answer, setAnswer] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = (event) => {
@@ -19,9 +13,13 @@ const ForgotPassword = () => {
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
-    }
-
+    } 
+    connectDB(form);
     setValidated(true);
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
   };
 
   const handlePasswordChange = (event) => {
@@ -47,6 +45,34 @@ const ForgotPassword = () => {
     );
   };
 
+  const handleAnswerChange = (event) => {
+    setAnswer(event.target.value);
+  };
+
+  const connectDB = (form) => {
+    const data = {
+      email: email,
+      password: password,
+      questionAns: answer,
+    };
+
+    fetch("http://localhost:8001/api/resetPassword", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // Perform any additional actions after resetting the password
+      })
+      .catch((error) => {
+        console.error("Request encountered an error:", error);
+      });
+  };
+
   return (
     <div style={{ minHeight: "93vh" }}>
       <Container>
@@ -66,15 +92,32 @@ const ForgotPassword = () => {
             <h1 style={{ paddingTop: 38, paddingBottom: 38 }}>
               Reset Password
             </h1>
+             {/* There should be an email function here, but I checked and found that it did not seem to be added, I modified the code of this place. */}
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Email Address</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter your email"
+                  required
+                  value={email}
+                  onChange={handleEmailChange}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Please enter a valid email address.
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="formSecurityQuestion">
                 <Form.Label>
-                  Security Question: What's your favourite colour?
+                  Security Question: What's your favorite color?
                 </Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Enter your answer"
                   required
+                  value={answer}
+                  onChange={handleAnswerChange}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please enter your answer to the security question.

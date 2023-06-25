@@ -12,6 +12,25 @@ import {
 } from "react-bootstrap";
 
 const Board = () => {
+  const handleDeleteBoard = () => {
+    fetch('http://localhost:8001/api/deleteBoard', {
+      method: 'DELETE',
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Board deleted successfully');
+         
+        } else {
+          console.error('Failed to delete board');
+         
+        }
+      })
+      .catch(error => {
+        console.error('Failed to delete board:', error);
+    
+      });
+  };
+
   return (
     <div style={{ minHeight: "93vh" }}>
       <Container>
@@ -112,7 +131,7 @@ const Board = () => {
             <br />
             <Stack className="mx-auto" direction="horizontal" gap={1}>
               <div className="ms-auto" style={{ paddingBottom: 12 }}>
-                <Button variant="danger" type="submit">
+                <Button variant="danger" type="submit" onClick={handleDeleteBoard}>
                   Delete board
                 </Button>
               </div>
@@ -125,3 +144,4 @@ const Board = () => {
 };
 
 export default Board;
+

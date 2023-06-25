@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import {
   Container,
   Row,
@@ -22,8 +22,34 @@ const Register = () => {
       event.preventDefault();
       event.stopPropagation();
     }
-
+    connectDB(form);
     setValidated(true);
+  };
+
+  const connectDB = (form) => {
+    const data = {
+      email: form.elements.email.value,
+      password: password,
+      questionAns: form.elements.questionAns.value,
+      firstName: form.elements.firstName.value,
+      lastName: form.elements.lastName.value,
+    };
+
+    fetch('http://localhost:8001/api/signup', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Request encountered an error:", error);
+      });
   };
 
   const handlePasswordChange = (event) => {
@@ -70,7 +96,12 @@ const Register = () => {
               <Row className="mb-3">
                 <Form.Group as={Col} md="4" controlId="validationCustom01">
                   <Form.Label>First name</Form.Label>
-                  <Form.Control required type="text" placeholder="First name" />
+                  <Form.Control
+                    name="firstName"
+                    required
+                    type="text"
+                    placeholder="First name"
+                  />
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   <Form.Control.Feedback type="invalid">
                     Please enter a first name.
@@ -78,7 +109,12 @@ const Register = () => {
                 </Form.Group>
                 <Form.Group as={Col} md="4" controlId="validationCustom02">
                   <Form.Label>Last name</Form.Label>
-                  <Form.Control required type="text" placeholder="Last name" />
+                  <Form.Control
+                    name="lastName"
+                    required
+                    type="text"
+                    placeholder="Last name"
+                  />
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   <Form.Control.Feedback type="invalid">
                     Please enter a last name.
@@ -91,8 +127,11 @@ const Register = () => {
                 >
                   <Form.Label>Username</Form.Label>
                   <InputGroup hasValidation>
-                    <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
+                    <InputGroup.Text id="inputGroupPrepend">
+                      @
+                    </InputGroup.Text>
                     <Form.Control
+                      name="username"
                       type="text"
                       placeholder="Username"
                       aria-describedby="inputGroupPrepend"
@@ -110,16 +149,21 @@ const Register = () => {
 
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" required />
+                <Form.Control
+                  name="email"
+                  type="email"
+                  placeholder="Enter email"
+                  required
+                />
                 <Form.Control.Feedback type="invalid">
-                  Please enter a valid email. Make sure @ is included in your
-                  email.
+                  Please enter a valid email. Make sure @ is included in your email.
                 </Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="validationCustomPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
+                  name="password"
                   type="password"
                   placeholder="Password"
                   required
@@ -136,7 +180,12 @@ const Register = () => {
                 <Form.Label>
                   Security Question: What's your favourite colour?
                 </Form.Label>
-                <Form.Control type="text" placeholder="Enter answer" required />
+                <Form.Control
+                  name="questionAns"
+                  type="text"
+                  placeholder="Enter answer"
+                  required
+                />
               </Form.Group>
 
               <Button variant="primary" type="submit">
