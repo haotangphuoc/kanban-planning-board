@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Row,
@@ -14,24 +14,66 @@ const CreateBoards = () => {
   const [validated, setValidated] = useState(false);
   const [boardName, setBoardName] = useState('');
   const [boardDescription, setBoardDescription] = useState('');
+  const [userId, setUserId] = useState("");
+  const [workspaceId, setWorkspaceId] = useState("");
 
+  useEffect(() => {
+    const userData = localStorage.getItem("userData");
+    const workspaceName = localStorage.getItem("workspaceName");
+  
+    if (userData && workspaceName) {
+      const { email } = JSON.parse(userData);
+      fetchUserIdAndWorkspaceId(email, workspaceName);
+    }
+  }, []);
+  
+  const fetchUserIdAndWorkspaceId = async (email, workspaceName) => {
+    try {
+      const [userIdResponse, workspaceIdResponse] = await Promise.all([
+        fetch(`http://localhost:8001/api/findUserIdByEmail?email=${email}`),
+        fetch(`http://localhost:8001/api/findWorkspaceIdByName?name=${workspaceName}`)
+      ]);
+  
+      const userIdData = await userIdResponse.json();
+      const workspaceIdData = await workspaceIdResponse.json();
+  
+      if (userIdResponse.ok && workspaceIdResponse.ok && userIdData >= 0 && workspaceIdData >= 0) {
+        setUserId(userIdData);
+        setWorkspaceId(workspaceIdData);
+      } else {
+        console.error("Failed to fetch user ID or workspace ID");
+        // Handle error case
+      }
+    } catch (error) {
+      console.error("Failed to fetch user ID or workspace ID:", error);
+      // Handle error case
+    }
+  };
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     event.stopPropagation();
-  
+
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       // Form validation failed
       setValidated(true);
       return;
     }
-  
+
     // Connect to the database and save the board
     const boardData = {
-      name: boardName,
-      description: boardDescription,
+      id: userId,
+      boards: [
+        {
+          title: boardName,
+          workspace:{
+              id: workspaceId,
+          }
+        },
+      ],
     };
-  
+
     try {
       console.log(JSON.stringify(boardData));
       const response = await fetch("http://localhost:8001/api/createBoard", {
@@ -43,9 +85,9 @@ const CreateBoards = () => {
         },
         body: JSON.stringify(boardData),
       });
-  
+
       if (response.ok) {
-        const data = await response.json();
+        const data = await response;
         console.log("Board created:", data);
         // Handle the response or update the state as needed
       } else {
@@ -56,7 +98,7 @@ const CreateBoards = () => {
       console.error("Failed to create board:", error);
       // Handle network errors or other exceptions
     }
-  
+
     setValidated(true);
   };
 
@@ -83,7 +125,7 @@ const CreateBoards = () => {
             </h2>
             <Card>
               <Card.Body>
-                <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                <Form noValidate validated={validated} onClick={handleSubmit}>
                   <Row className="mb-3">
                     <Form.Group as={Col} md="4" controlId="validationCustom01">
                       <Form.Label>Board name</Form.Label>
