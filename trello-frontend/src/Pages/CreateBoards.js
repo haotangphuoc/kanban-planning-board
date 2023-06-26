@@ -15,37 +15,51 @@ const CreateBoards = () => {
   const [boardName, setBoardName] = useState('');
   const [boardDescription, setBoardDescription] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+  
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+      // Form validation failed
+      setValidated(true);
+      return;
     }
+  
     // Connect to the database and save the board
     const boardData = {
       name: boardName,
       description: boardDescription,
     };
-
-    fetch('http://localhost:8001/api/createBoard', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(boardData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Board created:', data);
-        // Handle the response or update the state as needed
-      })
-      .catch((error) => {
-        console.error('Failed to create board:', error);
-        // Handle the error appropriately
+  
+    try {
+      console.log(JSON.stringify(boardData));
+      const response = await fetch("http://localhost:8001/api/createBoard", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST,PATCH,OPTION",
+        },
+        body: JSON.stringify(boardData),
       });
-
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Board created:", data);
+        // Handle the response or update the state as needed
+      } else {
+        console.error("Failed to create board");
+        // Handle the error appropriately
+      }
+    } catch (error) {
+      console.error("Failed to create board:", error);
+      // Handle network errors or other exceptions
+    }
+  
     setValidated(true);
   };
+
   return (
     <div style={{ minHeight: '93vh' }}>
       <Container>

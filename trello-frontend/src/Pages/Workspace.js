@@ -1,21 +1,49 @@
-import React, { useState } from "react";
-import {
-  Container,
-  Row,
-  Nav,
-  Stack,
-  Button,
-  ListGroup,
-  Card,
-} from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Container, Row, Nav, Stack, Button, Card } from "react-bootstrap";
 
 const CreateWorkspace = () => {
   const [workspaceName, setWorkspaceName] = useState("");
   const [workspaceDescription, setWorkspaceDescription] = useState("");
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      const { email } = JSON.parse(userData);
+      fetchUserIdByEmail(email);
+    }
+  }, []);
+
+  const fetchUserIdByEmail = async (email) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8001/api/findUserIdByEmail?email=${email}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,POST,PATCH,OPTION",
+          },
+        }
+      );
+      const data = await response;
+
+      if (response.ok && data >= 0) {
+        setUserId(data);
+      } else {
+        console.error("Failed to fetch user ID");
+        // Handle error case
+      }
+    } catch (error) {
+      console.error("Failed to fetch user ID:", error);
+      // Handle error case
+    }
+  };
 
   const handleSubmit = async () => {
     const workspaceData = {
-      id: "2", // Assuming a fixed user ID for testing purposes
+      id: userId,
       workspaces: [
         {
           name: workspaceName,

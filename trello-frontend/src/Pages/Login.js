@@ -6,27 +6,28 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     // Get the email and password values from the form
     const email = event.target.elements.email.value;
     const password = event.target.elements.password.value;
-  
+
     try {
-      console.log(JSON.stringify({ email, password }))
+      console.log(JSON.stringify({ email, password }));
       // Perform the database query or validation
       const response = await fetch("http://localhost:8001/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          'Access-Control-Allow-Origin':'*',
-          'Access-Crontrol-Allow-Methods':'POST,PATCH,OPTION'
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST,PATCH,OPTION",
         },
         body: JSON.stringify({ email, password }),
       });
-  
+
       if (response.ok) {
         // Successful response, user is authenticated
-        // Redirect or perform necessary actions
+        // Save user data to localStorage
+        localStorage.setItem("userData", JSON.stringify({ email }));
         console.log("User is authenticated");
       } else {
         // Invalid credentials or other error
