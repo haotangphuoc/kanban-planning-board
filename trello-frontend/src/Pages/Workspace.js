@@ -16,18 +16,8 @@ const CreateWorkspace = () => {
 
   const fetchUserIdByEmail = async (email) => {
     try {
-      const response = await fetch(
-        `http://localhost:8001/api/findUserIdByEmail?email=${email}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET,POST,PATCH,OPTION",
-          },
-        }
-      );
-      const data = await response;
+      const response = await fetch(`http://localhost:8001/api/findUserIdByEmail?email=${email}`);
+      const data = await response.json();
 
       if (response.ok && data >= 0) {
         setUserId(data);
