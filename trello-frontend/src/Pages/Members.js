@@ -38,17 +38,13 @@ const Members = () => {
       // Handle error case
     }
   };
-  const Email1 = localStorage.getItem("userData");
-  const email1Data = JSON.parse(Email1);
-  const email1 = email1Data.email;
 
   const handleInviteSubmit = async () => {
     const addMemberFunction = {
       id: workspaceId,
-      Users: [
+      users: [
         {
-          email1:email1,
-          email2:email2,
+          email:email2,
         },
       ],
     };
