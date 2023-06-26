@@ -56,6 +56,8 @@ const CreateWorkspace = () => {
 
       if (response.ok) {
         console.log("Workspace created successfully");
+        localStorage.setItem("workspaceName", workspaceName);
+        // Update the state with the new workspace
         // Perform any additional actions after workspace creation
       } else {
         console.error("Failed to create workspace");

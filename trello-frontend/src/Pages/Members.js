@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Row,
@@ -12,6 +12,77 @@ import {
 } from "react-bootstrap";
 
 const Members = () => {
+  const [workspaceId, setWorkspaceId] = useState("");
+  const [email2, setEmail2] = useState("");
+
+  useEffect(() => {
+    const workspaceName = localStorage.getItem("workspaceName");
+    if (workspaceName) {
+      findWorkspaceIdByName(workspaceName);
+    }
+  }, []);
+
+  const findWorkspaceIdByName = async (workspaceName) => {
+    try {
+      const response = await fetch(`http://localhost:8001/api/findWorkspaceIdByName?name=${workspaceName}`);
+      const data = await response.json();
+
+      if (response.ok && data >= 0) {
+        setWorkspaceId(data);
+      } else {
+        console.error("Failed to fetch workspace ID");
+        // Handle error case
+      }
+    } catch (error) {
+      console.error("Failed to fetch workspace ID:", error);
+      // Handle error case
+    }
+  };
+  const Email1 = localStorage.getItem("userData");
+  const email1Data = JSON.parse(Email1);
+  const email1 = email1Data.email;
+
+  const handleInviteSubmit = async () => {
+    const addMemberFunction = {
+      id: workspaceId,
+      Users: [
+        {
+          email1:email1,
+          email2:email2,
+        },
+      ],
+    };
+    // Call the API to add members to workspace
+    try {
+      console.log(JSON.stringify(addMemberFunction))
+      const response = await fetch("http://localhost:8001/api/addMembersToWorkspace",{
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST,PATCH,OPTION",
+          },
+          body: JSON.stringify(addMemberFunction),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Members added successfully");
+      } else {
+        console.error("Failed to add members");
+        // Handle error case
+      }
+    } catch (error) {
+      console.error("Failed to add members:", error);
+      // Handle error case
+    }
+  };
+
+
+  const handleWorkspaceAddMember = (event) => {
+    setEmail2(event.target.value);
+  };
+
   return (
     <div style={{ minHeight: "93vh" }}>
       <Container>
@@ -41,12 +112,21 @@ const Members = () => {
                       <Form.Label>Invite members to your workspace</Form.Label>
                       <Form.Control
                         required
-                        type="text"
+                        type="email"
+                        name="email2"
                         placeholder="Enter email"
+                        value={email2}
+                        onChange={handleWorkspaceAddMember}
                       />
                     </Form.Group>
                   </Row>
-                  <Button variant="primary" type="submit" as={Col} md="2">
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    as={Col}
+                    md="2"
+                    onClick={handleInviteSubmit}
+                  >
                     Invite
                   </Button>
                 </Form>
