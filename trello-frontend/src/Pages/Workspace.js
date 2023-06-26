@@ -13,9 +13,9 @@ const CreateWorkspace = () => {
   const [workspaceName, setWorkspaceName] = useState("");
   const [workspaceDescription, setWorkspaceDescription] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const workspaceData = {
-      id: "1", // Assuming a fixed user ID for testing purposes
+      id: "2", // Assuming a fixed user ID for testing purposes
       workspaces: [
         {
           name: workspaceName,
@@ -24,26 +24,29 @@ const CreateWorkspace = () => {
       ],
     };
 
-    fetch("http://localhost:8001/api/createWorkspace", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(workspaceData),
-    })
-      .then((response) => {
-        if (response.ok) {
-          console.log("Workspace created successfully");
-          // Perform any additional actions after workspace creation
-        } else {
-          console.error("Failed to create workspace");
-          // Handle error case
-        }
-      })
-      .catch((error) => {
-        console.error("Failed to create workspace:", error);
-        // Handle error case
+    try {
+      console.log(JSON.stringify(workspaceData))
+      const response = await fetch("http://localhost:8001/api/createWorkspace", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST,PATCH,OPTION",
+        },
+        body: JSON.stringify(workspaceData),
       });
+
+      if (response.ok) {
+        console.log("Workspace created successfully");
+        // Perform any additional actions after workspace creation
+      } else {
+        console.error("Failed to create workspace");
+        // Handle error case
+      }
+    } catch (error) {
+      console.error("Failed to create workspace:", error);
+      // Handle error case
+    }
   };
 
   const handleWorkspaceNameChange = (event) => {

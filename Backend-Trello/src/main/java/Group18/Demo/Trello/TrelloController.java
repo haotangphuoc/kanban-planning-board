@@ -31,9 +31,9 @@ public class TrelloController {
     @CrossOrigin(origins = "*")
     public ResponseEntity<String> signup(@RequestBody User user) {
         try {
-//            if(userService.existsByEmail(user.getEmail())){
-//                return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
-//            }
+            if(userService.existsByEmail(user.getEmail())){
+                return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
+            }
 
             userService.saveUser(new User(-1, user.getEmail(), user.getPassword(), user.getQuestionAns(), user.getFirstName(), user.getLastName()));
             return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
@@ -59,6 +59,7 @@ public class TrelloController {
     }
 
     @PostMapping("/createWorkspace")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> createWorkspace(@RequestBody User user) {
 
         try {
@@ -79,6 +80,7 @@ public class TrelloController {
     }
 
     @PostMapping("/createBoard")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> createBoard(@RequestBody User user) {
 
         try {
@@ -100,6 +102,7 @@ public class TrelloController {
     }
 
     @GetMapping("/deleteBoard")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> deleteBoard(@RequestParam("boardId") Integer boardId) {
 
         try {
@@ -113,6 +116,7 @@ public class TrelloController {
 
 
     @PostMapping("/resetPassword")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> resetPassword(@RequestBody User user) {
         try {
             User userInDb = userService.findByEmail(user.getEmail());
@@ -133,6 +137,7 @@ public class TrelloController {
 
 
     @PostMapping("/addMembersToWorkspace")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> addMembersToWorkspace(@RequestBody Workspace workspace) {
 
         try {

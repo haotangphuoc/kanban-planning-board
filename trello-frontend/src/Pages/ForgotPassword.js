@@ -8,13 +8,44 @@ const ForgotPassword = () => {
   const [answer, setAnswer] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     const form = event.currentTarget;
+    
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
-    } 
-    connectDB(form);
+    } else {
+      try {
+        const data = {
+          email: email,
+          password: password,
+          questionAns: answer,
+        };
+        console.log(JSON.stringify(data))
+        const response = await fetch("http://localhost:8001/api/resetPassword", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Crontrol-Allow-Methods": "POST,PATCH,OPTION",
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          console.log("Reset password successfully");
+          // Perform any additional actions after resetting the password
+        } else {
+          const errorMessage = "Reset password failed";
+          setErrorMessage(errorMessage);
+        }
+      } catch (error) {
+        console.error("Request encountered an error:", error);
+        const errorMessage = "Reset password failed";
+        setErrorMessage(errorMessage);
+      }
+    }
+
     setValidated(true);
   };
 
@@ -47,30 +78,6 @@ const ForgotPassword = () => {
 
   const handleAnswerChange = (event) => {
     setAnswer(event.target.value);
-  };
-
-  const connectDB = (form) => {
-    const data = {
-      email: email,
-      password: password,
-      questionAns: answer,
-    };
-
-    fetch("http://localhost:8001/api/resetPassword", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        // Perform any additional actions after resetting the password
-      })
-      .catch((error) => {
-        console.error("Request encountered an error:", error);
-      });
   };
 
   return (
