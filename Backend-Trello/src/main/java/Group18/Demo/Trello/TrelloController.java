@@ -157,4 +157,35 @@ public class TrelloController {
             return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    @GetMapping("/findUserIdByEmail")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<Integer> findUserIdByEmail(@RequestParam("email") String email) {
+        try {
+            User user = userService.findByEmail(email);
+            if (user == null) {
+                return new ResponseEntity<>(-1, HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(user.getId(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(-1, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/findWorkspaceIdByName")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<Integer> findWorkspaceIdByName(@RequestParam("name") String name) {
+        try {
+            Workspace workspace = workspaceService.findByName(name);
+            if (workspace == null) {
+                return new ResponseEntity<>(-1, HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(workspace.getId(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(-1, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

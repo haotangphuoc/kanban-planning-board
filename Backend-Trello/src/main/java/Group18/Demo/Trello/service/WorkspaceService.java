@@ -56,6 +56,10 @@ public class WorkspaceService {
         return workspaceRepository.findAll();
     }
 
+    public  Workspace findByName(String name) {
+        return workspaceRepository.findByName(name);
+    }
+
     public List<Board> fetchBoardById(int workspaceId) {
         Workspace workspace = workspaceRepository.findById(workspaceId).get();
         return workspace.getBoards();
