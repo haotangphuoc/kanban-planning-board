@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Container, Row, Form, Nav, Stack, Button, Col, Card } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Form,
+  Nav,
+  Stack,
+  Button,
+  Col,
+  Card,
+} from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 
 const Register = () => {
@@ -28,13 +37,13 @@ const Register = () => {
     };
 
     try {
-      console.log(JSON.stringify(data))
+      console.log(JSON.stringify(data));
       const response = await fetch("http://localhost:8001/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          'Access-Control-Allow-Origin':'*',
-          'Access-Crontrol-Allow-Methods':'POST,PATCH,OPTION'
+          "Access-Control-Allow-Origin": "*",
+          "Access-Crontrol-Allow-Methods": "POST,PATCH,OPTION",
         },
         body: JSON.stringify(data),
       });
@@ -122,27 +131,7 @@ const Register = () => {
                   as={Col}
                   md="4"
                   controlId="validationCustomUsername"
-                >
-                  <Form.Label>Username</Form.Label>
-                  <InputGroup hasValidation>
-                    <InputGroup.Text id="inputGroupPrepend">
-                      @
-                    </InputGroup.Text>
-                    <Form.Control
-                      name="username"
-                      type="text"
-                      placeholder="Username"
-                      aria-describedby="inputGroupPrepend"
-                      required
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      Please choose a username.
-                    </Form.Control.Feedback>
-                    <Form.Control.Feedback type="valid">
-                      Looks good.
-                    </Form.Control.Feedback>
-                  </InputGroup>
-                </Form.Group>
+                ></Form.Group>
               </Row>
 
               <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -154,7 +143,8 @@ const Register = () => {
                   required
                 />
                 <Form.Control.Feedback type="invalid">
-                  Please enter a valid email. Make sure @ is included in your email.
+                  Please enter a valid email. Make sure @ is included in your
+                  email.
                 </Form.Control.Feedback>
               </Form.Group>
 
@@ -187,7 +177,7 @@ const Register = () => {
               </Form.Group>
 
               <Button variant="primary" type="submit">
-                Submit
+                Register
               </Button>
             </Form>
           </div>

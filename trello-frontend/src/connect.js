@@ -3,10 +3,13 @@ const app = express();
 const mysql = require("mysql");
 
 // Allow cross-origin requests
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
   next();
 });
 
@@ -37,14 +40,20 @@ app.post("/api/signup", (req, res) => {
   connection.query(query, values, (err, result) => {
     if (err) {
       console.error("Error executing the query: ", err);
-      res.status(500).json({ success: false, error: "An error occurred while registering the user." });
+      res
+        .status(500)
+        .json({
+          success: false,
+          error: "An error occurred while registering the user.",
+        });
       return;
     }
 
-    res.status(200).json({ success: true, message: "User registered successfully." });
+    res
+      .status(200)
+      .json({ success: true, message: "User registered successfully." });
   });
 });
 
 const port = 8001;
 app.listen(port, () => console.log(`Server running on port ${port}`));
-

@@ -9,8 +9,10 @@ import {
   Button,
   Nav,
 } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Homepage = () => {
+  const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
 
   const [workspaceName, setWorkspaceName] = useState("");
@@ -88,6 +90,11 @@ const Homepage = () => {
   const handleWorkspaceDescriptionChange = (event) => {
     setWorkspaceDescription(event.target.value);
   };
+
+  const logout = async () => {
+    localStorage.clear();
+    navigate("/");
+  };
   return (
     <div style={{ minHeight: "93vh" }}>
       <Container>
@@ -95,7 +102,9 @@ const Homepage = () => {
           <div>
             <Stack className="mx-auto" direction="horizontal" gap={1}>
               <div className="ms-auto" style={{ paddingTop: 8 }}>
-                <a href="/">Logout</a>
+                <Button variant="Danger" onClick={logout}>
+                  LOGOUT
+                </Button>
               </div>
             </Stack>
             <h2 style={{ paddingTop: 24, paddingBottom: 24 }}>Workspaces</h2>

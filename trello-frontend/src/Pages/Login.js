@@ -1,7 +1,18 @@
 import React, { useState } from "react";
-import { Container, Row, Form, Card, Nav, Stack, Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Form,
+  Card,
+  Nav,
+  Stack,
+  Button,
+} from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (event) => {
@@ -29,6 +40,7 @@ const Login = () => {
         // Save user data to localStorage
         localStorage.setItem("userData", JSON.stringify({ email }));
         console.log("User is authenticated");
+        navigate("/Pages/Homepage.js");
       } else {
         // Invalid credentials or other error
         const data = await response;
@@ -41,7 +53,6 @@ const Login = () => {
       setErrorMessage("Login failed");
     }
   };
-  
 
   return (
     <div style={{ minHeight: "93vh" }}>
@@ -63,13 +74,21 @@ const Login = () => {
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" name="email" placeholder="Enter email" />
+                <Form.Control
+                  type="email"
+                  name="email"
+                  placeholder="Enter email"
+                />
                 <Form.Text className="text-muted"></Form.Text>
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" name="password" placeholder="Password" />
+                <Form.Control
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                />
               </Form.Group>
 
               <Stack className="mx-auto" direction="horizontal" gap={1}>
@@ -78,10 +97,12 @@ const Login = () => {
                 </div>
               </Stack>
 
-              {errorMessage && <div className="error-message">{errorMessage}</div>}
+              {errorMessage && (
+                <div className="error-message">{errorMessage}</div>
+              )}
 
               <Button variant="primary" type="submit">
-                Submit
+                Login
               </Button>
             </Form>
           </div>
@@ -92,4 +113,3 @@ const Login = () => {
 };
 
 export default Login;
-
