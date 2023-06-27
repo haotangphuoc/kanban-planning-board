@@ -49,6 +49,7 @@ public class User {
     )
     private String lastName;
 
+
     //Dependencies
     @ManyToMany //Cascade can be added here
     @JoinTable(name="user_workspace",
@@ -69,15 +70,15 @@ public class User {
     private List<Task> tasks;
 
     //Constructor
-    public User(int id, String email, String password, String questionAns, String firstName, String lastName) {
-        this.id = id;
+
+    public User(String email, String password, String questionAns, String firstName, String lastName) {
         this.email = email;
         this.password = password;
         this.questionAns = questionAns;
         this.firstName = firstName;
         this.lastName = lastName;
-        //Initialization of list can be added here
     }
+
 
     //Getters and setters
 

@@ -5,6 +5,7 @@ import Group18.Demo.Trello.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,6 +26,13 @@ public class TrelloController {
     @Autowired
     ListService listService;
 
+    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+    @GetMapping("/home")
+    public String home() {
+        return "This is home endpoint";
+    }
+
     @PostMapping("/signup")
     @CrossOrigin(origins = "*")
     public ResponseEntity<String> signup(@RequestBody User user) {
@@ -32,8 +40,9 @@ public class TrelloController {
             if(userService.existsByEmail(user.getEmail())){
                 return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
             }
-
-            userService.saveUser(new User(-1, user.getEmail(), user.getPassword(), user.getQuestionAns(), user.getFirstName(), user.getLastName()));
+            String rawPassword = user.getPassword();
+            String encodedPassword = bCryptPasswordEncoder.encode(rawPassword);
+            userService.saveUser(new User(user.getEmail(), encodedPassword, user.getQuestionAns(), user.getFirstName(), user.getLastName()));
             return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,13 +52,15 @@ public class TrelloController {
 
     @PostMapping("/login")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<String> login(@RequestBody User user) {
+    public ResponseEntity<String> login(@RequestBody LoginRecord record) {
         try {
-            User userRes = userService.findByEmailAndPassword(user.getEmail(),user.getPassword());
-            if(userRes==null){
-                return new ResponseEntity<>("Invalid email or password!", HttpStatus.BAD_REQUEST);
+            User userRes = userService.findByEmail(record.email());
+            if(userRes != null && bCryptPasswordEncoder.matches(record.password(), userRes.getPassword())) {
+                return new ResponseEntity<>("User login successfully!", HttpStatus.OK);
             }
-            return new ResponseEntity<>("User login successfully!", HttpStatus.OK);
+
+            return new ResponseEntity<>("Invalid email or password!", HttpStatus.BAD_REQUEST);
+
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
