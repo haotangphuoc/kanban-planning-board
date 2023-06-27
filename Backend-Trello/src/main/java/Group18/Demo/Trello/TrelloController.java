@@ -208,4 +208,21 @@ public class TrelloController {
             return new ResponseEntity<>(-1, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PostMapping("/modifyWorkspace")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<String> modifyWorkspace(@RequestBody Workspace workspace) {
+        try {
+            Workspace workspaceInDb = workspaceService.getWorkspace(workspace.getId());
+            if(workspaceInDb==null){
+                return new ResponseEntity<>("Can't find workspace object!", HttpStatus.BAD_REQUEST);
+            }
+            workspaceInDb.setDescription(workspace.getDescription());
+            workspaceService.saveWorkspace(workspaceInDb);
+            return new ResponseEntity<>("Modify workspace successfully!", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
