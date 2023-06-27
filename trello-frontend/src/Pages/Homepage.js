@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Stack,
@@ -13,14 +13,80 @@ import {
 const Homepage = () => {
   const [validated, setValidated] = useState(false);
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+  const [workspaceName, setWorkspaceName] = useState("");
+  const [workspaceDescription, setWorkspaceDescription] = useState("");
+  const [userId, setUserId] = useState("");
 
-    setValidated(true);
+  useEffect(() => {
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      const { email } = JSON.parse(userData);
+      fetchUserIdByEmail(email);
+    }
+  }, []);
+
+  const fetchUserIdByEmail = async (email) => {
+    try {
+      const response = await fetch(`http://localhost:8001/api/findUserIdByEmail?email=${email}`);
+      const data = await response.json();
+
+      if (response.ok && data >= 0) {
+        setUserId(data);
+      } else {
+        console.error("Failed to fetch user ID");
+        // Handle error case
+      }
+    } catch (error) {
+      console.error("Failed to fetch user ID:", error);
+      // Handle error case
+    }
+  };
+
+  const handleSubmit = async() => {
+
+    const workspaceData = {
+      id: userId,
+      workspaces: [
+        {
+          name: workspaceName,
+          description: workspaceDescription,
+        },
+      ],
+    };
+
+    try {
+      console.log(JSON.stringify(workspaceData))
+      const response = await fetch("http://localhost:8001/api/createWorkspace", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST,PATCH,OPTION",
+        },
+        body: JSON.stringify(workspaceData),
+      });
+
+      if (response.ok) {
+        console.log("Workspace created successfully");
+        localStorage.setItem("workspaceName", workspaceName);
+        // Update the state with the new workspace
+        // Perform any additional actions after workspace creation
+      } else {
+        console.error("Failed to create workspace");
+        // Handle error case
+      }
+    } catch (error) {
+      console.error("Failed to create workspace:", error);
+      // Handle error case
+    }
+  };
+
+  const handleWorkspaceNameChange = (event) => {
+    setWorkspaceName(event.target.value);
+  };
+
+  const handleWorkspaceDescriptionChange = (event) => {
+    setWorkspaceDescription(event.target.value);
   };
   return (
     <div style={{ minHeight: "93vh" }}>
@@ -64,6 +130,8 @@ const Homepage = () => {
                         required
                         type="text"
                         placeholder="Enter a workspace name"
+                        value={workspaceName}
+                        onChange={handleWorkspaceNameChange}
                       />
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                       <Form.Control.Feedback type="invalid">
@@ -75,12 +143,15 @@ const Homepage = () => {
                         <Form.Control
                           as="textarea"
                           aria-label="With textarea"
+                          value={workspaceDescription}
+              onChange={handleWorkspaceDescriptionChange}
                         />
+    
                       </Form.Group>
                     </Form.Group>
                   </Row>
                 </Form>
-                <Button variant="primary" type="submit" as={Col} md="2">
+                <Button variant="primary" type="submit" as={Col} md="2" onClick={handleSubmit}>
                   Submit
                 </Button>
               </Card.Body>

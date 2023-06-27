@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Container,
-  Row,
-  Form,
-  Col,
-  Card,
-  Button,
-  Stack,
-  Nav,
-} from 'react-bootstrap';
+import { Container, Row, Form, Col, Card, Button, Stack, Nav } from 'react-bootstrap';
 
 const CreateBoards = () => {
   const [validated, setValidated] = useState(false);
@@ -26,17 +17,17 @@ const CreateBoards = () => {
       fetchUserIdAndWorkspaceId(email, workspaceName);
     }
   }, []);
-  
+
   const fetchUserIdAndWorkspaceId = async (email, workspaceName) => {
     try {
       const [userIdResponse, workspaceIdResponse] = await Promise.all([
         fetch(`http://localhost:8001/api/findUserIdByEmail?email=${email}`),
         fetch(`http://localhost:8001/api/findWorkspaceIdByName?name=${workspaceName}`)
       ]);
-  
+
       const userIdData = await userIdResponse.json();
       const workspaceIdData = await workspaceIdResponse.json();
-  
+
       if (userIdResponse.ok && workspaceIdResponse.ok && userIdData >= 0 && workspaceIdData >= 0) {
         setUserId(userIdData);
         setWorkspaceId(workspaceIdData);
@@ -49,7 +40,7 @@ const CreateBoards = () => {
       // Handle error case
     }
   };
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -67,8 +58,8 @@ const CreateBoards = () => {
       boards: [
         {
           title: boardName,
-          workspace:{
-              id: workspaceId,
+          workspace: {
+            id: workspaceId,
           }
         },
       ],
@@ -87,7 +78,7 @@ const CreateBoards = () => {
       });
 
       if (response.ok) {
-        localStorage.setItem("boardName", JSON.stringify({boardName}));
+        localStorage.setItem("boardName", JSON.stringify({ boardName }));
         const data = await response;
         console.log("Board created:", data);
         // Handle the response or update the state as needed
@@ -126,7 +117,7 @@ const CreateBoards = () => {
             </h2>
             <Card>
               <Card.Body>
-                <Form noValidate validated={validated} onClick={handleSubmit}>
+                <Form noValidate validated={validated} onSubmit={handleSubmit}>
                   <Row className="mb-3">
                     <Form.Group as={Col} md="4" controlId="validationCustom01">
                       <Form.Label>Board name</Form.Label>
@@ -141,19 +132,20 @@ const CreateBoards = () => {
                       <Form.Control.Feedback type="invalid">
                         Please enter a board name.
                       </Form.Control.Feedback>
-                      <br />
-                      <Form.Group controlId="validationCustom01">
-                        <Form.Label>Board description</Form.Label>
-                        <Form.Control
-                          as="textarea"
-                          aria-label="With textarea"
-                          value={boardDescription}
-                          onChange={(e) => setBoardDescription(e.target.value)}
-                        />
-                      </Form.Group>
                     </Form.Group>
                   </Row>
-                  <Button variant="primary" type="submit" as={Col} md="2">
+                  <Row className="mb-3">
+                    <Form.Group as={Col} controlId="validationCustom02">
+                      <Form.Label>Board description</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        value={boardDescription}
+                        onChange={(e) => setBoardDescription(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Row>
+                  <Button variant="primary" type="submit">
                     Submit
                   </Button>
                 </Form>
