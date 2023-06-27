@@ -102,7 +102,7 @@ const Homepage = () => {
           <div>
             <Stack className="mx-auto" direction="horizontal" gap={1}>
               <div className="ms-auto" style={{ paddingTop: 8 }}>
-                <Button variant="Danger" onClick={logout}>
+                <Button variant="danger" onClick={logout}>
                   LOGOUT
                 </Button>
               </div>
