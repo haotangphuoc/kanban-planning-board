@@ -1,8 +1,6 @@
 package Group18.Demo.Trello;
 
 import Group18.Demo.Trello.model.*;
-import Group18.Demo.Trello.repository.UserRepository;
-import Group18.Demo.Trello.repository.WorkspaceRepository;
 import Group18.Demo.Trello.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -183,6 +181,21 @@ public class TrelloController {
                 return new ResponseEntity<>(-1, HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity<>(workspace.getId(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(-1, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/findBoardIdByTitle")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<Integer> findBoardIdByTitle(@RequestParam("title") String title) {
+        try {
+            Board board = boardService.findByTitle(title);
+            if (board == null) {
+                return new ResponseEntity<>(-1, HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(board.getId(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(-1, HttpStatus.INTERNAL_SERVER_ERROR);

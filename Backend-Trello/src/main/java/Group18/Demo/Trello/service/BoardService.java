@@ -54,4 +54,8 @@ public class BoardService {
         Board board = boardRepository.findById(boardId).get();
         return board.getLists();
     }
+
+    public Board findByTitle(String name) {
+        return boardRepository.findByTitle(name);
+    }
 }
