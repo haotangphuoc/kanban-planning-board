@@ -16,7 +16,9 @@ const CreateWorkspace = () => {
 
   const fetchUserIdByEmail = async (email) => {
     try {
-      const response = await fetch(`http://localhost:8001/api/findUserIdByEmail?email=${email}`);
+      const response = await fetch(
+        `http://localhost:8001/api/findUserIdByEmail?email=${email}`
+      );
       const data = await response.json();
 
       if (response.ok && data >= 0) {
@@ -43,16 +45,19 @@ const CreateWorkspace = () => {
     };
 
     try {
-      console.log(JSON.stringify(workspaceData))
-      const response = await fetch("http://localhost:8001/api/createWorkspace", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "POST,PATCH,OPTION",
-        },
-        body: JSON.stringify(workspaceData),
-      });
+      console.log(JSON.stringify(workspaceData));
+      const response = await fetch(
+        "http://localhost:8001/api/createWorkspace",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST,PATCH,OPTION",
+          },
+          body: JSON.stringify(workspaceData),
+        }
+      );
 
       if (response.ok) {
         console.log("Workspace created successfully");
