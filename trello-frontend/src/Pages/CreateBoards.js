@@ -87,6 +87,7 @@ const CreateBoards = () => {
       });
 
       if (response.ok) {
+        localStorage.setItem("boardName", JSON.stringify({boardName}));
         const data = await response;
         console.log("Board created:", data);
         // Handle the response or update the state as needed
