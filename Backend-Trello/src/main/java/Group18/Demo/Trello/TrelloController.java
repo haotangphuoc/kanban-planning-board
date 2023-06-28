@@ -38,6 +38,9 @@ public class TrelloController {
             if(userService.existsByEmail(user.getEmail())){
                 return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
             }
+            if(!validatePassword(user.getPassword())){
+                return new ResponseEntity<>("Password is too weak!", HttpStatus.BAD_REQUEST);
+            }
 
             userService.saveUser(new User(user.getEmail(), user.getPassword(), user.getQuestionAns(), user.getFirstName(), user.getLastName()));
             return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
@@ -45,6 +48,33 @@ public class TrelloController {
             e.printStackTrace();
             return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public boolean validatePassword(String password) {
+        if (password.length() < 8) {
+            return false;
+        }
+
+        boolean hasUppercase = false;
+        boolean hasLowercase = false;
+        boolean hasNumber = false;
+        boolean hasSpecialChar = false;
+
+        for (int i = 0; i < password.length(); i++) {
+            char ch = password.charAt(i);
+
+            if (Character.isUpperCase(ch)) {
+                hasUppercase = true;
+            } else if (Character.isLowerCase(ch)) {
+                hasLowercase = true;
+            } else if (Character.isDigit(ch)) {
+                hasNumber = true;
+            } else {
+                hasSpecialChar = true;
+            }
+        }
+
+        return hasUppercase && hasLowercase && hasNumber && hasSpecialChar;
     }
 
     @PostMapping("/login")
