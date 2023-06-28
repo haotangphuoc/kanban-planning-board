@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Container,
   Row,
@@ -9,11 +9,11 @@ import {
   ListGroup,
   Card,
   Button,
-} from 'react-bootstrap';
+} from "react-bootstrap";
 
 const Board = () => {
-  const [boardId, setBoardId] = useState('');
-  const [boardTitle, setBoardTitle] = useState('');
+  const [boardId, setBoardId] = useState("");
+  const [boardTitle, setBoardTitle] = useState("");
 
   const handleDeleteBoard = async () => {
     try {
@@ -23,20 +23,19 @@ const Board = () => {
       );
 
       if (response.ok) {
-        console.log('Board deleted successfully');
+        console.log("Board deleted successfully");
         // Handle the response or update the state as needed
       } else {
-        console.error('Failed to delete board');
+        console.error("Failed to delete board");
         // Handle the error appropriately
       }
     } catch (error) {
-      console.error('Failed to delete board:', error);
+      console.error("Failed to delete board:", error);
       // Handle network errors or other exceptions
     }
   };
 
   const handleBoardTitleSubmit = async (boardTitle) => {
-
     try {
       const response = await fetch(
         `http://localhost:8001/api/findBoardIdByTitle?title=${boardTitle}`
@@ -46,11 +45,11 @@ const Board = () => {
         const data = await response;
         setBoardId(data.boardId); // Update the state with the correct board ID
       } else {
-        console.error('Failed to fetch board ID');
+        console.error("Failed to fetch board ID");
         // Handle error case
       }
     } catch (error) {
-      console.error('Failed to fetch board ID:', error);
+      console.error("Failed to fetch board ID:", error);
       // Handle error case
     }
   };
@@ -60,7 +59,7 @@ const Board = () => {
   };
 
   return (
-    <div style={{ minHeight: '93vh' }}>
+    <div style={{ minHeight: "93vh" }}>
       <Container>
         <Row>
           <div>
@@ -71,7 +70,9 @@ const Board = () => {
             >
               <div style={{ paddingBottom: 12 }}>
                 <Card.Title>
-                  <Nav.Link href="../Pages/Workspace.js">&#60; Workspace</Nav.Link>
+                  <Nav.Link href="../Pages/Workspace.js">
+                    &#60; Workspace
+                  </Nav.Link>
                 </Card.Title>
               </div>
             </Stack>
@@ -166,7 +167,11 @@ const Board = () => {
                       />
                     </Col>
                     <Col xs="auto">
-                      <Button variant="danger" type="submit" onClick={handleDeleteBoard}>
+                      <Button
+                        variant="danger"
+                        type="submit"
+                        onClick={handleDeleteBoard}
+                      >
                         Delete board
                       </Button>
                     </Col>
