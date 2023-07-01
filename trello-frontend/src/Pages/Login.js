@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
   Container,
   Row,
@@ -10,10 +10,12 @@ import {
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
+
 const Login = () => {
   const navigate = useNavigate();
 
   const [errorMessage, setErrorMessage] = useState("");
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -34,11 +36,11 @@ const Login = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-
       if (response.ok) {
         // Successful response, user is authenticated
         // Save user data to localStorage
         localStorage.setItem("userData", JSON.stringify({ email }));
+        localStorage.setItem('globalState', "true");
         console.log("User is authenticated");
         navigate("/Pages/Homepage.js");
       } else {

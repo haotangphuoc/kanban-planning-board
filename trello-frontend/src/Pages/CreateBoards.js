@@ -1,17 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Form, Col, Card, Button, Stack, Nav } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import {
+  Container,
+  Row,
+  Form,
+  Col,
+  Card,
+  Button,
+  Stack,
+  Nav,
+} from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const CreateBoards = () => {
   const [validated, setValidated] = useState(false);
-  const [boardName, setBoardName] = useState('');
-  const [boardDescription, setBoardDescription] = useState('');
+  const [boardName, setBoardName] = useState("");
+  const [boardDescription, setBoardDescription] = useState("");
   const [userId, setUserId] = useState("");
   const [workspaceId, setWorkspaceId] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const userData = localStorage.getItem("userData");
     const workspaceName = localStorage.getItem("workspaceName");
-  
+
     if (userData && workspaceName) {
       const { email } = JSON.parse(userData);
       fetchUserIdAndWorkspaceId(email, workspaceName);
@@ -22,13 +33,20 @@ const CreateBoards = () => {
     try {
       const [userIdResponse, workspaceIdResponse] = await Promise.all([
         fetch(`http://localhost:8001/api/findUserIdByEmail?email=${email}`),
-        fetch(`http://localhost:8001/api/findWorkspaceIdByName?name=${workspaceName}`)
+        fetch(
+          `http://localhost:8001/api/findWorkspaceIdByName?name=${workspaceName}`
+        ),
       ]);
 
       const userIdData = await userIdResponse.json();
       const workspaceIdData = await workspaceIdResponse.json();
 
-      if (userIdResponse.ok && workspaceIdResponse.ok && userIdData >= 0 && workspaceIdData >= 0) {
+      if (
+        userIdResponse.ok &&
+        workspaceIdResponse.ok &&
+        userIdData >= 0 &&
+        workspaceIdData >= 0
+      ) {
         setUserId(userIdData);
         setWorkspaceId(workspaceIdData);
       } else {
@@ -60,7 +78,7 @@ const CreateBoards = () => {
           title: boardName,
           workspace: {
             id: workspaceId,
-          }
+          },
         },
       ],
     };
@@ -81,6 +99,7 @@ const CreateBoards = () => {
         localStorage.setItem("boardName", JSON.stringify({ boardName }));
         const data = await response;
         console.log("Board created:", data);
+        navigate("/Pages/Workspace.js");
         // Handle the response or update the state as needed
       } else {
         console.error("Failed to create board");
@@ -95,7 +114,7 @@ const CreateBoards = () => {
   };
 
   return (
-    <div style={{ minHeight: '93vh' }}>
+    <div style={{ minHeight: "93vh" }}>
       <Container>
         <Row>
           <div>
@@ -159,4 +178,3 @@ const CreateBoards = () => {
 };
 
 export default CreateBoards;
-

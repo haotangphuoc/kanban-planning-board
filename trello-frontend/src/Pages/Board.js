@@ -103,7 +103,7 @@ const Board = () => {
                 </Col>
                 <Col xs="auto">
                   <Button variant="success" type="submit">
-                    Get BoardID
+                    Get BoardId
                   </Button>
                 </Col>
               </Row>
@@ -197,3 +197,4 @@ const Board = () => {
 };
 
 export default Board;
+

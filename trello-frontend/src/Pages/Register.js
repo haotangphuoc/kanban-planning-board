@@ -9,7 +9,6 @@ import {
   Col,
   Card,
 } from "react-bootstrap";
-import InputGroup from "react-bootstrap/InputGroup";
 
 const Register = () => {
   const [validated, setValidated] = useState(false);

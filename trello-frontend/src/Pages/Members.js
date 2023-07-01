@@ -14,6 +14,9 @@ import {
 const Members = () => {
   const [workspaceId, setWorkspaceId] = useState("");
   const [email2, setEmail2] = useState("");
+  const data = localStorage.getItem("userData");
+  const parsedEmail = JSON.parse(data);
+  const currentUserEmail = parsedEmail.email;
 
   useEffect(() => {
     const workspaceName = localStorage.getItem("workspaceName");
@@ -24,7 +27,9 @@ const Members = () => {
 
   const findWorkspaceIdByName = async (workspaceName) => {
     try {
-      const response = await fetch(`http://localhost:8001/api/findWorkspaceIdByName?name=${workspaceName}`);
+      const response = await fetch(
+        `http://localhost:8001/api/findWorkspaceIdByName?name=${workspaceName}`
+      );
       const data = await response.json();
 
       if (response.ok && data >= 0) {
@@ -44,14 +49,16 @@ const Members = () => {
       id: workspaceId,
       users: [
         {
-          email:email2,
+          email: email2,
         },
       ],
     };
     // Call the API to add members to workspace
     try {
-      console.log(JSON.stringify(addMemberFunction))
-      const response = await fetch("http://localhost:8001/api/addMembersToWorkspace",{
+      console.log(JSON.stringify(addMemberFunction));
+      const response = await fetch(
+        "http://localhost:8001/api/addMembersToWorkspace",
+        {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -73,7 +80,6 @@ const Members = () => {
       // Handle error case
     }
   };
-
 
   const handleWorkspaceAddMember = (event) => {
     setEmail2(event.target.value);
@@ -129,17 +135,15 @@ const Members = () => {
                 <br />
                 <h6>Current Members</h6>
                 <ListGroup variant="flush">
-                  <ListGroup.Item disabled>
-                    Member Name 1 | email@dal.ca
-                  </ListGroup.Item>
+                  <ListGroup.Item disabled>{currentUserEmail}</ListGroup.Item>
                   <ListGroup.Item>
-                    Member Name 2 | email@dal.ca{" "}
+                    email@dal.ca
                     <Button variant="danger" style={{ marginLeft: 25 }}>
                       Remove
                     </Button>
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    Member Name 3 | email@dal.ca{" "}
+                    email@dal.ca
                     <Button variant="danger" style={{ marginLeft: 25 }}>
                       Remove
                     </Button>
