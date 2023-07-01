@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 const Homepage = () => {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
-
+  const [workspaces, setWorkspaces] = useState([]);
   const [workspaceName, setWorkspaceName] = useState("");
   const [workspaceDescription, setWorkspaceDescription] = useState("");
   const [userId, setUserId] = useState("");
@@ -25,7 +25,34 @@ const Homepage = () => {
       const { email } = JSON.parse(userData);
       fetchUserIdByEmail(email);
     }
-  }, []);
+
+    const storedWorkspaces = localStorage.getItem("workspaces");
+    if (storedWorkspaces) {
+      setWorkspaces(JSON.parse(storedWorkspaces));
+    } else if (userId) {
+      fetchWorkspaces();
+    }
+  }, [userId]);
+
+  const fetchWorkspaces = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8001/api/getUserWorkspaces?id=${userId}`
+      );
+      const data = await response.json();
+
+      if (response.ok) {
+        setWorkspaces(data.workspaces);
+        localStorage.setItem("workspaces", JSON.stringify(data.workspaces));
+      } else {
+        console.error("Failed to fetch user workspaces");
+        // Handle error case
+      }
+    } catch (error) {
+      console.error("Failed to fetch user workspaces:", error);
+      // Handle error case
+    }
+  };
 
   const fetchUserIdByEmail = async (email) => {
     try {
@@ -81,6 +108,19 @@ const Homepage = () => {
       console.error("Failed to create workspace:", error);
       // Handle error case
     }
+    setWorkspaces((prevWorkspaces) => [
+      ...prevWorkspaces,
+      { name: workspaceName, description: workspaceDescription },
+    ]);
+
+    // Update the stored workspaces in local storage
+    localStorage.setItem(
+      "workspaces",
+      JSON.stringify([
+        ...workspaces,
+        { name: workspaceName, description: workspaceDescription },
+      ])
+    );
   };
 
   const handleWorkspaceNameChange = (event) => {
@@ -109,23 +149,26 @@ const Homepage = () => {
             </Stack>
             <h2 style={{ paddingTop: 24, paddingBottom: 24 }}>Workspaces</h2>
             <Card>
-              <Card.Body>
-                <Row className="mb-3">
+            <Card.Body>
+              {/* Display the list of workspaces */}
+              {workspaces.map((workspace) => (
+                <Row className="mb-3" key={workspace.name}>
                   <Card.Title>
-                    <Nav.Link href="../Pages/Workspace.js">
-                      Workspace Name
-                    </Nav.Link>
+                  <Nav.Link
+  href={`../Pages/Workspace.js?name=${workspace.name}`}
+  onClick={() => {
+    localStorage.setItem("selectedWorkspace", JSON.stringify(workspace));
+  }}
+>
+  {workspace.name}
+</Nav.Link>
+
                   </Card.Title>
-                  <Card.Text>Description</Card.Text>
-                  <Card.Title>
-                    <Nav.Link href="../Pages/Workspace.js">
-                      Workspace Name
-                    </Nav.Link>
-                  </Card.Title>
-                  <Card.Text>Description</Card.Text>
+                  <Card.Text>{workspace.description}</Card.Text>
                 </Row>
-              </Card.Body>
-            </Card>
+              ))}
+            </Card.Body>
+          </Card>
             <h4 style={{ paddingTop: 38, paddingBottom: 24 }}>
               Let's build a Workspace
             </h4>
@@ -171,5 +214,7 @@ const Homepage = () => {
     </div>
   );
 };
+
+
 
 export default Homepage;

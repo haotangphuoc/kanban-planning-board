@@ -1,7 +1,18 @@
-import React, {  } from "react";
-import { Container, Row, Nav, Stack, Button, Card } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Container, Row, Nav, Stack, Card } from "react-bootstrap";
 
-const CreateWorkspace = () => {
+const Workspace = () => {
+  const [workspaceName, setWorkspaceName] = useState("");
+  const [workspaceDescription, setWorkspaceDescription] = useState("");
+
+  useEffect(() => {
+    const selectedWorkspace = localStorage.getItem("selectedWorkspace");
+    if (selectedWorkspace) {
+      const workspace = JSON.parse(selectedWorkspace);
+      setWorkspaceName(workspace.name);
+      setWorkspaceDescription(workspace.description);
+    }
+  }, []);
 
   return (
     <div style={{ minHeight: "93vh" }}>
@@ -21,9 +32,8 @@ const CreateWorkspace = () => {
           <div>
             <h2 style={{ paddingTop: 38 }}>Workspaces</h2>
             <br />
-            <h4>Workspace Name</h4>
-  
-            <h6>Description</h6>
+            <h4>{workspaceName}</h4>
+            <p>{workspaceDescription}</p>
 
             <br />
             <Card>
@@ -46,13 +56,9 @@ const CreateWorkspace = () => {
                 </Nav>
               </Card.Header>
               <Card.Body>
-                <Card.Title>
-                  <Nav.Link href="../Pages/Board.js">Board Title</Nav.Link>
-                </Card.Title>
+                <Card.Title>Board Title</Card.Title>
                 <Card.Text>Description</Card.Text>
-                <Card.Title>
-                  <Nav.Link href="#">Board Title</Nav.Link>
-                </Card.Title>
+                <Card.Title>Board Title</Card.Title>
                 <Card.Text>Description</Card.Text>
               </Card.Body>
             </Card>
@@ -63,4 +69,4 @@ const CreateWorkspace = () => {
   );
 };
 
-export default CreateWorkspace;
+export default Workspace;
