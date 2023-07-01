@@ -56,7 +56,9 @@ const Homepage = () => {
 
   const fetchUserIdByEmail = async (email) => {
     try {
-      const response = await fetch(`http://localhost:8001/api/findUserIdByEmail?email=${email}`);
+      const response = await fetch(
+        `http://localhost:8001/api/findUserIdByEmail?email=${email}`
+      );
       const data = await response.json();
 
       if (response.ok && data >= 0) {
@@ -71,7 +73,15 @@ const Homepage = () => {
     }
   };
 
-  const handleSubmit = async() => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    if (!form.checkValidity()) {
+      event.stopPropagation();
+      setValidated(true);
+      return;
+    }
 
     const workspaceData = {
       id: userId,
@@ -84,13 +94,10 @@ const Homepage = () => {
     };
 
     try {
-      console.log(JSON.stringify(workspaceData))
       const response = await fetch("http://localhost:8001/api/createWorkspace", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "POST,PATCH,OPTION",
         },
         body: JSON.stringify(workspaceData),
       });
@@ -98,8 +105,14 @@ const Homepage = () => {
       if (response.ok) {
         console.log("Workspace created successfully");
         localStorage.setItem("workspaceName", workspaceName);
-        // Update the state with the new workspace
-        // Perform any additional actions after workspace creation
+
+        const updatedWorkspaces = [...workspaces, workspaceData.workspaces[0]];
+        setWorkspaces(updatedWorkspaces);
+        localStorage.setItem("workspaces", JSON.stringify(updatedWorkspaces));
+
+        // Clear the form fields
+        setWorkspaceName("");
+        setWorkspaceDescription("");
       } else {
         console.error("Failed to create workspace");
         // Handle error case
@@ -108,19 +121,6 @@ const Homepage = () => {
       console.error("Failed to create workspace:", error);
       // Handle error case
     }
-    setWorkspaces((prevWorkspaces) => [
-      ...prevWorkspaces,
-      { name: workspaceName, description: workspaceDescription },
-    ]);
-
-    // Update the stored workspaces in local storage
-    localStorage.setItem(
-      "workspaces",
-      JSON.stringify([
-        ...workspaces,
-        { name: workspaceName, description: workspaceDescription },
-      ])
-    );
   };
 
   const handleWorkspaceNameChange = (event) => {
@@ -131,10 +131,11 @@ const Homepage = () => {
     setWorkspaceDescription(event.target.value);
   };
 
-  const logout = async () => {
-    localStorage.clear();
+  const logout = () => {
+    localStorage.removeItem("userData");
     navigate("/");
   };
+
   return (
     <div style={{ minHeight: "93vh" }}>
       <Container>
@@ -149,26 +150,24 @@ const Homepage = () => {
             </Stack>
             <h2 style={{ paddingTop: 24, paddingBottom: 24 }}>Workspaces</h2>
             <Card>
-            <Card.Body>
-              {/* Display the list of workspaces */}
-              {workspaces.map((workspace) => (
-                <Row className="mb-3" key={workspace.name}>
-                  <Card.Title>
-                  <Nav.Link
-  href={`../Pages/Workspace.js?name=${workspace.name}`}
-  onClick={() => {
-    localStorage.setItem("selectedWorkspace", JSON.stringify(workspace));
-  }}
->
-  {workspace.name}
-</Nav.Link>
-
-                  </Card.Title>
-                  <Card.Text>{workspace.description}</Card.Text>
-                </Row>
-              ))}
-            </Card.Body>
-          </Card>
+              <Card.Body>
+                {workspaces.map((workspace, index) => (
+                  <Row className="mb-3" key={index}>
+                    <Card.Title>
+                      <Nav.Link
+                        href={`../Pages/Workspace.js?name=${workspace.name}`}
+                        onClick={() => {
+                          localStorage.setItem("selectedWorkspace", JSON.stringify(workspace));
+                        }}
+                      >
+                        {workspace.name}
+                      </Nav.Link>
+                    </Card.Title>
+                    <Card.Text>{workspace.description}</Card.Text>
+                  </Row>
+                ))}
+              </Card.Body>
+            </Card>
             <h4 style={{ paddingTop: 38, paddingBottom: 24 }}>
               Let's build a Workspace
             </h4>
@@ -189,23 +188,28 @@ const Homepage = () => {
                       <Form.Control.Feedback type="invalid">
                         Please enter a workspace name.
                       </Form.Control.Feedback>
-                      <br />
-                      <Form.Group controlId="validationCustom01">
-                        <Form.Label>Workspace description</Form.Label>
-                        <Form.Control
-                          as="textarea"
-                          aria-label="With textarea"
-                          value={workspaceDescription}
-              onChange={handleWorkspaceDescriptionChange}
-                        />
-    
-                      </Form.Group>
                     </Form.Group>
                   </Row>
+                  <Row className="mb-3">
+                    <Form.Group as={Col} controlId="validationCustom02">
+                      <Form.Label>Workspace Description</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        required
+                        placeholder="Enter a workspace description"
+                        value={workspaceDescription}
+                        onChange={handleWorkspaceDescriptionChange}
+                      />
+                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                      <Form.Control.Feedback type="invalid">
+                        Please enter a workspace description.
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </Row>
+                  <Button variant="primary" type="submit">
+                    Submit
+                  </Button>
                 </Form>
-                <Button variant="primary" type="submit" as={Col} md="2" onClick={handleSubmit}>
-                  Submit
-                </Button>
               </Card.Body>
             </Card>
           </div>
@@ -214,7 +218,5 @@ const Homepage = () => {
     </div>
   );
 };
-
-
 
 export default Homepage;
