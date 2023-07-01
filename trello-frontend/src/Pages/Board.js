@@ -15,7 +15,29 @@ const Board = () => {
   const [boardId, setBoardId] = useState('');
   const [boardTitle, setBoardTitle] = useState('');
 
-  const handleDeleteBoard = async () => {
+  const fetchBoardIdByTitle = async (boardTitle) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8001/api/findBoardIdByTitle?title=${boardTitle}`
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setBoardId(data);
+      } else {
+        console.error('Failed to fetch board ID');
+        // Handle error case
+      }
+    } catch (error) {
+      console.error('Failed to fetch board ID:', error);
+      // Handle error case
+    }
+  };
+
+  const handleDeleteBoard = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     try {
       console.log(JSON.stringify({ boardId }));
       const response = await fetch(
@@ -35,28 +57,14 @@ const Board = () => {
     }
   };
 
-  const handleBoardTitleSubmit = async (boardTitle) => {
-
-    try {
-      const response = await fetch(
-        `http://localhost:8001/api/findBoardIdByTitle?title=${boardTitle}`
-      );
-
-      if (response.ok) {
-        const data = await response;
-        setBoardId(data.boardId); // Update the state with the correct board ID
-      } else {
-        console.error('Failed to fetch board ID');
-        // Handle error case
-      }
-    } catch (error) {
-      console.error('Failed to fetch board ID:', error);
-      // Handle error case
-    }
-  };
-
   const handleBoardTitleChange = (event) => {
     setBoardTitle(event.target.value);
+  };
+
+  const handleBoardTitleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Board Title:', boardTitle);
+    fetchBoardIdByTitle(boardTitle); // Fetch board ID based on the title
   };
 
   return (
@@ -79,6 +87,27 @@ const Board = () => {
             <h3 style={{ paddingTop: 38 }}>Board Name</h3>
             <h6>Description</h6>
             <br />
+            <Form onSubmit={handleBoardTitleSubmit}>
+              <Row className="align-items-center">
+                <Col xs="auto">
+                  <Form.Label htmlFor="boardTitle" visuallyHidden>
+                    Board Title
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    id="boardTitle"
+                    placeholder="Enter board title"
+                    value={boardTitle}
+                    onChange={handleBoardTitleChange}
+                  />
+                </Col>
+                <Col xs="auto">
+                  <Button variant="success" type="submit">
+                    Get BoardID
+                  </Button>
+                </Col>
+              </Row>
+            </Form>
 
             <Row xs={1} md={2} className="g-4">
               <Col>
@@ -151,27 +180,13 @@ const Board = () => {
             <br />
             <Stack className="mx-auto" direction="horizontal" gap={1}>
               <div className="ms-auto" style={{ paddingBottom: 12 }}>
-                <Form onSubmit={handleBoardTitleSubmit}>
-                  <Row className="align-items-center">
-                    <Col xs="auto">
-                      <Form.Label htmlFor="boardTitle" visuallyHidden>
-                        Board Title
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        id="boardTitle"
-                        placeholder="Enter board title"
-                        value={boardTitle}
-                        onChange={handleBoardTitleChange}
-                      />
-                    </Col>
-                    <Col xs="auto">
-                      <Button variant="danger" type="submit" onClick={handleDeleteBoard}>
-                        Delete board
-                      </Button>
-                    </Col>
-                  </Row>
-                </Form>
+                <Button
+                  variant="danger"
+                  type="submit"
+                  onClick={handleDeleteBoard}
+                >
+                  Delete board
+                </Button>
               </div>
             </Stack>
           </div>
