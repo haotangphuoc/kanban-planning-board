@@ -10,11 +10,11 @@ import Board from "./Pages/Board";
 import Settings from "./Pages/Settings";
 import Members from "./Pages/Members";
 import ForgotPassword from "./Pages/ForgotPassword";
+import CreateTasks from "./Pages/CreateTasks";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PrivateRoutes from "./security/PrivateRoutes";
 
 const App = () => (
-
   <BrowserRouter>
     <Header />
     <main>
@@ -31,6 +31,7 @@ const App = () => (
           <Route path="/Pages/Settings.js" element={<Settings />} />
           <Route path="/Pages/Members.js" element={<Members />} />
           <Route path="/Pages/ForgotPassword.js" element={<ForgotPassword />} />
+          <Route path="/Pages/CreateTasks.js" element={<CreateTasks />} />
         </Route>
       </Routes>
     </main>

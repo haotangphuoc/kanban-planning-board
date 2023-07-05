@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Container,
   Row,
@@ -9,11 +9,11 @@ import {
   ListGroup,
   Card,
   Button,
-} from 'react-bootstrap';
+} from "react-bootstrap";
 
 const Board = () => {
-  const [boardId, setBoardId] = useState('');
-  const [boardTitle, setBoardTitle] = useState('');
+  const [boardId, setBoardId] = useState("");
+  const [boardTitle, setBoardTitle] = useState("");
 
   const fetchBoardIdByTitle = async (boardTitle) => {
     try {
@@ -25,11 +25,11 @@ const Board = () => {
         const data = await response.json();
         setBoardId(data);
       } else {
-        console.error('Failed to fetch board ID');
+        console.error("Failed to fetch board ID");
         // Handle error case
       }
     } catch (error) {
-      console.error('Failed to fetch board ID:', error);
+      console.error("Failed to fetch board ID:", error);
       // Handle error case
     }
   };
@@ -45,14 +45,14 @@ const Board = () => {
       );
 
       if (response.ok) {
-        console.log('Board deleted successfully');
+        console.log("Board deleted successfully");
         // Handle the response or update the state as needed
       } else {
-        console.error('Failed to delete board');
+        console.error("Failed to delete board");
         // Handle the error appropriately
       }
     } catch (error) {
-      console.error('Failed to delete board:', error);
+      console.error("Failed to delete board:", error);
       // Handle network errors or other exceptions
     }
   };
@@ -63,12 +63,12 @@ const Board = () => {
 
   const handleBoardTitleSubmit = (event) => {
     event.preventDefault();
-    console.log('Board Title:', boardTitle);
+    console.log("Board Title:", boardTitle);
     fetchBoardIdByTitle(boardTitle); // Fetch board ID based on the title
   };
 
   return (
-    <div style={{ minHeight: '93vh' }}>
+    <div style={{ minHeight: "93vh" }}>
       <Container>
         <Row>
           <div>
@@ -79,65 +79,30 @@ const Board = () => {
             >
               <div style={{ paddingBottom: 12 }}>
                 <Card.Title>
-                  <Nav.Link href="../Pages/Workspace.js">&#60; Workspace</Nav.Link>
+                  <Nav.Link href="../Pages/Workspace.js">
+                    &#60; Workspace
+                  </Nav.Link>
                 </Card.Title>
               </div>
             </Stack>
-
             <h3 style={{ paddingTop: 38 }}>Board Name</h3>
             <h6>Description</h6>
+            <Stack className="mx-auto" direction="horizontal" gap={1}>
+              <div className="ms-auto" style={{ paddingBottom: 12 }}>
+                <Form.Control type="text" placeholder="Search for a Task" />
+              </div>
+            </Stack>
             <br />
-            <Form onSubmit={handleBoardTitleSubmit}>
-              <Row className="align-items-center">
-                <Col xs="auto">
-                  <Form.Label htmlFor="boardTitle" visuallyHidden>
-                    Board Title
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    id="boardTitle"
-                    placeholder="Enter board title"
-                    value={boardTitle}
-                    onChange={handleBoardTitleChange}
-                  />
-                </Col>
-                <Col xs="auto">
-                  <Button variant="success" type="submit">
-                    Get BoardId
-                  </Button>
-                </Col>
-              </Row>
-            </Form>
-
-            <Row xs={1} md={2} className="g-4">
+            <Row xs={1} md={3} className="g-4">
               <Col>
                 <Card>
-                  <Card.Header>List Name</Card.Header>
+                  <Card.Header>To-Do</Card.Header>
                   <ListGroup variant="flush">
                     <ListGroup.Item>
-                      Task 1
-                      <Form.Check type="checkbox" label="To-Do" />
-                      <Form.Check type="checkbox" label="Doing" />
-                      <Form.Check type="checkbox" label="Done" />
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      Task 2
-                      <Form.Check type="checkbox" label="To-Do" />
-                      <Form.Check type="checkbox" label="Doing" />
-                      <Form.Check type="checkbox" label="Done" />
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      Task 3
-                      <Form.Check type="checkbox" label="To-Do" />
-                      <Form.Check type="checkbox" label="Doing" />
-                      <Form.Check type="checkbox" label="Done" />
-                    </ListGroup.Item>
-                    <ListGroup.Item>
                       <Button variant="primary" style={{ marginRight: 2 }}>
-                        Add a card
-                      </Button>
-                      <Button variant="danger" style={{ marginRight: 2 }}>
-                        Delete list
+                        <Nav.Link href="../Pages/CreateTasks.js">
+                          Add a task
+                        </Nav.Link>
                       </Button>
                     </ListGroup.Item>
                   </ListGroup>
@@ -145,32 +110,27 @@ const Board = () => {
               </Col>
               <Col>
                 <Card>
-                  <Card.Header>List Name</Card.Header>
+                  <Card.Header>Doing</Card.Header>
                   <ListGroup variant="flush">
                     <ListGroup.Item>
-                      Task 1
-                      <Form.Check type="checkbox" label="To-Do" />
-                      <Form.Check type="checkbox" label="Doing" />
-                      <Form.Check type="checkbox" label="Done" />
+                      <Button variant="primary" style={{ marginRight: 2 }}>
+                        <Nav.Link href="../Pages/CreateTasks.js">
+                          Add a task
+                        </Nav.Link>
+                      </Button>
                     </ListGroup.Item>
-                    <ListGroup.Item>
-                      Task 2
-                      <Form.Check type="checkbox" label="To-Do" />
-                      <Form.Check type="checkbox" label="Doing" />
-                      <Form.Check type="checkbox" label="Done" />
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      Task 3
-                      <Form.Check type="checkbox" label="To-Do" />
-                      <Form.Check type="checkbox" label="Doing" />
-                      <Form.Check type="checkbox" label="Done" />
-                    </ListGroup.Item>
+                  </ListGroup>
+                </Card>
+              </Col>
+              <Col>
+                <Card>
+                  <Card.Header>Done</Card.Header>
+                  <ListGroup variant="flush">
                     <ListGroup.Item>
                       <Button variant="primary" style={{ marginRight: 2 }}>
-                        Add a card
-                      </Button>
-                      <Button variant="danger" style={{ marginRight: 2 }}>
-                        Delete list
+                        <Nav.Link href="../Pages/CreateTasks.js">
+                          Add a task
+                        </Nav.Link>
                       </Button>
                     </ListGroup.Item>
                   </ListGroup>
@@ -179,6 +139,27 @@ const Board = () => {
             </Row>
             <br />
             <Stack className="mx-auto" direction="horizontal" gap={1}>
+              <Form onSubmit={handleBoardTitleSubmit}>
+                <Row className="align-items-center">
+                  <Col xs="auto">
+                    <Form.Label htmlFor="boardTitle" visuallyHidden>
+                      Board Title
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      id="boardTitle"
+                      placeholder="Enter board title"
+                      value={boardTitle}
+                      onChange={handleBoardTitleChange}
+                    />
+                  </Col>
+                  <Col xs="auto">
+                    <Button variant="success" type="submit">
+                      Get BoardId
+                    </Button>
+                  </Col>
+                </Row>
+              </Form>
               <div className="ms-auto" style={{ paddingBottom: 12 }}>
                 <Button
                   variant="danger"
@@ -197,4 +178,3 @@ const Board = () => {
 };
 
 export default Board;
-
