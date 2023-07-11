@@ -136,18 +136,8 @@ const Members = () => {
                 <h6>Current Members</h6>
                 <ListGroup variant="flush">
                   <ListGroup.Item disabled>{currentUserEmail}</ListGroup.Item>
-                  <ListGroup.Item>
-                    email@dal.ca
-                    <Button variant="danger" style={{ marginLeft: 25 }}>
-                      Remove
-                    </Button>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    email@dal.ca
-                    <Button variant="danger" style={{ marginLeft: 25 }}>
-                      Remove
-                    </Button>
-                  </ListGroup.Item>
+                  <ListGroup.Item>email@dal.ca</ListGroup.Item>
+                  <ListGroup.Item>email@dal.ca</ListGroup.Item>
                 </ListGroup>
               </Card.Body>
             </Card>

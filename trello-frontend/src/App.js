@@ -22,6 +22,7 @@ const App = () => (
         <Route path="/" element={<Dashboard />} />
         <Route path="/Pages/Login.js" element={<Login />} />
         <Route path="/Pages/Register.js" element={<Register />} />
+        <Route path="/Pages/ForgotPassword.js" element={<ForgotPassword />} />
 
         <Route element={<PrivateRoutes />}>
           <Route path="/Pages/Homepage.js" element={<Homepage />} />
@@ -30,7 +31,6 @@ const App = () => (
           <Route path="/Pages/Board.js" element={<Board />} />
           <Route path="/Pages/Settings.js" element={<Settings />} />
           <Route path="/Pages/Members.js" element={<Members />} />
-          <Route path="/Pages/ForgotPassword.js" element={<ForgotPassword />} />
           <Route path="/Pages/CreateTasks.js" element={<CreateTasks />} />
         </Route>
       </Routes>

@@ -49,7 +49,8 @@ const Dashboard = () => {
                   fontFamily: "Helvetica Neue, Arial, sans-serif",
                 }}
               >
-                Let us help you stay productive and focused on what matters most.
+                Let us help you stay productive and focused on what matters
+                most.
               </p>
             </div>
           </Col>
@@ -86,7 +87,8 @@ const Dashboard = () => {
                     fontFamily: "Helvetica Neue, Arial, sans-serif",
                   }}
                 >
-                  Login to update your workspace and see what you might have missed.
+                  Login to update your workspace and see what you might have
+                  missed.
                 </Card.Text>
                 <Button
                   variant="primary"
@@ -134,7 +136,9 @@ const Dashboard = () => {
                     fontFamily: "Helvetica Neue, Arial, sans-serif",
                   }}
                 >
-                  Do you want to stay organized? Trello-Clone lets you keep track of your assignments through workspaces. You can even share them with your friends!
+                  Do you want to stay organized? Trello-Clone lets you keep
+                  track of your assignments through workspaces. You can even
+                  share them with your friends!
                 </Card.Text>
                 <Button
                   variant="primary"

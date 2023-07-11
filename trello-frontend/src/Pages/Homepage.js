@@ -94,13 +94,16 @@ const Homepage = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8001/api/createWorkspace", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(workspaceData),
-      });
+      const response = await fetch(
+        "http://localhost:8001/api/createWorkspace",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(workspaceData),
+        }
+      );
 
       if (response.ok) {
         console.log("Workspace created successfully");
@@ -157,7 +160,10 @@ const Homepage = () => {
                       <Nav.Link
                         href={`../Pages/Workspace.js?name=${workspace.name}`}
                         onClick={() => {
-                          localStorage.setItem("selectedWorkspace", JSON.stringify(workspace));
+                          localStorage.setItem(
+                            "selectedWorkspace",
+                            JSON.stringify(workspace)
+                          );
                         }}
                       >
                         {workspace.name}
