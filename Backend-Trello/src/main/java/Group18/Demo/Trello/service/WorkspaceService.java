@@ -5,7 +5,11 @@ import Group18.Demo.Trello.model.User;
 import Group18.Demo.Trello.model.Workspace;
 import Group18.Demo.Trello.repository.WorkspaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +18,74 @@ import java.util.Objects;
 public class WorkspaceService {
     @Autowired
     WorkspaceRepository workspaceRepository;
+    @Autowired
+    UserService userService;
+
+    public ResponseEntity<String> createWorkspace(@RequestBody User user) {
+        try {
+            User userInDb = userService.getUser(user.getId());
+            if(userInDb==null){
+                return new ResponseEntity<>("Can't find user object!", HttpStatus.BAD_REQUEST);
+            }
+            userInDb.setWorkspaces(user.getWorkspaces());
+            for(Workspace workspace:user.getWorkspaces()){
+                saveWorkspace(workspace);
+            }
+            userService.saveUser(userInDb);
+            return new ResponseEntity<>("Create workspace successfully!", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity<String> addMembersToWorkspace(Workspace workspace) {
+
+        try {
+            Workspace workspaceInDb = getWorkspace(workspace.getId());
+            if(workspaceInDb==null){
+                return new ResponseEntity<>("Can't find workspace object!", HttpStatus.BAD_REQUEST);
+            }
+            for(User user:workspace.getUsers()){
+                User userInDb = userService.findByEmail(user.getEmail());
+                userInDb.getWorkspaces().add(workspaceInDb);
+                userService.saveUser(userInDb);
+            }
+            //workspaceService.saveWorkspace(workspaceInDb);
+            return new ResponseEntity<>("Add members to workspace successfully!", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity<Integer> findWorkspaceIdByName(String name) {
+        try {
+            Workspace workspace = findByName(name);
+            if (workspace == null) {
+                return new ResponseEntity<>(-1, HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(workspace.getId(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(-1, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity<String> modifyWorkspace(@RequestBody Workspace workspace) {
+        try {
+            Workspace workspaceInDb = getWorkspace(workspace.getId());
+            if(workspaceInDb==null){
+                return new ResponseEntity<>("Can't find workspace object!", HttpStatus.BAD_REQUEST);
+            }
+            workspaceInDb.setDescription(workspace.getDescription());
+            saveWorkspace(workspaceInDb);
+            return new ResponseEntity<>("Modify workspace successfully!", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     public Workspace getWorkspace(int workspaceId) {
         Workspace workspace = workspaceRepository.findById(workspaceId).get();
