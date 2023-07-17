@@ -100,4 +100,29 @@ public class TrelloController {
     public ResponseEntity<String> modifyWorkspace(@RequestBody Workspace workspace) {
         return workspaceService.modifyWorkspace(workspace);
     }
+
+    @GetMapping("/findTaskByIdOrTitle")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<Task> findTaskByIdOrTitle(@RequestParam(value = "id",required = false) Integer id,
+                                                    @RequestParam(value = "title",required = false) String title) {
+        return taskService.findTaskByIdOrTitle(id, title);
+    }
+
+    @PostMapping("/modifyTask")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<String> modifyTask(@RequestBody Task task) {
+        return taskService.modifyTask(task);
+    }
+
+    @PostMapping("/createTask")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<String> createTask(@RequestBody Task task) {
+        return taskService.createTask(task);
+    }
+
+    @PostMapping("/assignMembersToTask")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<String> assignMembersToTask(@RequestBody Task task) {
+        return taskService.assignMembersToTask(task);
+    }
 }

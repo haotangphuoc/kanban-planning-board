@@ -4,7 +4,11 @@ import Group18.Demo.Trello.model.Task;
 import Group18.Demo.Trello.model.User;
 import Group18.Demo.Trello.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,6 +17,23 @@ import java.util.Objects;
 public class TaskService {
     @Autowired
     TaskRepository taskRepository;
+
+    public ResponseEntity<Task> findTaskByIdOrTitle(Integer id, String title) {
+        return null;
+    }
+
+    public ResponseEntity<String> modifyTask(Task task) {
+        return null;
+    }
+
+    public ResponseEntity<String> createTask(Task task) {
+        return null;
+    }
+
+    public ResponseEntity<String> assignMembersToTask(@RequestBody Task task) {
+        return null;
+    }
+
 
     public Task getTask(int taskId) {
         Task task = taskRepository.findById(taskId).get();
