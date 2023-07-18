@@ -17,21 +17,64 @@ import java.util.Objects;
 public class TaskService {
     @Autowired
     TaskRepository taskRepository;
+    UserService userservice;
+
 
     public ResponseEntity<Task> findTaskByIdOrTitle(Integer id, String title) {
-        return null;
+        try {
+            Task taskInDb = null;
+            if (id != null) {
+                taskInDb = getTask(id);
+            }
+            if (title != null) {
+                taskInDb = taskRepository.findByTitle(title);
+            }
+            taskInDb.setList(null);
+            taskInDb.setUsers(null);
+            return new ResponseEntity<>(taskInDb, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public ResponseEntity<String> modifyTask(Task task) {
-        return null;
+        try {
+            updateTask(task.getId(), task);
+            return new ResponseEntity<>("Modify task successfully!", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public ResponseEntity<String> createTask(Task task) {
-        return null;
+        try {
+            saveTask(task);
+            return new ResponseEntity<>("Create task successfully!", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public ResponseEntity<String> assignMembersToTask(@RequestBody Task task) {
-        return null;
+        try {
+            Task taskInDb = getTask(task.getId());
+            if(taskInDb==null){
+                return new ResponseEntity<>("Can't find task object!", HttpStatus.BAD_REQUEST);
+            }
+            for(User user:task.getUsers()){
+                User userInDb = userservice.findByEmail(user.getEmail());
+                userInDb.getTasks().add(taskInDb);
+                userservice.saveUser(userInDb);
+            }
+            //workspaceService.saveWorkspace(workspaceInDb);
+            return new ResponseEntity<>("Assign members to task successfully!", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
