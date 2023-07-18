@@ -19,6 +19,7 @@ import java.util.Objects;
 public class UserService {
     @Autowired
     UserRepository userRepository;
+
     public boolean validatePassword(String password) {
         if (password.length() < 8) {
             return false;
@@ -120,33 +121,6 @@ public class UserService {
     public String deleteUser(int userId) {
         userRepository.deleteById(userId);
         return "User successfully deleted";
-    }
-
-    public String updateUser(int userId, User newUser) {
-        User oldUser = userRepository.findById(userId).get();
-
-        if(Objects.nonNull(newUser.getEmail()) &&
-                !"".equalsIgnoreCase(newUser.getEmail())) {
-            oldUser.setEmail(newUser.getEmail());
-        }
-
-        if(Objects.nonNull(newUser.getQuestionAns()) &&
-                !"".equalsIgnoreCase(newUser.getQuestionAns())) {
-            oldUser.setQuestionAns(newUser.getQuestionAns());
-        }
-
-        if(Objects.nonNull(newUser.getFirstName()) &&
-                !"".equalsIgnoreCase(newUser.getFirstName())) {
-            oldUser.setFirstName(newUser.getFirstName());
-        }
-
-        if(Objects.nonNull(newUser.getLastName()) &&
-                !"".equalsIgnoreCase(newUser.getLastName())) {
-            oldUser.setLastName(newUser.getLastName());
-        }
-
-        userRepository.save(oldUser);
-        return "User successfully updated";
     }
 
     public List<User> fetchUserList() {

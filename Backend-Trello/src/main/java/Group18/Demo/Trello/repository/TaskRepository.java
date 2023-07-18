@@ -4,4 +4,5 @@ import Group18.Demo.Trello.model.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TaskRepository extends JpaRepository<Task, Integer> {
+    public Task findByTitle(String name);
 }

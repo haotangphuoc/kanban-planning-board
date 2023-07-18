@@ -102,23 +102,6 @@ public class WorkspaceService {
         return "Workspace successfully deleted";
     }
 
-    public String updateWorkspace(int workspaceId, Workspace newWorkspace) {
-        Workspace oldWorkspace = workspaceRepository.findById(workspaceId).get();
-
-        if(Objects.nonNull(newWorkspace.getName()) &&
-                !"".equalsIgnoreCase(newWorkspace.getName())) {
-            oldWorkspace.setName(newWorkspace.getName());
-        }
-
-        if(Objects.nonNull(newWorkspace.getDescription()) &&
-                !"".equalsIgnoreCase(newWorkspace.getDescription())) {
-            oldWorkspace.setDescription(newWorkspace.getDescription());
-        }
-
-        workspaceRepository.save(oldWorkspace);
-        return "Workspace successfully updated";
-    }
-
     public List<User> fetchUserById(int workspaceId) {
         Workspace workspace = workspaceRepository.findById(workspaceId).get();
         return workspace.getUsers();
