@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.util.List;
+
 @Entity
 @Data
 @Builder
@@ -38,7 +40,25 @@ public class Task {
             name = "is_active",
             nullable = false
     )
-    private boolean isActive;
+    private String activeFlag;
+
+    @Column(
+            name = "start_date",
+            nullable = false
+    )
+    private String startDate;
+
+    @Column(
+            name = "deadline",
+            nullable = false
+    )
+    private String deadline;
+
+    @Column(
+            name = "completion_date",
+            nullable = false
+    )
+    private String completionDate;
 
     //Dependencies
     @ManyToMany(mappedBy = "tasks")
@@ -49,11 +69,11 @@ public class Task {
     private Group18.Demo.Trello.model.List list;
 
     //Constructors
-    public Task(int id, String title, String description, boolean isActive) {
+    public Task(int id, String title, String description, String isActive) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.isActive = isActive;
+        this.activeFlag = isActive;
         //Initialization of list can be added here
     }
 
@@ -82,12 +102,12 @@ public class Task {
         this.description = description;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public String getActiveFlag() {
+        return activeFlag;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setActiveFlag(String activeFlag) {
+        this.activeFlag = activeFlag;
     }
 
     public List<User> getUsers() {
@@ -104,5 +124,29 @@ public class Task {
 
     public void setList(Group18.Demo.Trello.model.List list) {
         this.list = list;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
+    }
+
+    public String getCompletionDate() {
+        return completionDate;
+    }
+
+    public void setCompletionDate(String completionDate) {
+        this.completionDate = completionDate;
     }
 }

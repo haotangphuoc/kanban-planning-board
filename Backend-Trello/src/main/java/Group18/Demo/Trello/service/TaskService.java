@@ -17,6 +17,7 @@ import java.util.Objects;
 public class TaskService {
     @Autowired
     TaskRepository taskRepository;
+    @Autowired
     UserService userservice;
 
 
@@ -106,7 +107,22 @@ public class TaskService {
             oldTask.setDescription(newTask.getDescription());
         }
 
-        oldTask.setActive(newTask.isActive());
+        if(Objects.nonNull(newTask.getStartDate()) &&
+                !"".equalsIgnoreCase(newTask.getStartDate())) {
+            oldTask.setStartDate(newTask.getStartDate());
+        }
+
+        if(Objects.nonNull(newTask.getDeadline()) &&
+                !"".equalsIgnoreCase(newTask.getDeadline())) {
+            oldTask.setDeadline(newTask.getDeadline());
+        }
+
+        if(Objects.nonNull(newTask.getCompletionDate()) &&
+                !"".equalsIgnoreCase(newTask.getCompletionDate())) {
+            oldTask.setCompletionDate(newTask.getCompletionDate());
+        }
+
+        oldTask.setActiveFlag(newTask.getActiveFlag());
 
         taskRepository.save(oldTask);
         return "Task successfully updated";
