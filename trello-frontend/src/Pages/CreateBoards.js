@@ -100,7 +100,6 @@ const CreateBoards = () => {
         const data = await response;
         console.log("Board created:", data);
         navigate("/Pages/Workspace.js");
-        // Handle the response or update the state as needed
       } else {
         console.error("Failed to create board");
         // Handle the error appropriately

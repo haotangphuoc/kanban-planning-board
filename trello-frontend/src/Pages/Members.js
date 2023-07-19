@@ -71,6 +71,8 @@ const Members = () => {
 
       if (response.ok) {
         console.log("Members added successfully");
+        // 添加成员email到localStorage
+        addMemberToLocalStorage(email2);
       } else {
         console.error("Failed to add members");
         // Handle error case
@@ -79,6 +81,32 @@ const Members = () => {
       console.error("Failed to add members:", error);
       // Handle error case
     }
+  };
+
+  // 添加成员email到localStorage
+  const addMemberToLocalStorage = (memberEmail) => {
+    const existingMembersString = localStorage.getItem("members");
+    let existingMembers = [];
+
+    // 解析现有的成员数据（如果存在的话）
+    if (existingMembersString) {
+      existingMembers = JSON.parse(existingMembersString);
+    }
+
+    existingMembers.push(memberEmail);
+
+    localStorage.setItem("members", JSON.stringify(existingMembers));
+  };
+
+  const getMembersFromLocalStorage = () => {
+    const existingMembersString = localStorage.getItem("members");
+    let existingMembers = [];
+
+    if (existingMembersString) {
+      existingMembers = JSON.parse(existingMembersString);
+    }
+
+    return existingMembers;
   };
 
   const handleWorkspaceAddMember = (event) => {
@@ -136,8 +164,9 @@ const Members = () => {
                 <h6>Current Members</h6>
                 <ListGroup variant="flush">
                   <ListGroup.Item disabled>{currentUserEmail}</ListGroup.Item>
-                  <ListGroup.Item>email@dal.ca</ListGroup.Item>
-                  <ListGroup.Item>email@dal.ca</ListGroup.Item>
+                  {getMembersFromLocalStorage().map((email) => (
+                    <ListGroup.Item key={email}>{email}</ListGroup.Item>
+                  ))}
                 </ListGroup>
               </Card.Body>
             </Card>
