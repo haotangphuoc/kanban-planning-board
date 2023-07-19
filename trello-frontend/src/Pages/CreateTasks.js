@@ -33,7 +33,7 @@ const CreateTasks = () => {
     setValidated(true);
 
     const currentDate = new Date();
-    const formattedStartDate = currentDate.toISOString().split("T")[0].replace(/-/g, "");
+    const formattedStartDate = currentDate.toISOString().split("T")[0];
     const activeFlagFromLocalStorage = localStorage.getItem("selectedColumn");
 
     const taskData = {
@@ -117,14 +117,11 @@ const CreateTasks = () => {
 
       if (response.ok) {
         console.log("Member added to task successfully");
-        // Handle the response or update the state as needed
       } else {
         console.error("Failed to add member to task");
-        // Handle the error appropriately
       }
     } catch (error) {
       console.error("Failed to add member to task:", error);
-      // Handle network errors or other exceptions
     }
   };
 
