@@ -53,7 +53,6 @@ const Members = () => {
         },
       ],
     };
-    // Call the API to add members to workspace
     try {
       console.log(JSON.stringify(addMemberFunction));
       const response = await fetch(
@@ -71,11 +70,9 @@ const Members = () => {
 
       if (response.ok) {
         console.log("Members added successfully");
-        // 添加成员email到localStorage
         addMemberToLocalStorage(email2);
       } else {
         console.error("Failed to add members");
-        // Handle error case
       }
     } catch (error) {
       console.error("Failed to add members:", error);
@@ -83,12 +80,9 @@ const Members = () => {
     }
   };
 
-  // 添加成员email到localStorage
   const addMemberToLocalStorage = (memberEmail) => {
     const existingMembersString = localStorage.getItem("members");
     let existingMembers = [];
-
-    // 解析现有的成员数据（如果存在的话）
     if (existingMembersString) {
       existingMembers = JSON.parse(existingMembersString);
     }
