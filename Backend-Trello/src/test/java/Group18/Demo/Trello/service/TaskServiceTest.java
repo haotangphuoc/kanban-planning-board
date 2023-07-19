@@ -40,7 +40,7 @@ class TaskServiceTest {
 
     @Test
     void findTaskByIdOrTitle_CorrectId() {
-        Task task = new Task(1, "sample task", "description", true);
+        Task task = new Task(1, "sample task", "description", "done");
 
         when(taskRepository.findById(task.getId())).thenReturn(Optional.of(task));
 
@@ -54,7 +54,7 @@ class TaskServiceTest {
 
     @Test
     void findTaskByIdOrTitle_CorrectTitle() {
-        Task task = new Task(1, "sample task", "description", true);
+        Task task = new Task(1, "sample task", "description", "done");
 
         when(taskRepository.findByTitle(task.getTitle())).thenReturn(task);
 
@@ -68,7 +68,7 @@ class TaskServiceTest {
 
     @Test
     void modifyTask() {
-        Task task = new Task(1, "sample task", "description", true);
+        Task task = new Task(1, "sample task", "description", "done");
 
         when(taskRepository.findById(task.getId())).thenReturn(Optional.of(task));
 
@@ -83,7 +83,7 @@ class TaskServiceTest {
 
     @Test
     void assignMembersToTask() {
-        Task task = new Task(1, "sample task", "description", true);
+        Task task = new Task(1, "sample task", "description", "done");
 
         List<Task> tasks = new ArrayList<>();
         tasks.add(task);
