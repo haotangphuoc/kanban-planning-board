@@ -127,19 +127,49 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public List<Workspace> fetchWorkspaceById(int userId) {
-        User user = userRepository.findById(userId).get();
-        return user.getWorkspaces();
+    public ResponseEntity<List<Workspace>> fetchWorkspaceById(int userId) {
+        try {
+            User user = userRepository.findById(userId).get();
+            List<Workspace> workspaces = user.getWorkspaces();
+            if(workspaces != null) {
+                return new ResponseEntity<>(workspaces, HttpStatus.OK);
+            }
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    public List<Board> fetchBoardById(int userId) {
-        User user = userRepository.findById(userId).get();
-        return user.getBoards();
+    public ResponseEntity<List<Board>> fetchBoardById(int userId) {
+        try {
+            User user = userRepository.findById(userId).get();
+            List<Board> boards = user.getBoards();
+            if(boards != null) {
+                return new ResponseEntity<>(boards, HttpStatus.OK);
+            }
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    public List<Task> fetchTaskById(int userId) {
-        User user = userRepository.findById(userId).get();
-        return user.getTasks();
+    public ResponseEntity<List<Task>> fetchTaskById(int userId) {
+        try {
+            User user = userRepository.findById(userId).get();
+            List<Task> tasks = user.getTasks();
+            if(tasks != null) {
+                return new ResponseEntity<>(tasks, HttpStatus.OK);
+            }
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public User findByEmailAndPassword(String email, String password) {

@@ -42,8 +42,7 @@ const Homepage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setWorkspaces(data.workspaces);
-        localStorage.setItem("workspaces", JSON.stringify(data.workspaces));
+        console.log(data);
       } else {
         console.error("Failed to fetch user workspaces");
         // Handle error case

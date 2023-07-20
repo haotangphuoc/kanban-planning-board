@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class TrelloController {
@@ -124,5 +126,23 @@ public class TrelloController {
     @CrossOrigin(origins = "*")
     public ResponseEntity<String> assignMembersToTask(@RequestBody Task task) {
         return taskService.assignMembersToTask(task);
+    }
+
+    @GetMapping("/getUserWorkspaces")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<List<Workspace>> getUserWorkspaces(@RequestParam(value = "id")Integer userId) {
+        return userService.fetchWorkspaceById(userId);
+    }
+
+    @GetMapping("/getUserBoards")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<List<Board>> getUserBoards(@RequestParam(value = "id")Integer userId) {
+        return userService.fetchBoardById(userId);
+    }
+
+    @GetMapping("/getUserTasks")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<List<Task>> getUserTasks(@RequestParam(value = "id")Integer userId) {
+        return userService.fetchTaskById(userId);
     }
 }
