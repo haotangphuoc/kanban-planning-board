@@ -1,5 +1,6 @@
 package Group18.Demo.Trello.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,18 +56,21 @@ public class User {
     @JoinTable(name="user_workspace",
     joinColumns = @JoinColumn(name="user_id", referencedColumnName = "user_id"),
     inverseJoinColumns = @JoinColumn(name="workspace_id", referencedColumnName = "workspace_id"))
+    @JsonIgnoreProperties("users")
     private List<Workspace> workspaces;
 
     @ManyToMany //Cascade can be added here
     @JoinTable(name="user_board",
             joinColumns = @JoinColumn(name="user_id", referencedColumnName = "user_id"),
             inverseJoinColumns = @JoinColumn(name="board_id", referencedColumnName = "board_id"))
+    @JsonIgnoreProperties("users")
     private List<Board> boards;
 
     @ManyToMany //Cascade can be added here
     @JoinTable(name="user_task",
             joinColumns = @JoinColumn(name="user_id", referencedColumnName = "user_id"),
             inverseJoinColumns = @JoinColumn(name="task_id", referencedColumnName = "task_id"))
+    @JsonIgnoreProperties("users")
     private List<Task> tasks;
 
     //Constructor

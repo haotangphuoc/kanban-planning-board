@@ -53,7 +53,6 @@ const Members = () => {
         },
       ],
     };
-    // Call the API to add members to workspace
     try {
       console.log(JSON.stringify(addMemberFunction));
       const response = await fetch(
@@ -71,14 +70,37 @@ const Members = () => {
 
       if (response.ok) {
         console.log("Members added successfully");
+        addMemberToLocalStorage(email2);
       } else {
         console.error("Failed to add members");
-        // Handle error case
       }
     } catch (error) {
       console.error("Failed to add members:", error);
       // Handle error case
     }
+  };
+
+  const addMemberToLocalStorage = (memberEmail) => {
+    const existingMembersString = localStorage.getItem("members");
+    let existingMembers = [];
+    if (existingMembersString) {
+      existingMembers = JSON.parse(existingMembersString);
+    }
+
+    existingMembers.push(memberEmail);
+
+    localStorage.setItem("members", JSON.stringify(existingMembers));
+  };
+
+  const getMembersFromLocalStorage = () => {
+    const existingMembersString = localStorage.getItem("members");
+    let existingMembers = [];
+
+    if (existingMembersString) {
+      existingMembers = JSON.parse(existingMembersString);
+    }
+
+    return existingMembers;
   };
 
   const handleWorkspaceAddMember = (event) => {
@@ -136,8 +158,9 @@ const Members = () => {
                 <h6>Current Members</h6>
                 <ListGroup variant="flush">
                   <ListGroup.Item disabled>{currentUserEmail}</ListGroup.Item>
-                  <ListGroup.Item>email@dal.ca</ListGroup.Item>
-                  <ListGroup.Item>email@dal.ca</ListGroup.Item>
+                  {getMembersFromLocalStorage().map((email) => (
+                    <ListGroup.Item key={email}>{email}</ListGroup.Item>
+                  ))}
                 </ListGroup>
               </Card.Body>
             </Card>

@@ -50,6 +50,7 @@ const CreateBoards = () => {
     // Retrieve existing boards for this workspace from local storage
     const existingBoards = JSON.parse(localStorage.getItem(`boards-${workspaceId}`)) || [];
 
+<<<<<<< HEAD
     // Add the new board to the existing boards
     const updatedBoards = [...existingBoards, newBoard];
 
@@ -58,6 +59,21 @@ const CreateBoards = () => {
 
     // Navigate back to the workspace
     navigate("/Pages/Workspace.js");
+=======
+      if (response.ok) {
+        localStorage.setItem("boardName", JSON.stringify({ boardName }));
+        const data = await response;
+        console.log("Board created:", data);
+        navigate("/Pages/Workspace.js");
+      } else {
+        console.error("Failed to create board");
+        // Handle the error appropriately
+      }
+    } catch (error) {
+      console.error("Failed to create board:", error);
+      // Handle network errors or other exceptions
+    }
+>>>>>>> refs/remotes/origin/release-3
 
     setValidated(true);
   };

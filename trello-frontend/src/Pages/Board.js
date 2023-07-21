@@ -15,7 +15,7 @@ const Board = () => {
   const [boardId, setBoardId] = useState("");
   const [boardTitle, setBoardTitle] = useState("");
 
-  const [searchInput, setSearchInput] = useState(""); // State to hold the search input value
+  const [searchInput, setSearchInput] = useState("");
 
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value);
@@ -52,11 +52,9 @@ const Board = () => {
         setBoardId(data);
       } else {
         console.error("Failed to fetch board ID");
-        // Handle error case
       }
     } catch (error) {
       console.error("Failed to fetch board ID:", error);
-      // Handle error case
     }
   };
 
@@ -72,14 +70,11 @@ const Board = () => {
 
       if (response.ok) {
         console.log("Board deleted successfully");
-        // Handle the response or update the state as needed
       } else {
         console.error("Failed to delete board");
-        // Handle the error appropriately
       }
     } catch (error) {
       console.error("Failed to delete board:", error);
-      // Handle network errors or other exceptions
     }
   };
 
@@ -90,11 +85,11 @@ const Board = () => {
   const handleBoardTitleSubmit = (event) => {
     event.preventDefault();
     console.log("Board Title:", boardTitle);
-    fetchBoardIdByTitle(boardTitle); // Fetch board ID based on the title
+    fetchBoardIdByTitle(boardTitle);
   };
 
   const handleAddTaskClick = (column) => {
-    localStorage.setItem("selectedColumn", column); // Save the selected column to localStorage
+    localStorage.setItem("selectedColumn", column);
   };
 
   return (

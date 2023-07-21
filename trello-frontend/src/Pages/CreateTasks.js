@@ -1,4 +1,4 @@
-import React, { useState, useRef} from "react";
+import React, { useState, useRef } from "react";
 import {
   Container,
   Row,
@@ -18,7 +18,15 @@ const CreateTasks = () => {
   const dateInputRef = useRef(null);
   const [taskId, setTaskId] = useState("");
 
-
+  // Function to check if the entered email is in the list of workspace members
+  const isMemberInWorkspace = (email) => {
+    const members = localStorage.getItem("members");
+    if (members) {
+      const existingMembers = JSON.parse(members);
+      return existingMembers.includes(email);
+    }
+    return false;
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -33,7 +41,7 @@ const CreateTasks = () => {
     setValidated(true);
 
     const currentDate = new Date();
-    const formattedStartDate = currentDate.toISOString().split("T")[0].replace(/-/g, "");
+    const formattedStartDate = currentDate.toISOString().split("T")[0];
     const activeFlagFromLocalStorage = localStorage.getItem("selectedColumn");
 
     const taskData = {
@@ -69,8 +77,6 @@ const CreateTasks = () => {
       console.error("Failed to create task:", error);
     }
   };
-  
-
 
   const handleFetchTaskID = async (title) => {
     try {
@@ -78,11 +84,11 @@ const CreateTasks = () => {
         `http://localhost:8001/api/findTaskByIdOrTitle?title=${title}`
       );
       const responseData = await response.json();
-  
+
       if (response.ok && responseData.id) {
         const taskID = responseData.id;
         console.log("Task ID:", taskID);
-        setTaskId(taskID); 
+        setTaskId(taskID);
       } else {
         console.error("Failed to fetch task ID");
       }
@@ -91,10 +97,14 @@ const CreateTasks = () => {
     }
   };
 
-
   const handleSubmitMember = async (event) => {
     event.preventDefault();
     event.stopPropagation();
+
+    if (!isMemberInWorkspace(email)) {
+      console.log("false, member not in workspace");
+      return;
+    }
 
     const memberData = {
       id: taskId,
@@ -107,24 +117,24 @@ const CreateTasks = () => {
 
     try {
       console.log(JSON.stringify(memberData));
-      const response = await fetch("http://localhost:8001/api/assignMembersToTask", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(memberData),
-      });
+      const response = await fetch(
+        "http://localhost:8001/api/assignMembersToTask",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(memberData),
+        }
+      );
 
       if (response.ok) {
         console.log("Member added to task successfully");
-        // Handle the response or update the state as needed
       } else {
         console.error("Failed to add member to task");
-        // Handle the error appropriately
       }
     } catch (error) {
       console.error("Failed to add member to task:", error);
-      // Handle network errors or other exceptions
     }
   };
 
@@ -199,7 +209,11 @@ const CreateTasks = () => {
             <h2 style={{ paddingTop: 38, paddingBottom: 38 }}>Assign to member</h2>
             <Card>
               <Card.Body>
-                <Form noValidate validated={validated} onSubmit={handleSubmitMember}>
+                <Form
+                  noValidate
+                  validated={validated}
+                  onSubmit={handleSubmitMember}
+                >
                   <Row className="mb-3">
                     <Form.Group as={Col} controlId="validationCustom02">
                       <Form.Control

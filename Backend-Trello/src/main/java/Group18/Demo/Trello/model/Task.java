@@ -1,5 +1,6 @@
 package Group18.Demo.Trello.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,6 +63,7 @@ public class Task {
 
     //Dependencies
     @ManyToMany(mappedBy = "tasks")
+    @JsonIgnoreProperties("tasks")
     private List<User> users;
 
     @ManyToOne
