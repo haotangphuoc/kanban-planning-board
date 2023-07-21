@@ -48,97 +48,85 @@ const CreateBoards = () => {
     };
 
     // Retrieve existing boards for this workspace from local storage
-    const existingBoards = JSON.parse(localStorage.getItem(`boards-${workspaceId}`)) || [];
+    const existingBoards =
+      JSON.parse(localStorage.getItem(`boards-${workspaceId}`)) || [];
 
-<<<<<<< HEAD
     // Add the new board to the existing boards
     const updatedBoards = [...existingBoards, newBoard];
 
     // Save the updated boards back to local storage
-    localStorage.setItem(`boards-${workspaceId}`, JSON.stringify(updatedBoards));
+    localStorage.setItem(
+      `boards-${workspaceId}`,
+      JSON.stringify(updatedBoards)
+    );
 
     // Navigate back to the workspace
     navigate("/Pages/Workspace.js");
-=======
-      if (response.ok) {
-        localStorage.setItem("boardName", JSON.stringify({ boardName }));
-        const data = await response;
-        console.log("Board created:", data);
-        navigate("/Pages/Workspace.js");
-      } else {
-        console.error("Failed to create board");
-        // Handle the error appropriately
-      }
-    } catch (error) {
-      console.error("Failed to create board:", error);
-      // Handle network errors or other exceptions
-    }
->>>>>>> refs/remotes/origin/release-3
 
     setValidated(true);
   };
 
   return (
-      <div style={{ minHeight: "93vh" }}>
-        <Container>
-          <Row>
-            <div>
-              <Stack
-                  className="mx-auto"
-                  direction="horizontal"
-                  style={{ paddingTop: 38 }}
-              >
-                <div style={{ paddingBottom: 12 }}>
-                  <Card.Title>
-                    <Nav.Link href="../Pages/Workspace.js">
-                      &#60; Workspace
-                    </Nav.Link>
-                  </Card.Title>
-                </div>
-              </Stack>
-              <h2 style={{ paddingTop: 38, paddingBottom: 38 }}>
-                Create a board
-              </h2>
-              <Card>
-                <Card.Body>
-                  <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                    <Row className="mb-3">
-                      <Form.Group as={Col} md="4" controlId="validationCustom01">
-                        <Form.Label>Board name</Form.Label>
-                        <Form.Control
-                            required
-                            type="text"
-                            placeholder="Enter a board name"
-                            value={boardName}
-                            onChange={(e) => setBoardName(e.target.value)}
-                        />
-                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                        <Form.Control.Feedback type="invalid">
-                          Please enter a board name.
-                        </Form.Control.Feedback>
-                      </Form.Group>
-                    </Row>
-                    <Row className="mb-3">
-                      <Form.Group as={Col} controlId="validationCustom02">
-                        <Form.Label>Board description</Form.Label>
-                        <Form.Control
-                            as="textarea"
-                            rows={3}
-                            value={boardDescription}
-                            onChange={(e) => setBoardDescription(e.target.value)}
-                        />
-                      </Form.Group>
-                    </Row>
-                    <Button variant="primary" type="submit">
-                      Submit
-                    </Button>
-                  </Form>
-                </Card.Body>
-              </Card>
-            </div>
-          </Row>
-        </Container>
-      </div>
+    <div style={{ minHeight: "93vh" }}>
+      <Container>
+        <Row>
+          <div>
+            <Stack
+              className="mx-auto"
+              direction="horizontal"
+              style={{ paddingTop: 38 }}
+            >
+              <div style={{ paddingBottom: 12 }}>
+                <Card.Title>
+                  <Nav.Link href="../Pages/Workspace.js">
+                    &#60; Workspace
+                  </Nav.Link>
+                </Card.Title>
+              </div>
+            </Stack>
+            <h2 style={{ paddingTop: 38, paddingBottom: 38 }}>
+              Create a board
+            </h2>
+            <Card>
+              <Card.Body>
+                <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                  <Row className="mb-3">
+                    <Form.Group as={Col} md="4" controlId="validationCustom01">
+                      <Form.Label>Board name</Form.Label>
+                      <Form.Control
+                        required
+                        type="text"
+                        placeholder="Enter a board name"
+                        value={boardName}
+                        onChange={(e) => setBoardName(e.target.value)}
+                      />
+                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                      <Form.Control.Feedback type="invalid">
+                        Please enter a board name.
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </Row>
+                  <Row className="mb-3">
+                    <Form.Group as={Col} controlId="validationCustom02">
+                      <Form.Label>Board description</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        value={boardDescription}
+                        onChange={(e) => setBoardDescription(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Row>
+                  <Button variant="primary" type="submit">
+                    Submit
+                  </Button>
+                </Form>
+              </Card.Body>
+            </Card>
+          </div>
+        </Row>
+      </Container>
+    </div>
   );
 };
 
