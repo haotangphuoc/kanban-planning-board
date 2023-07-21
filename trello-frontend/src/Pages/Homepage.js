@@ -42,7 +42,7 @@ const Homepage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log(data);
+        setWorkspaces(data);
       } else {
         console.error("Failed to fetch user workspaces");
         // Handle error case
