@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.List;
 @Entity
 @Data
@@ -57,21 +59,21 @@ public class User {
     joinColumns = @JoinColumn(name="user_id", referencedColumnName = "user_id"),
     inverseJoinColumns = @JoinColumn(name="workspace_id", referencedColumnName = "workspace_id"))
     @JsonIgnoreProperties("users")
-    private List<Workspace> workspaces;
+    private List<Workspace> workspaces = new ArrayList<>();
 
     @ManyToMany //Cascade can be added here
     @JoinTable(name="user_board",
             joinColumns = @JoinColumn(name="user_id", referencedColumnName = "user_id"),
             inverseJoinColumns = @JoinColumn(name="board_id", referencedColumnName = "board_id"))
     @JsonIgnoreProperties("users")
-    private List<Board> boards;
+    private List<Board> boards = new ArrayList<>();
 
     @ManyToMany //Cascade can be added here
     @JoinTable(name="user_task",
             joinColumns = @JoinColumn(name="user_id", referencedColumnName = "user_id"),
             inverseJoinColumns = @JoinColumn(name="task_id", referencedColumnName = "task_id"))
     @JsonIgnoreProperties("users")
-    private List<Task> tasks;
+    private List<Task> tasks = new ArrayList<>();
 
     //Constructor
 

@@ -25,13 +25,7 @@ const Homepage = () => {
       const { email } = JSON.parse(userData);
       fetchUserIdByEmail(email);
     }
-
-    const storedWorkspaces = localStorage.getItem("workspaces");
-    if (storedWorkspaces) {
-      setWorkspaces(JSON.parse(storedWorkspaces));
-    } else if (userId) {
-      fetchWorkspaces();
-    }
+    fetchWorkspaces();
   }, [userId]);
 
   const fetchWorkspaces = async () => {
@@ -106,11 +100,11 @@ const Homepage = () => {
 
       if (response.ok) {
         console.log("Workspace created successfully");
-        localStorage.setItem("workspaceName", workspaceName);
+
 
         const updatedWorkspaces = [...workspaces, workspaceData.workspaces[0]];
         setWorkspaces(updatedWorkspaces);
-        localStorage.setItem("workspaces", JSON.stringify(updatedWorkspaces));
+
 
         // Clear the form fields
         setWorkspaceName("");
