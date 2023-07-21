@@ -27,10 +27,12 @@ public class WorkspaceService {
             if(userInDb==null){
                 return new ResponseEntity<>("Can't find user object!", HttpStatus.BAD_REQUEST);
             }
-            userInDb.setWorkspaces(user.getWorkspaces());
+            List<Workspace> workspacesInDb = userInDb.getWorkspaces();
             for(Workspace workspace:user.getWorkspaces()){
                 saveWorkspace(workspace);
+                workspacesInDb.add(workspace);
             }
+            userInDb.setWorkspaces(workspacesInDb);
             userService.saveUser(userInDb);
             return new ResponseEntity<>("Create workspace successfully!", HttpStatus.OK);
         } catch (Exception e) {
