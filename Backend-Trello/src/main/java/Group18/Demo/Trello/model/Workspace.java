@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.List;
 @Entity
 @Data
@@ -36,11 +38,11 @@ public class Workspace {
     //Dependencies
     @ManyToMany(mappedBy = "workspaces")
     @JsonIgnoreProperties("workspaces")
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     @OneToMany(mappedBy = "workspace")
     @JsonIgnoreProperties("workspace")
-    private List<Board> boards;
+    private List<Board> boards = new ArrayList<>();
 
     //Constructor
     public Workspace(int id, String name, String description) {

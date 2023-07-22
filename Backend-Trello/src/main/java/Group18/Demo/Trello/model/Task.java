@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -64,10 +65,11 @@ public class Task {
     //Dependencies
     @ManyToMany(mappedBy = "tasks")
     @JsonIgnoreProperties("tasks")
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name="list_id", nullable = false, referencedColumnName = "list_id")
+    @JsonIgnoreProperties("tasks")
     private Group18.Demo.Trello.model.List list;
 
     //Constructors

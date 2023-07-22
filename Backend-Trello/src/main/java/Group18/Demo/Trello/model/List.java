@@ -1,5 +1,6 @@
 package Group18.Demo.Trello.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,9 +34,11 @@ public class List {
     //Dependency Task
     @ManyToOne
     @JoinColumn(name="board_id", nullable = false, referencedColumnName = "board_id")
+    @JsonIgnoreProperties("lists")
     private Board board;
 
     @OneToMany(mappedBy = "list")
+    @JsonIgnoreProperties("list")
     private java.util.List<Task> tasks = new ArrayList<>();
 
     //Constructor

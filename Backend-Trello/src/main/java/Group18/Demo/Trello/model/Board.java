@@ -34,8 +34,8 @@ public class Board {
 
     //Dependency List
     @ManyToMany(mappedBy = "boards")
-    @JsonIgnoreProperties("costMaterials")
-    private List<User> users;
+    @JsonIgnoreProperties("boards")
+    private List<User> users =new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name="workspace_id", nullable = false, referencedColumnName = "workspace_id")
@@ -43,6 +43,7 @@ public class Board {
     private Workspace workspace;
 
     @OneToMany(mappedBy = "board")
+    @JsonIgnoreProperties("board")
     private List<Group18.Demo.Trello.model.List> lists = new ArrayList<>();
 
     //Constructor
