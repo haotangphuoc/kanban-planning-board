@@ -90,7 +90,18 @@ public class WorkspaceService {
     }
 
     public ResponseEntity<List<Board>> fetchBoardById(Integer workspaceId) {
-        return null;
+        try {
+            Workspace workspace = getWorkspace(workspaceId);
+            List<Board> boards = workspace.getBoards();
+            if(boards != null) {
+                return new ResponseEntity<>(boards, HttpStatus.OK);
+            }
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public Workspace getWorkspace(int workspaceId) {
