@@ -52,6 +52,11 @@ public class Board {
         this.title = title;
     }
 
+    public Board(int id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
     //Getters and setters
 
     public int getId() {

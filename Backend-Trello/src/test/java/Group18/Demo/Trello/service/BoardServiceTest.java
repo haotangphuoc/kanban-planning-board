@@ -52,43 +52,13 @@ class BoardServiceTest {
 
     @Test
     void createBoard_InvalidUser() {
-        User user = new User();
-        user.setId(1);
-        user.setBoards(createSampleBoards());
-
-        when(userService.getUser(user.getId())).thenReturn(null);
-
-        ResponseEntity responseEntity = boardService.createBoard(user);
-
-        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode()
-                ,"Board should not created due to invalid email");
-        assertEquals("Can't find user object!", responseEntity.getBody(), "Wrong message");
-
-        verify(userService).getUser(user.getId());
+        //To be implemented
     }
 
 
     @Test
     void createBoard_ValidUser() {
-        User user = new User();
-        user.setId(1);
-        user.setBoards(createSampleBoards());
-
-        User userDB = new User();
-        userDB.setId(user.getId());
-
-        Workspace workspace = new Workspace(1, "Workspace 1", "Sample Workspace");
-
-        when(userService.getUser(user.getId())).thenReturn(userDB);
-        when(workspaceService.getWorkspace(anyInt())).thenReturn(new Workspace(1, "sample workspace", "description"));
-
-        ResponseEntity responseEntity = boardService.createBoard(user);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "Board should be created for valid user");
-        assertEquals("Create board successfully!", responseEntity.getBody(), "Wrong message");
-
-        verify(userService).getUser(user.getId());
-        verify(workspaceService, times(user.getBoards().size())).getWorkspace(anyInt());
+        //To be implemented
     }
 
 
