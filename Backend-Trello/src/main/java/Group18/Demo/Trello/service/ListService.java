@@ -19,9 +19,9 @@ public class ListService {
         List<Group18.Demo.Trello.model.List> lists = new ArrayList<>();
 
         //Create 3 lists, to do, doing and done
-        Group18.Demo.Trello.model.List toDoList = new Group18.Demo.Trello.model.List(board,"to_do");
-        Group18.Demo.Trello.model.List doingList = new Group18.Demo.Trello.model.List(board,"doing");
-        Group18.Demo.Trello.model.List doneList = new Group18.Demo.Trello.model.List(board, "done");
+        Group18.Demo.Trello.model.List toDoList = new Group18.Demo.Trello.model.List(board,"To_Do");
+        Group18.Demo.Trello.model.List doingList = new Group18.Demo.Trello.model.List(board,"Doing");
+        Group18.Demo.Trello.model.List doneList = new Group18.Demo.Trello.model.List(board, "Done");
 
         //Save lists to the database
         saveList(toDoList);

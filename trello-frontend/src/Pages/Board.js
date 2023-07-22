@@ -17,15 +17,16 @@ const Board = () => {
   const [boardId, setBoardId] = useState("");
   const [boardTitle, setBoardTitle] = useState("");
   const [searchInput, setSearchInput] = useState("");
+  const [boardLists, setBoardLists] = useState([]);
   const navigate = useNavigate();
+  const selectedBoard = localStorage.getItem("selectedBoard");
 
   useEffect(() => {
-    const selectedBoard = localStorage.getItem("selectedBoard");
-    console.log(selectedBoard);
     if (selectedBoard) {
       setBoard(JSON.parse(selectedBoard));
       setBoardId(board.id);
       setBoardTitle(board.title);
+      setBoardLists(board.lists)
       fetchBoardTasks();
     }
   }, [boardId]);
@@ -107,8 +108,8 @@ const Board = () => {
     fetchBoardIdByTitle(boardTitle);
   };
 
-  const handleAddTaskClick = (column) => {
-    localStorage.setItem("selectedColumn", column);
+  const handleAddTaskClick = (list) => {
+    localStorage.setItem("selectedList", JSON.stringify({ list }));
   };
 
   return (
@@ -157,60 +158,26 @@ const Board = () => {
               </Stack>
             <br />
             <Row xs={1} md={3} className="g-4">
-              <Col>
-                <Card>
-                  <Card.Header>To-Do</Card.Header>
-                  <ListGroup variant="flush">
-                    <ListGroup.Item>
-                      <Button
-                        variant="primary"
-                        style={{ marginRight: 2 }}
-                        onClick={() => handleAddTaskClick("To-Do")}
-                      >
-                        <Nav.Link href="../Pages/CreateTasks.js">
-                          Add a task
-                        </Nav.Link>
-                      </Button>
-                    </ListGroup.Item>
-                  </ListGroup>
-                </Card>
-              </Col>
-              <Col>
-                <Card>
-                  <Card.Header>Doing</Card.Header>
-                  <ListGroup variant="flush">
-                    <ListGroup.Item>
-                      <Button
-                        variant="primary"
-                        style={{ marginRight: 2 }}
-                        onClick={() => handleAddTaskClick("Doing")}
-                      >
-                        <Nav.Link href="../Pages/CreateTasks.js">
-                          Add a task
-                        </Nav.Link>
-                      </Button>
-                    </ListGroup.Item>
-                  </ListGroup>
-                </Card>
-              </Col>
-              <Col>
-                <Card>
-                  <Card.Header>Done</Card.Header>
-                  <ListGroup variant="flush">
-                    <ListGroup.Item>
-                      <Button
-                        variant="primary"
-                        style={{ marginRight: 2 }}
-                        onClick={() => handleAddTaskClick("Done")}
-                      >
-                        <Nav.Link href="../Pages/CreateTasks.js">
-                          Add a task
-                        </Nav.Link>
-                      </Button>
-                    </ListGroup.Item>
-                  </ListGroup>
-                </Card>
-              </Col>
+              {boardLists && boardLists.map((list, index) => (
+                  <Col>
+                    <Card>
+                      <Card.Header>{list.status}</Card.Header>
+                      <ListGroup variant="flush">
+                        <ListGroup.Item>
+                          <Button
+                              variant="primary"
+                              style={{ marginRight: 2 }}
+                              onClick={() => handleAddTaskClick(list)}
+                          >
+                            <Nav.Link href="../Pages/CreateTasks.js">
+                              Add a task
+                            </Nav.Link>
+                          </Button>
+                        </ListGroup.Item>
+                      </ListGroup>
+                    </Card>
+                  </Col>
+              ))}
             </Row>
             <br />
             <Stack className="mx-auto" direction="horizontal" gap={1}>
