@@ -10,12 +10,29 @@ import {
   Card,
   Button,
 } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Board = () => {
+  const [board, setBoard] = useState([]);
   const [boardId, setBoardId] = useState("");
   const [boardTitle, setBoardTitle] = useState("");
-
   const [searchInput, setSearchInput] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const selectedBoard = localStorage.getItem("selectedBoard");
+    console.log(selectedBoard);
+    if (selectedBoard) {
+      setBoard(JSON.parse(selectedBoard));
+      setBoardId(board.id);
+      setBoardTitle(board.title);
+      fetchBoardTasks();
+    }
+  }, [boardId]);
+
+  const fetchBoardTasks = async () => {
+    //To be implemented
+  };
 
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value);
@@ -76,6 +93,8 @@ const Board = () => {
     } catch (error) {
       console.error("Failed to delete board:", error);
     }
+    // Navigate back to the home page
+    navigate("/Pages/Workspace.js");
   };
 
   const handleBoardTitleChange = (event) => {
