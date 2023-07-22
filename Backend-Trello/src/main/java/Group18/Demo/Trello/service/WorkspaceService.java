@@ -21,7 +21,7 @@ public class WorkspaceService {
     @Autowired
     UserService userService;
 
-    public ResponseEntity<String> createWorkspace(@RequestBody User user) {
+    public ResponseEntity<String> createWorkspace(User user) {
         try {
             User userInDb = userService.getUser(user.getId());
             if(userInDb==null){
@@ -74,7 +74,7 @@ public class WorkspaceService {
         }
     }
 
-    public ResponseEntity<String> modifyWorkspace(@RequestBody Workspace workspace) {
+    public ResponseEntity<String> modifyWorkspace(Workspace workspace) {
         try {
             Workspace workspaceInDb = getWorkspace(workspace.getId());
             if(workspaceInDb==null){
@@ -87,6 +87,10 @@ public class WorkspaceService {
             e.printStackTrace();
             return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public ResponseEntity<List<Board>> fetchBoardById(Integer workspaceId) {
+        return null;
     }
 
     public Workspace getWorkspace(int workspaceId) {
@@ -115,10 +119,5 @@ public class WorkspaceService {
 
     public  Workspace findByName(String name) {
         return workspaceRepository.findByName(name);
-    }
-
-    public List<Board> fetchBoardById(int workspaceId) {
-        Workspace workspace = workspaceRepository.findById(workspaceId).get();
-        return workspace.getBoards();
     }
 }

@@ -145,4 +145,10 @@ public class TrelloController {
     public ResponseEntity<List<Task>> getUserTasks(@RequestParam(value = "id")Integer userId) {
         return userService.fetchTaskById(userId);
     }
+
+    @GetMapping("/getWorkspaceBoards")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<List<Board>> getWorkspaceBoards(@RequestParam(value = "id")Integer workspaceId) {
+        return workspaceService.fetchBoardById(workspaceId);
+    }
 }

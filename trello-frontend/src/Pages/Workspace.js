@@ -2,21 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Nav, Stack, Card } from "react-bootstrap";
 
 const Workspace = () => {
-  const [workspaceName, setWorkspaceName] = useState("");
-  const [workspaceDescription, setWorkspaceDescription] = useState("");
+  const [workspace, setWorkspace] = useState({});
   const [boards, setBoards] = useState([]);
 
   useEffect(() => {
     const selectedWorkspace = localStorage.getItem("selectedWorkspace");
+    console.log(selectedWorkspace);
     if (selectedWorkspace) {
-      const workspace = JSON.parse(selectedWorkspace);
-      setWorkspaceName(workspace.name);
-      setWorkspaceDescription(workspace.description);
+      setWorkspace(JSON.parse(selectedWorkspace));
       // Retrieve boards from local storage for this workspace
-      const workspaceBoards = JSON.parse(localStorage.getItem(`boards-${workspace.id}`)) || [];
-      setBoards(workspaceBoards);
+      fetchWorkspaceBoards();
     }
   }, []);
+
+  const fetchWorkspaceBoards = async () => {
+
+  };
 
   return (
       <div style={{ minHeight: "93vh" }}>
@@ -36,8 +37,8 @@ const Workspace = () => {
             <div>
               <h2 style={{ paddingTop: 38 }}>Workspaces</h2>
               <br />
-              <h4>{workspaceName}</h4>
-              <p>{workspaceDescription}</p>
+              <h4>{workspace.name}</h4>
+              <p>{workspace.description}</p>
 
               <br />
               <Card>

@@ -1,5 +1,6 @@
 package Group18.Demo.Trello.service;
 
+import Group18.Demo.Trello.model.Board;
 import Group18.Demo.Trello.model.User;
 import Group18.Demo.Trello.model.Workspace;
 import Group18.Demo.Trello.repository.WorkspaceRepository;
@@ -116,4 +117,33 @@ class WorkspaceServiceTest {
 
         verify(workspaceRepository).findByName(workspace.getName());
     }
+
+    @Test
+    public void fetBoardById_Success() {
+        Workspace workspace = new Workspace(1, "sample workspace", "description");
+        List<Board> boards = new ArrayList<>();
+        boards.add(new Board());
+        workspace.setBoards(boards);
+
+        when(workspaceRepository.findById(1)).thenReturn(Optional.of(workspace));
+
+        ResponseEntity<List<Board>> responseEntity = workspaceService.fetchBoardById(1);
+
+        // Assertions
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(boards, responseEntity.getBody());
+    }
+
+    @Test
+    public void fetchBoardById_NotFound() {
+        Workspace workspace = new Workspace(1, "sample workspace", "description");
+
+        when(workspaceRepository.findById(1)).thenReturn(Optional.of(workspace));
+
+        ResponseEntity<List<Board>> responseEntity = workspaceService.fetchBoardById(1);
+
+        // Assertions
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
+
 }

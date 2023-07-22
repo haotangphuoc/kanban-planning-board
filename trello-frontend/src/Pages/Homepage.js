@@ -128,7 +128,7 @@ const Homepage = () => {
   };
 
   const logout = () => {
-    localStorage.removeItem("userData");
+    localStorage.clear();
     navigate("/");
   };
 
