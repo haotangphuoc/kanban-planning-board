@@ -83,8 +83,19 @@ const Workspace = () => {
                 <Card.Body>
                   {boards.map((board) => (
                       <div key={board.id}>
-                        <Card.Title>{board.title}</Card.Title>
-                        <Card.Text>{board.description}</Card.Text>
+                        <Card.Title>
+                          <Nav.Link
+                              href={`../Pages/Board.js?name=${board.title}`}
+                              onClick={() => {
+                                localStorage.setItem(
+                                    "selectedBoard",
+                                    JSON.stringify(board)
+                                );
+                              }}
+                          >
+                            {board.title}
+                          </Nav.Link>
+                      </Card.Title>
                       </div>
                   ))}
                 </Card.Body>
