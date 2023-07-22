@@ -16,7 +16,23 @@ public class ListService {
     ListRepository listRepository;
 
     public List<Group18.Demo.Trello.model.List> createListsForBoard(Board board) {
-        return null;
+        List<Group18.Demo.Trello.model.List> lists = new ArrayList<>();
+
+        //Create 3 lists, to do, doing and done
+        Group18.Demo.Trello.model.List toDoList = new Group18.Demo.Trello.model.List(board,"to_do");
+        Group18.Demo.Trello.model.List doingList = new Group18.Demo.Trello.model.List(board,"doing");
+        Group18.Demo.Trello.model.List doneList = new Group18.Demo.Trello.model.List(board, "done");
+
+        //Save lists to the database
+        saveList(toDoList);
+        saveList(doingList);
+        saveList(doneList);
+
+        //Add and return lists
+        lists.add(toDoList);
+        lists.add(doingList);
+        lists.add(doneList);
+        return lists;
     }
 
     public Group18.Demo.Trello.model.List getList(int listId) {
