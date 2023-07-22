@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Nav, Stack, Card } from "react-bootstrap";
 
 const Workspace = () => {
-  const [workspace, setWorkspace] = useState({});
+  const [workspace, setWorkspace] = useState([]);
+  const [workspaceId, setWorkspaceId] = useState("");
+  const [workspaceName, setWorkspaceName] = useState("");
+  const [workspaceDescription, setWorkspaceDescription] = useState("");
   const [boards, setBoards] = useState([]);
 
   useEffect(() => {
@@ -10,13 +13,30 @@ const Workspace = () => {
     console.log(selectedWorkspace);
     if (selectedWorkspace) {
       setWorkspace(JSON.parse(selectedWorkspace));
-      // Retrieve boards from local storage for this workspace
+      setWorkspaceId(workspace.id);
+      setWorkspaceName(workspace.name);
+      setWorkspaceDescription(workspace.description);
       fetchWorkspaceBoards();
     }
-  }, []);
+  }, [workspaceId]);
 
   const fetchWorkspaceBoards = async () => {
+    try {
+      const response = await fetch(
+          `http://localhost:8001/api/getWorkspaceBoards?id=${workspaceId}`
+      );
+      const data = await response.json();
 
+      if (response.ok) {
+        setBoards(data);
+      } else {
+        console.error("Failed to fetch workspace's boards");
+        // Handle error case
+      }
+    } catch (error) {
+      console.error("Failed to fetch workspace's boards", error);
+      // Handle error case
+    }
   };
 
   return (
@@ -37,8 +57,8 @@ const Workspace = () => {
             <div>
               <h2 style={{ paddingTop: 38 }}>Workspaces</h2>
               <br />
-              <h4>{workspace.name}</h4>
-              <p>{workspace.description}</p>
+              <h4>{workspaceName}</h4>
+              <p>{workspaceDescription}</p>
 
               <br />
               <Card>

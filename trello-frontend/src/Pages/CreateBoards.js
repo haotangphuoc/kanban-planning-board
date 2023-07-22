@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 const CreateBoards = () => {
   const [validated, setValidated] = useState(false);
   const [boardName, setBoardName] = useState("");
-  const [boardDescription, setBoardDescription] = useState("");
   const [workspaceId, setWorkspaceId] = useState("");
   const navigate = useNavigate();
 
@@ -40,25 +39,42 @@ const CreateBoards = () => {
     // Generate a unique ID for the new board
     const boardId = new Date().getTime().toString();
 
-    // Create a new board object
-    const newBoard = {
-      id: boardId,
-      title: boardName,
-      description: boardDescription,
+    const boardData = {
+      id: workspaceId,
+      boards: [
+        {
+          title: boardName,
+        },
+      ],
     };
 
-    // Retrieve existing boards for this workspace from local storage
-    const existingBoards =
-      JSON.parse(localStorage.getItem(`boards-${workspaceId}`)) || [];
+    try {
+      console.log(boardName);
+      const response = await fetch(
+          "http://localhost:8001/api/createBoard",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(boardData),
+          }
+      );
+      console.log(response);
 
-    // Add the new board to the existing boards
-    const updatedBoards = [...existingBoards, newBoard];
+      if (response.ok) {
+        console.log("Workspace created successfully");
 
-    // Save the updated boards back to local storage
-    localStorage.setItem(
-      `boards-${workspaceId}`,
-      JSON.stringify(updatedBoards)
-    );
+        // Clear the form fields
+        setBoardName("");
+      } else {
+        console.error("Failed to create workspace");
+        // Handle error case
+      }
+    } catch (error) {
+      console.error("Failed to create workspace:", error);
+      // Handle error case
+    }
 
     // Navigate back to the workspace
     navigate("/Pages/Workspace.js");
@@ -104,17 +120,6 @@ const CreateBoards = () => {
                       <Form.Control.Feedback type="invalid">
                         Please enter a board name.
                       </Form.Control.Feedback>
-                    </Form.Group>
-                  </Row>
-                  <Row className="mb-3">
-                    <Form.Group as={Col} controlId="validationCustom02">
-                      <Form.Label>Board description</Form.Label>
-                      <Form.Control
-                        as="textarea"
-                        rows={3}
-                        value={boardDescription}
-                        onChange={(e) => setBoardDescription(e.target.value)}
-                      />
                     </Form.Group>
                   </Row>
                   <Button variant="primary" type="submit">

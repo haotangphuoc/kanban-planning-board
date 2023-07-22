@@ -23,18 +23,22 @@ public class BoardService {
     @Autowired
     WorkspaceService workspaceService;
 
-    public ResponseEntity<String> createBoard(@RequestBody User user) {
+    public ResponseEntity<String> createBoard(Workspace workspace) {
         try {
-            User userInDb = userService.getUser(user.getId());
-            if(userInDb==null){
-                return new ResponseEntity<>("Can't find user object!", HttpStatus.BAD_REQUEST);
+            Workspace workspaceInDb = workspaceService.getWorkspace(workspace.getId());
+            if(workspaceInDb==null){
+                return new ResponseEntity<>("Can't find workspace object!", HttpStatus.BAD_REQUEST);
             }
-            userInDb.setBoards(user.getBoards());
-            for(Board board:user.getBoards()){
-                Workspace workspaceInDb = workspaceService.getWorkspace(board.getWorkspace().getId());
-                board.setWorkspace(workspaceInDb);
-                saveBoard(board);
+            List<Board> boardInDb = workspaceInDb.getBoards();
+            for(Board board:workspace.getBoards()){
+                Board newBoard = new Board();
+                newBoard.setWorkspace(workspace);
+                newBoard.setTitle(board.getTitle());
+                saveBoard(newBoard);
+                boardInDb.add(newBoard);
             }
+            workspaceInDb.setBoards(boardInDb);
+            workspaceService.saveWorkspace(workspaceInDb);
             return new ResponseEntity<>("Create board successfully!", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,7 +46,7 @@ public class BoardService {
         }
     }
 
-    public ResponseEntity<String> deleteBoard(@RequestParam("boardId") Integer boardId) {
+    public ResponseEntity<String> deleteBoard(Integer boardId) {
         try {
             boardRepository.deleteById(boardId);
             return new ResponseEntity<>("Board successfully deleted", HttpStatus.OK);

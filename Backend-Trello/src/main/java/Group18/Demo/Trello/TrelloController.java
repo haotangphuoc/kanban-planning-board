@@ -54,8 +54,8 @@ public class TrelloController {
 
     @PostMapping("/createBoard")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<String> createBoard(@RequestBody User user) {
-        return boardService.createBoard(user);
+    public ResponseEntity<String> createBoard(@RequestBody Workspace workspace) {
+        return boardService.createBoard(workspace);
     }
 
     @GetMapping("/deleteBoard")

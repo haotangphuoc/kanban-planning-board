@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+
 @Entity
 @Data
 @Builder
@@ -34,7 +36,7 @@ public class List {
     private Board board;
 
     @OneToMany(mappedBy = "list")
-    private java.util.List<Task> tasks;
+    private java.util.List<Task> tasks = new ArrayList<>();
 
     //Constructor
     public List(int id, String status) {

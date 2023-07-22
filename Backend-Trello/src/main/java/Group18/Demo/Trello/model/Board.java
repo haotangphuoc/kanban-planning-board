@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,10 +39,11 @@ public class Board {
 
     @ManyToOne
     @JoinColumn(name="workspace_id", nullable = false, referencedColumnName = "workspace_id")
+    @JsonIgnoreProperties("boards")
     private Workspace workspace;
 
     @OneToMany(mappedBy = "board")
-    private List<Group18.Demo.Trello.model.List> lists;
+    private List<Group18.Demo.Trello.model.List> lists = new ArrayList<>();
 
     //Constructor
     public Board(int id, String title) {
