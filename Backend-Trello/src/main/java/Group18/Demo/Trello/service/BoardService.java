@@ -23,22 +23,33 @@ public class BoardService {
     @Autowired
     WorkspaceService workspaceService;
 
+    @Autowired
+    ListService listService;
+
     public ResponseEntity<String> createBoard(Workspace workspace) {
         try {
             Workspace workspaceInDb = workspaceService.getWorkspace(workspace.getId());
             if(workspaceInDb==null){
                 return new ResponseEntity<>("Can't find workspace object!", HttpStatus.BAD_REQUEST);
             }
+            List<User> userInDb = workspaceInDb.getUsers();
             List<Board> boardInDb = workspaceInDb.getBoards();
+            //Create new board instances for the submitted data
             for(Board board:workspace.getBoards()){
                 Board newBoard = new Board();
-                newBoard.setWorkspace(workspace);
+                newBoard.setWorkspace(workspaceInDb);
                 newBoard.setTitle(board.getTitle());
                 saveBoard(newBoard);
+
+                //Create to do, doing and done lists for board
+                listService.createListsForBoard(newBoard);
                 boardInDb.add(newBoard);
             }
+
+            //Save boards to workspace database
             workspaceInDb.setBoards(boardInDb);
             workspaceService.saveWorkspace(workspaceInDb);
+
             return new ResponseEntity<>("Create board successfully!", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

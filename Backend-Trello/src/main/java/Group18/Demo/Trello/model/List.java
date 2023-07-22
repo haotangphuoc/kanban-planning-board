@@ -42,10 +42,9 @@ public class List {
     private java.util.List<Task> tasks = new ArrayList<>();
 
     //Constructor
-    public List(int id, String status) {
-        this.id = id;
+    public List(Board board, String status) {
+        this.board = board;
         this.status = status;
-        //Initialization of list can be added here
     }
 
     //Getters and setters

@@ -15,6 +15,8 @@ const CreateBoards = () => {
   const [validated, setValidated] = useState(false);
   const [boardName, setBoardName] = useState("");
   const [workspaceId, setWorkspaceId] = useState("");
+  const [users, setUsers] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,8 +24,9 @@ const CreateBoards = () => {
     if (selectedWorkspace) {
       const workspace = JSON.parse(selectedWorkspace);
       setWorkspaceId(workspace.id); // Extract workspace id from selected workspace
+      setUsers(workspace.user);
     }
-  }, []);
+  }, [workspaceId]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -41,6 +44,7 @@ const CreateBoards = () => {
 
     const boardData = {
       id: workspaceId,
+      users: users,
       boards: [
         {
           title: boardName,

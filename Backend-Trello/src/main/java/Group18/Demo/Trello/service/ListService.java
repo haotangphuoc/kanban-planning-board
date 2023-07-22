@@ -1,10 +1,12 @@
 package Group18.Demo.Trello.service;
 
+import Group18.Demo.Trello.model.Board;
 import Group18.Demo.Trello.model.Task;
 import Group18.Demo.Trello.repository.ListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,6 +14,10 @@ import java.util.Objects;
 public class ListService {
     @Autowired
     ListRepository listRepository;
+
+    public List<Group18.Demo.Trello.model.List> createListsForBoard(Board board) {
+        return null;
+    }
 
     public Group18.Demo.Trello.model.List getList(int listId) {
         Group18.Demo.Trello.model.List list = listRepository.findById(listId).get();

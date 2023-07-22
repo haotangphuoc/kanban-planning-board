@@ -42,15 +42,14 @@ public class Board {
     @JsonIgnoreProperties("boards")
     private Workspace workspace;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("board")
     private List<Group18.Demo.Trello.model.List> lists = new ArrayList<>();
 
     //Constructor
-    public Board(int id, String title) {
-        this.id = id;
+    public Board(Workspace workspace, String title) {
+        this.workspace = workspace;
         this.title = title;
-        //Initialization of list can be added here
     }
 
     //Getters and setters
