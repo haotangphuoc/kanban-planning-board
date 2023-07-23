@@ -54,16 +54,13 @@ const CreateBoards = () => {
 
     try {
       console.log(boardName);
-      const response = await fetch(
-          "http://localhost:8001/api/createBoard",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(boardData),
-          }
-      );
+      const response = await fetch("http://localhost:8001/api/createBoard", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(boardData),
+      });
       console.log(response);
 
       if (response.ok) {

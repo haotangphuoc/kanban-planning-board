@@ -1,7 +1,17 @@
 import React, { useState } from "react";
-import { Container, Row, Form, Button, Card, Stack, Nav } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Form,
+  Button,
+  Card,
+  Stack,
+  Nav,
+} from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
+  const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,7 +21,7 @@ const ForgotPassword = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
-    
+
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
@@ -21,16 +31,19 @@ const ForgotPassword = () => {
           password: password,
           questionAns: answer,
         };
-        console.log(JSON.stringify(data))
-        const response = await fetch("http://localhost:8001/api/resetPassword", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Crontrol-Allow-Methods": "POST,PATCH,OPTION",
-          },
-          body: JSON.stringify(data),
-        });
+        console.log(JSON.stringify(data));
+        const response = await fetch(
+          "http://localhost:8001/api/resetPassword",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Crontrol-Allow-Methods": "POST,PATCH,OPTION",
+            },
+            body: JSON.stringify(data),
+          }
+        );
 
         if (response.ok) {
           console.log("Reset password successfully");
@@ -47,6 +60,7 @@ const ForgotPassword = () => {
     }
 
     setValidated(true);
+    navigate("../Pages/Login.js");
   };
 
   const handleEmailChange = (event) => {
@@ -99,7 +113,7 @@ const ForgotPassword = () => {
             <h1 style={{ paddingTop: 38, paddingBottom: 38 }}>
               Reset Password
             </h1>
-             {/* There should be an email function here, but I checked and found that it did not seem to be added, I modified the code of this place. */}
+            {/* There should be an email function here, but I checked and found that it did not seem to be added, I modified the code of this place. */}
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email Address</Form.Label>

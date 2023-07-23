@@ -26,7 +26,7 @@ const Board = () => {
       setBoard(JSON.parse(selectedBoard));
       setBoardId(board.id);
       setBoardTitle(board.title);
-      setBoardLists(board.lists)
+      setBoardLists(board.lists);
       fetchBoardTasks();
     }
   }, [boardId]);
@@ -41,7 +41,7 @@ const Board = () => {
 
   const handleSearchSubmit = async (event) => {
     event.preventDefault();
-    
+
     try {
       const response = await fetch(
         `http://localhost:8001/api/findTaskByIdOrTitle?title=${searchInput}`
@@ -51,11 +51,9 @@ const Board = () => {
         console.log("Search successful. You can handle the data here.");
       } else {
         console.error("Failed to fetch task by ID or title");
-      
       }
     } catch (error) {
       console.error("Failed to fetch task by ID or title:", error);
-    
     }
   };
 
@@ -130,8 +128,8 @@ const Board = () => {
                 </Card.Title>
               </div>
             </Stack>
-            <h3 style={{ paddingTop: 38 }}>Board Name</h3>
-            <h6>Description</h6>
+            <h3 style={{ paddingTop: 38 }}>{boardTitle}</h3>
+            <br />
             <Stack className="mx-auto" direction="horizontal" gap={1}>
               {/* Input for search */}
               <Form onSubmit={handleSearchSubmit}>
@@ -155,19 +153,20 @@ const Board = () => {
                   </Col>
                 </Row>
               </Form>
-              </Stack>
+            </Stack>
             <br />
             <Row xs={1} md={3} className="g-4">
-              {boardLists && boardLists.map((list, index) => (
+              {boardLists &&
+                boardLists.map((list, index) => (
                   <Col>
                     <Card>
                       <Card.Header>{list.status}</Card.Header>
                       <ListGroup variant="flush">
                         <ListGroup.Item>
                           <Button
-                              variant="primary"
-                              style={{ marginRight: 2 }}
-                              onClick={() => handleAddTaskClick(list)}
+                            variant="primary"
+                            style={{ marginRight: 2 }}
+                            onClick={() => handleAddTaskClick(list)}
                           >
                             <Nav.Link href="../Pages/CreateTasks.js">
                               Add a task
@@ -177,7 +176,7 @@ const Board = () => {
                       </ListGroup>
                     </Card>
                   </Col>
-              ))}
+                ))}
             </Row>
             <br />
             <Stack className="mx-auto" direction="horizontal" gap={1}>

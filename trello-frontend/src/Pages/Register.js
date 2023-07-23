@@ -9,8 +9,10 @@ import {
   Col,
   Card,
 } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -24,6 +26,7 @@ const Register = () => {
       await connectDB(form);
     }
     setValidated(true);
+    navigate("../Pages/Login.js");
   };
 
   const connectDB = async (form) => {
