@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Container,
   Row,
@@ -15,8 +15,22 @@ const CreateTasks = () => {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [email, setEmail] = useState("");
+
   const dateInputRef = useRef(null);
   const [taskId, setTaskId] = useState("");
+
+  const selectedBoard = localStorage.getItem("selectedBoard");
+  const [board, setBoard] = useState([]);
+  const [boardId, setBoardId] = useState("");
+  const [boardTitle, setBoardTitle] = useState("");
+
+  useEffect(() => {
+    if (selectedBoard) {
+      setBoard(JSON.parse(selectedBoard));
+      setBoardId(board.id);
+      setBoardTitle(board.title);
+    }
+  }, [boardId]);
 
   // Function to check if the entered email is in the list of workspace members
   const isMemberInWorkspace = (email) => {
@@ -162,7 +176,9 @@ const CreateTasks = () => {
             >
               <div style={{ paddingBottom: 12 }}>
                 <Card.Title>
-                  <Nav.Link href="../Pages/Board.js">&#60; Back</Nav.Link>
+                  <Nav.Link href={`../Pages/Workspace.js?name=${boardTitle}`}>
+                    &#60; Back
+                  </Nav.Link>
                 </Card.Title>
               </div>
             </Stack>
@@ -206,7 +222,9 @@ const CreateTasks = () => {
               </Card.Body>
             </Card>
 
-            <h2 style={{ paddingTop: 38, paddingBottom: 38 }}>Assign to member</h2>
+            <h2 style={{ paddingTop: 38, paddingBottom: 38 }}>
+              Assign to member
+            </h2>
             <Card>
               <Card.Body>
                 <Form

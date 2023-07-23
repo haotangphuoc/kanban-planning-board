@@ -13,13 +13,18 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const Board = () => {
+  const navigate = useNavigate();
+
   const [board, setBoard] = useState([]);
   const [boardId, setBoardId] = useState("");
   const [boardTitle, setBoardTitle] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [boardLists, setBoardLists] = useState([]);
-  const navigate = useNavigate();
   const selectedBoard = localStorage.getItem("selectedBoard");
+
+  const selectedWorkspace = localStorage.getItem("selectedWorkspace");
+  const [workspaceId, setWorkspaceId] = useState("");
+  const [workspaceName, setWorkspaceName] = useState("");
 
   useEffect(() => {
     if (selectedBoard) {
@@ -30,6 +35,14 @@ const Board = () => {
       fetchBoardTasks();
     }
   }, [boardId]);
+
+  useEffect(() => {
+    if (selectedWorkspace) {
+      const workspace = JSON.parse(selectedWorkspace);
+      setWorkspaceId(workspace.id); // Extract workspace id from selected workspace
+      setWorkspaceName(workspace.name);
+    }
+  }, [workspaceId]);
 
   const fetchBoardTasks = async () => {
     //To be implemented
@@ -122,7 +135,9 @@ const Board = () => {
             >
               <div style={{ paddingBottom: 12 }}>
                 <Card.Title>
-                  <Nav.Link href="../Pages/Workspace.js">
+                  <Nav.Link
+                    href={`../Pages/Workspace.js?name=${workspaceName}`}
+                  >
                     &#60; Workspace
                   </Nav.Link>
                 </Card.Title>
