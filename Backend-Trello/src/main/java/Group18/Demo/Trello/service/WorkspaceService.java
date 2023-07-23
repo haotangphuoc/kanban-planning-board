@@ -77,9 +77,11 @@ public class WorkspaceService {
     public ResponseEntity<String> modifyWorkspace(Workspace workspace) {
         try {
             Workspace workspaceInDb = getWorkspace(workspace.getId());
-            if(workspaceInDb==null){
+            if (workspaceInDb == null) {
                 return new ResponseEntity<>("Can't find workspace object!", HttpStatus.BAD_REQUEST);
             }
+            workspaceInDb.setName(workspace.getName());
+            saveWorkspace(workspaceInDb);
             workspaceInDb.setDescription(workspace.getDescription());
             saveWorkspace(workspaceInDb);
             return new ResponseEntity<>("Modify workspace successfully!", HttpStatus.OK);

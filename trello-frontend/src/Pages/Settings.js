@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Row,
@@ -13,7 +13,20 @@ import {
 const Settings = () => {
   const [workspaceName, setWorkspaceName] = useState("");
   const [workspaceDescription, setWorkspaceDescription] = useState("");
+
+  const [workspace, setWorkspace] = useState([]);
   const [workspaceId, setWorkspaceId] = useState("");
+  const [workspaceNameOld, setWorkspaceNameOld] = useState("");
+
+  useEffect(() => {
+    const selectedWorkspace = localStorage.getItem("selectedWorkspace");
+    console.log(selectedWorkspace);
+    if (selectedWorkspace) {
+      setWorkspace(JSON.parse(selectedWorkspace));
+      setWorkspaceId(workspace.id);
+      setWorkspaceNameOld(workspace.name);
+    }
+  }, [workspaceId]);
 
   const handleSaveWorkspace = async (event) => {
     event.preventDefault();
@@ -21,7 +34,7 @@ const Settings = () => {
     try {
       // Fetch workspace ID based on workspace name
       const response = await fetch(
-        `http://localhost:8001/api/findWorkspaceIdByName?name=${workspaceName}`
+        `http://localhost:8001/api/findWorkspaceIdByName?name=${workspaceNameOld}`
       );
       const id = await response;
       if (response.ok) {
@@ -30,6 +43,7 @@ const Settings = () => {
         // Modify workspace description
         const workspaceData = {
           id: workspaceId,
+          name: workspaceName,
           description: workspaceDescription,
         };
         console.log(JSON.stringify(workspaceData));
@@ -117,7 +131,13 @@ const Settings = () => {
                       </Form.Group>
                     </Form.Group>
                   </Row>
-                  <Button variant="primary" type="submit" as={Col} md="2">
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    as={Col}
+                    md="2"
+                    onClick={handleSaveWorkspace} // Add onClick event
+                  >
                     Save
                   </Button>
                 </Form>
