@@ -24,7 +24,6 @@ const CreateTasks = () => {
   const [listId, setListId] = useState("");
   const [listStatus, setListStatus] = useState("");
 
-
   useEffect(() => {
     if (selectedList) {
       setList(JSON.parse(selectedList));
@@ -33,6 +32,19 @@ const CreateTasks = () => {
       console.log(list);
     }
   }, [listId]);
+
+  const [board, setBoard] = useState([]);
+  const [boardId, setBoardId] = useState("");
+  const [boardTitle, setBoardTitle] = useState("");
+  const selectedBoard = localStorage.getItem("selectedBoard");
+
+  useEffect(() => {
+    if (selectedBoard) {
+      setBoard(JSON.parse(selectedBoard));
+      setBoardId(board.id);
+      setBoardTitle(board.title);
+    }
+  }, [boardId]);
 
   // Function to check if the entered email is in the list of workspace members
   const isMemberInWorkspace = (email) => {
@@ -79,16 +91,16 @@ const CreateTasks = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(taskData),
-      }).then(response => {
-            if (!response.ok) {
-              throw new Error('Cannot create task');
-            }
-            return response.json();
-          })
-          .then(data => {
-            localStorage.setItem("createdTaskId", data);
-          });
-
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Cannot create task");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          localStorage.setItem("createdTaskId", data);
+        });
     } catch (error) {
       console.error("Failed to create task:", error);
     }
@@ -173,7 +185,7 @@ const CreateTasks = () => {
             >
               <div style={{ paddingBottom: 12 }}>
                 <Card.Title>
-                  <Nav.Link href={`../Pages/Board.js`}>
+                  <Nav.Link href={`../Pages/Board.js?name=${boardTitle}`}>
                     &#60; Back
                   </Nav.Link>
                 </Card.Title>
