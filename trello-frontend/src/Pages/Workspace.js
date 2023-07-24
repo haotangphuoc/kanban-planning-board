@@ -60,7 +60,11 @@ const Workspace = () => {
                 Please note that due to an issue we could not fix in time, in
                 order to create a board and display it (FOR THE FIRST TIME), you
                 must navigate back to the Homepage and then come back to the
-                workspace. From there you may create a new board.
+                workspace. From there you may create a new board. <br />
+                <br />
+                Please note the same also applies to updating the workspace name
+                and description. You must leave the page and come back to see
+                the results of the change.
               </Card.Header>
             </Card>
           </Stack>
