@@ -100,7 +100,7 @@ const Homepage = () => {
 
       if (response.ok) {
         console.log("Workspace created successfully");
-
+        localStorage.setItem('workspaceName',workspaceName);
 
         const updatedWorkspaces = [...workspaces, workspaceData.workspaces[0]];
         setWorkspaces(updatedWorkspaces);
