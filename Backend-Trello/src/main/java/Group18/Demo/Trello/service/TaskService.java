@@ -2,6 +2,7 @@ package Group18.Demo.Trello.service;
 
 import Group18.Demo.Trello.model.Task;
 import Group18.Demo.Trello.model.User;
+import Group18.Demo.Trello.model.Workspace;
 import Group18.Demo.Trello.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,9 @@ public class TaskService {
     TaskRepository taskRepository;
     @Autowired
     UserService userservice;
+
+    @Autowired
+    ListService listService;
 
 
     public ResponseEntity<Task> findTaskByIdOrTitle(Integer id, String title) {
@@ -49,13 +53,28 @@ public class TaskService {
         }
     }
 
-    public ResponseEntity<String> createTask(Task task) {
+    public ResponseEntity<Integer> createTask(Group18.Demo.Trello.model.List list) {
         try {
-            saveTask(task);
-            return new ResponseEntity<>("Create task successfully!", HttpStatus.OK);
+            Integer newTaskId = -1;
+
+            Group18.Demo.Trello.model.List listInDb = listService.getList(list.getId());
+            if(listInDb==null){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            List<Task> tasksInDb = listInDb.getTasks();
+            for(Task task:list.getTasks()){
+                Task newTask = new Task(task.getTitle(),
+                        task.getActiveFlag(), task.getStartDate(), task.getDeadline(), listInDb);
+                saveTask(newTask);
+                tasksInDb.add(newTask);
+                newTaskId = newTask.getId();
+            }
+            listInDb.setTasks(tasksInDb);
+            listService.saveList(listInDb);
+            return new ResponseEntity<>(newTaskId, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -102,11 +121,6 @@ public class TaskService {
             oldTask.setTitle(newTask.getTitle());
         }
 
-        if(Objects.nonNull(newTask.getDescription()) &&
-                !"".equalsIgnoreCase(newTask.getDescription())) {
-            oldTask.setDescription(newTask.getDescription());
-        }
-
         if(Objects.nonNull(newTask.getStartDate()) &&
                 !"".equalsIgnoreCase(newTask.getStartDate())) {
             oldTask.setStartDate(newTask.getStartDate());
@@ -115,11 +129,6 @@ public class TaskService {
         if(Objects.nonNull(newTask.getDeadline()) &&
                 !"".equalsIgnoreCase(newTask.getDeadline())) {
             oldTask.setDeadline(newTask.getDeadline());
-        }
-
-        if(Objects.nonNull(newTask.getCompletionDate()) &&
-                !"".equalsIgnoreCase(newTask.getCompletionDate())) {
-            oldTask.setCompletionDate(newTask.getCompletionDate());
         }
 
         oldTask.setActiveFlag(newTask.getActiveFlag());

@@ -15,6 +15,7 @@ const CreateBoards = () => {
   const [validated, setValidated] = useState(false);
   const [boardName, setBoardName] = useState("");
   const [workspaceId, setWorkspaceId] = useState("");
+  const [workspaceName, setWorkspaceName] = useState("");
   const [users, setUsers] = useState([]);
 
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ const CreateBoards = () => {
     if (selectedWorkspace) {
       const workspace = JSON.parse(selectedWorkspace);
       setWorkspaceId(workspace.id); // Extract workspace id from selected workspace
+      setWorkspaceName(workspace.name);
       setUsers(workspace.user);
     }
   }, [workspaceId]);
@@ -78,7 +80,7 @@ const CreateBoards = () => {
     }
 
     // Navigate back to the workspace
-    navigate("/Pages/Workspace.js");
+    navigate(`../Pages/Workspace.js?name=${workspaceName}`);
 
     setValidated(true);
   };
@@ -95,7 +97,9 @@ const CreateBoards = () => {
             >
               <div style={{ paddingBottom: 12 }}>
                 <Card.Title>
-                  <Nav.Link href="../Pages/Workspace.js">
+                  <Nav.Link
+                    href={`../Pages/Workspace.js?name=${workspaceName}`}
+                  >
                     &#60; Workspace
                   </Nav.Link>
                 </Card.Title>

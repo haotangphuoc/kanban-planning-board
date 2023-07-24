@@ -31,10 +31,6 @@ public class Task {
             nullable = false
     )
     private String title;
-    @Column(
-            name = "task_description"
-    )
-    private String description;
 
     //Date
 
@@ -56,12 +52,6 @@ public class Task {
     )
     private String deadline;
 
-    @Column(
-            name = "completion_date",
-            nullable = false
-    )
-    private String completionDate;
-
     //Dependencies
     @ManyToMany(mappedBy = "tasks")
     @JsonIgnoreProperties("tasks")
@@ -73,12 +63,14 @@ public class Task {
     private Group18.Demo.Trello.model.List list;
 
     //Constructors
-    public Task(int id, String title, String description, String isActive) {
-        this.id = id;
+
+
+    public Task(String title, String activeFlag, String startDate, String deadline, Group18.Demo.Trello.model.List list) {
         this.title = title;
-        this.description = description;
-        this.activeFlag = isActive;
-        //Initialization of list can be added here
+        this.activeFlag = activeFlag;
+        this.startDate = startDate;
+        this.deadline = deadline;
+        this.list = list;
     }
 
     //Getters and setters
@@ -96,14 +88,6 @@ public class Task {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getActiveFlag() {
@@ -144,13 +128,5 @@ public class Task {
 
     public void setDeadline(String deadline) {
         this.deadline = deadline;
-    }
-
-    public String getCompletionDate() {
-        return completionDate;
-    }
-
-    public void setCompletionDate(String completionDate) {
-        this.completionDate = completionDate;
     }
 }

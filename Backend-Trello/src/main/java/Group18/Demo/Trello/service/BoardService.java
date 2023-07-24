@@ -111,9 +111,19 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
-    public List<Group18.Demo.Trello.model.List> fetchListById(int boardId) {
-        Board board = boardRepository.findById(boardId).get();
-        return board.getLists();
+    public ResponseEntity<List<Group18.Demo.Trello.model.List>> fetchListById(Integer boardId) {
+        try {
+            Board board = getBoard(boardId);
+            List<Group18.Demo.Trello.model.List> lists = board.getLists();
+            if(lists != null) {
+                return new ResponseEntity<>(lists, HttpStatus.OK);
+            }
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public Board findByTitle(String name) {

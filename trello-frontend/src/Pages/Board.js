@@ -13,26 +13,54 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const Board = () => {
+  const navigate = useNavigate();
+
   const [board, setBoard] = useState([]);
   const [boardId, setBoardId] = useState("");
   const [boardTitle, setBoardTitle] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [boardLists, setBoardLists] = useState([]);
-  const navigate = useNavigate();
   const selectedBoard = localStorage.getItem("selectedBoard");
+
+  const selectedWorkspace = localStorage.getItem("selectedWorkspace");
+  const [workspaceId, setWorkspaceId] = useState("");
+  const [workspaceName, setWorkspaceName] = useState("");
 
   useEffect(() => {
     if (selectedBoard) {
       setBoard(JSON.parse(selectedBoard));
       setBoardId(board.id);
       setBoardTitle(board.title);
-      setBoardLists(board.lists);
-      fetchBoardTasks();
+      fetchBoardLists();
+      console.log(boardLists);
     }
   }, [boardId]);
 
-  const fetchBoardTasks = async () => {
-    //To be implemented
+  useEffect(() => {
+    if (selectedWorkspace) {
+      const workspace = JSON.parse(selectedWorkspace);
+      setWorkspaceId(workspace.id); // Extract workspace id from selected workspace
+      setWorkspaceName(workspace.name);
+    }
+  }, [workspaceId]);
+
+  const fetchBoardLists = async () => {
+    try {
+      const response = await fetch(
+          `http://localhost:8001/api/getBoardLists?id=${boardId}`
+      );
+      const data = await response.json();
+
+      if (response.ok) {
+        setBoardLists(data);
+      } else {
+        console.error("Failed to fetch board's lists");
+        // Handle error case
+      }
+    } catch (error) {
+      console.error("Failed to fetch board's lists", error);
+      // Handle error case
+    }
   };
 
   const handleSearchInputChange = (event) => {
@@ -107,7 +135,8 @@ const Board = () => {
   };
 
   const handleAddTaskClick = (list) => {
-    localStorage.setItem("selectedList", JSON.stringify({ list }));
+    console.log(list);
+    localStorage.setItem("selectedList", JSON.stringify( list ));
   };
 
   return (
@@ -122,7 +151,9 @@ const Board = () => {
             >
               <div style={{ paddingBottom: 12 }}>
                 <Card.Title>
-                  <Nav.Link href="../Pages/Workspace.js">
+                  <Nav.Link
+                    href={`../Pages/Workspace.js?name=${workspaceName}`}
+                  >
                     &#60; Workspace
                   </Nav.Link>
                 </Card.Title>
@@ -161,6 +192,21 @@ const Board = () => {
                   <Col>
                     <Card>
                       <Card.Header>{list.status}</Card.Header>
+                      <Card.Body>
+                        {list.tasks && list.tasks.map((task) => (
+                            <div key={task.id} style={{ paddingBottom: 12 }}>
+                              <Card.Title>
+                                {task.title}
+                              </Card.Title>
+                              Start date: {task.startDate}
+                              <br></br>
+                              Deadline: {task.deadline}
+                              <br></br>
+                              Member:
+
+                            </div>
+                        ))}
+                      </Card.Body>
                       <ListGroup variant="flush">
                         <ListGroup.Item>
                           <Button

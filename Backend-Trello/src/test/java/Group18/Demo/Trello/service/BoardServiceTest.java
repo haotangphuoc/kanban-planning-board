@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -93,5 +94,20 @@ class BoardServiceTest {
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode(), "Board Id should not be found");
         assertEquals(-1, responseEntity.getBody(), "Wrong value");
+    }
+    @Test
+    public void fetBoardById_Success() {
+        Board board = new Board(1, "sample board");
+        List<Group18.Demo.Trello.model.List> lists = new ArrayList<>();
+        lists.add(new Group18.Demo.Trello.model.List());
+        board.setLists(lists);
+
+        when(boardRepository.findById(1)).thenReturn(Optional.of(board));
+
+        ResponseEntity<List<Group18.Demo.Trello.model.List>> responseEntity = boardService.fetchListById(1);
+
+        // Assertions
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(lists, responseEntity.getBody());
     }
 }
