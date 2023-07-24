@@ -26,7 +26,6 @@ const Register = () => {
       await connectDB(form);
     }
     setValidated(true);
-    navigate("../Pages/Login.js");
   };
 
   const connectDB = async (form) => {
@@ -56,6 +55,7 @@ const Register = () => {
 
       const responseData = await response;
       console.log(responseData);
+      navigate("../Pages/Login.js");
     } catch (error) {
       console.error("Request encountered an error:", error);
     }
