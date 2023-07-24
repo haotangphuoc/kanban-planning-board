@@ -9,6 +9,7 @@ import {
   Stack,
   Nav,
 } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const CreateTasks = () => {
   const [validated, setValidated] = useState(false);
@@ -23,6 +24,8 @@ const CreateTasks = () => {
   const [list, setList] = useState([]);
   const [listId, setListId] = useState("");
   const [listStatus, setListStatus] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (selectedList) {
@@ -104,6 +107,7 @@ const CreateTasks = () => {
     } catch (error) {
       console.error("Failed to create task:", error);
     }
+    navigate(`../Pages/Board.js?name=${boardTitle}`);
   };
 
   const handleFetchTaskID = async (title) => {
