@@ -192,6 +192,21 @@ const Board = () => {
                   <Col>
                     <Card>
                       <Card.Header>{list.status}</Card.Header>
+                      <Card.Body>
+                        {list.tasks && list.tasks.map((task) => (
+                            <div key={task.id} style={{ paddingBottom: 12 }}>
+                              <Card.Title>
+                                {task.title}
+                              </Card.Title>
+                              Start date: {task.startDate}
+                              <br></br>
+                              Deadline: {task.deadline}
+                              <br></br>
+                              Member:
+
+                            </div>
+                        ))}
+                      </Card.Body>
                       <ListGroup variant="flush">
                         <ListGroup.Item>
                           <Button
