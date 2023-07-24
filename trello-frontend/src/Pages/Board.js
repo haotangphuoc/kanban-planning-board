@@ -31,8 +31,8 @@ const Board = () => {
       setBoard(JSON.parse(selectedBoard));
       setBoardId(board.id);
       setBoardTitle(board.title);
-      setBoardLists(board.lists);
-      fetchBoardTasks();
+      fetchBoardLists();
+      console.log(boardLists);
     }
   }, [boardId]);
 
@@ -44,8 +44,23 @@ const Board = () => {
     }
   }, [workspaceId]);
 
-  const fetchBoardTasks = async () => {
-    //To be implemented
+  const fetchBoardLists = async () => {
+    try {
+      const response = await fetch(
+          `http://localhost:8001/api/getBoardLists?id=${boardId}`
+      );
+      const data = await response.json();
+
+      if (response.ok) {
+        setBoardLists(data);
+      } else {
+        console.error("Failed to fetch board's lists");
+        // Handle error case
+      }
+    } catch (error) {
+      console.error("Failed to fetch board's lists", error);
+      // Handle error case
+    }
   };
 
   const handleSearchInputChange = (event) => {
@@ -120,7 +135,8 @@ const Board = () => {
   };
 
   const handleAddTaskClick = (list) => {
-    localStorage.setItem("selectedList", JSON.stringify({ list }));
+    console.log(list);
+    localStorage.setItem("selectedList", JSON.stringify( list ));
   };
 
   return (

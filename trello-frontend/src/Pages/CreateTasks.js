@@ -19,18 +19,20 @@ const CreateTasks = () => {
   const dateInputRef = useRef(null);
   const [taskId, setTaskId] = useState("");
 
-  const selectedBoard = localStorage.getItem("selectedBoard");
-  const [board, setBoard] = useState([]);
-  const [boardId, setBoardId] = useState("");
-  const [boardTitle, setBoardTitle] = useState("");
+  const selectedList = localStorage.getItem("selectedList");
+  const [list, setList] = useState([]);
+  const [listId, setListId] = useState("");
+  const [listStatus, setListStatus] = useState("");
+
 
   useEffect(() => {
-    if (selectedBoard) {
-      setBoard(JSON.parse(selectedBoard));
-      setBoardId(board.id);
-      setBoardTitle(board.title);
+    if (selectedList) {
+      setList(JSON.parse(selectedList));
+      setListId(list.id);
+      setListStatus(list.status);
+      console.log(list);
     }
-  }, [boardId]);
+  }, [listId]);
 
   // Function to check if the entered email is in the list of workspace members
   const isMemberInWorkspace = (email) => {
@@ -56,18 +58,17 @@ const CreateTasks = () => {
 
     const currentDate = new Date();
     const formattedStartDate = currentDate.toISOString().split("T")[0];
-    const activeFlagFromLocalStorage = localStorage.getItem("selectedColumn");
 
     const taskData = {
-      title: title,
-      description: "test case",
-      startDate: formattedStartDate,
-      deadline: date,
-      completionDate: date,
-      activeFlag: activeFlagFromLocalStorage,
-      list: {
-        id: 1,
-      },
+      id: listId,
+      tasks: [
+        {
+          title: title,
+          activeFlag: listStatus,
+          startDate: formattedStartDate,
+          deadline: date,
+        },
+      ],
     };
 
     try {
@@ -78,15 +79,16 @@ const CreateTasks = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(taskData),
-      });
+      }).then(response => {
+            if (!response.ok) {
+              throw new Error('Cannot create task');
+            }
+            return response.json();
+          })
+          .then(data => {
+            localStorage.setItem("createdTaskId", data);
+          });
 
-      if (response.ok) {
-        console.log("Task created successfully");
-        handleFetchTaskID(title);
-        const data = await response;
-      } else {
-        console.error("Failed to create task");
-      }
     } catch (error) {
       console.error("Failed to create task:", error);
     }
@@ -114,11 +116,6 @@ const CreateTasks = () => {
   const handleSubmitMember = async (event) => {
     event.preventDefault();
     event.stopPropagation();
-
-    if (!isMemberInWorkspace(email)) {
-      console.log("false, member not in workspace");
-      return;
-    }
 
     const memberData = {
       id: taskId,
@@ -176,7 +173,7 @@ const CreateTasks = () => {
             >
               <div style={{ paddingBottom: 12 }}>
                 <Card.Title>
-                  <Nav.Link href={`../Pages/Workspace.js?name=${boardTitle}`}>
+                  <Nav.Link href={`../Pages/Board.js`}>
                     &#60; Back
                   </Nav.Link>
                 </Card.Title>

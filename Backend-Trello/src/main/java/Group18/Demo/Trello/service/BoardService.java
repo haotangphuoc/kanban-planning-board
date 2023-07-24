@@ -111,9 +111,8 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
-    public List<Group18.Demo.Trello.model.List> fetchListById(int boardId) {
-        Board board = boardRepository.findById(boardId).get();
-        return board.getLists();
+    public ResponseEntity<List<Group18.Demo.Trello.model.List>> fetchListById(Integer boardId) {
+        return null;
     }
 
     public Board findByTitle(String name) {

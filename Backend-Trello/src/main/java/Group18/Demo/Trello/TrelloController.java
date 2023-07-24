@@ -118,8 +118,8 @@ public class TrelloController {
 
     @PostMapping("/createTask")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<String> createTask(@RequestBody Task task) {
-        return taskService.createTask(task);
+    public ResponseEntity<Integer> createTask(@RequestBody Group18.Demo.Trello.model.List list) {
+        return taskService.createTask(list);
     }
 
     @PostMapping("/assignMembersToTask")
@@ -150,5 +150,11 @@ public class TrelloController {
     @CrossOrigin(origins = "*")
     public ResponseEntity<List<Board>> getWorkspaceBoards(@RequestParam(value = "id")Integer workspaceId) {
         return workspaceService.fetchBoardById(workspaceId);
+    }
+
+    @GetMapping("/getBoardLists")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<List<Group18.Demo.Trello.model.List>> getBoardLists(@RequestParam(value = "id")Integer boardId) {
+        return boardService.fetchListById(boardId);
     }
 }
