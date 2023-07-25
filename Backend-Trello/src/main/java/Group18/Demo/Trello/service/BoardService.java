@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Objects;
@@ -32,7 +30,6 @@ public class BoardService {
             if(workspaceInDb==null){
                 return new ResponseEntity<>("Can't find workspace object!", HttpStatus.BAD_REQUEST);
             }
-            List<User> userInDb = workspaceInDb.getUsers();
             List<Board> boardInDb = workspaceInDb.getBoards();
             //Create new board instances for the submitted data
             for(Board board:workspace.getBoards()){

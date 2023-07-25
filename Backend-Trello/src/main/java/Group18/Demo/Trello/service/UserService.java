@@ -5,15 +5,13 @@ import Group18.Demo.Trello.model.Task;
 import Group18.Demo.Trello.model.User;
 import Group18.Demo.Trello.model.Workspace;
 import Group18.Demo.Trello.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class UserService {
@@ -21,7 +19,8 @@ public class UserService {
     UserRepository userRepository;
 
     public boolean validatePassword(String password) {
-        if (password.length() < 8) {
+        int minLength = 8;
+        if (password.length() < minLength) {
             return false;
         }
 
@@ -55,8 +54,9 @@ public class UserService {
             if(!validatePassword(user.getPassword())){
                 return new ResponseEntity<>("Password is too weak!", HttpStatus.BAD_REQUEST);
             }
-
-            saveUser(new User(user.getEmail(), user.getPassword(), user.getQuestionAns(), user.getFirstName(), user.getLastName()));
+            User userInfo = new User(user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName());
+            userInfo.setQuestionAns(user.getQuestionAns());
+            saveUser(userInfo);
             return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();

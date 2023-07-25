@@ -2,14 +2,13 @@ package Group18.Demo.Trello.service;
 
 import Group18.Demo.Trello.model.Task;
 import Group18.Demo.Trello.model.User;
-import Group18.Demo.Trello.model.Workspace;
 import Group18.Demo.Trello.repository.TaskRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Objects;
@@ -63,8 +62,8 @@ public class TaskService {
             }
             List<Task> tasksInDb = listInDb.getTasks();
             for(Task task:list.getTasks()){
-                Task newTask = new Task(task.getTitle(),
-                        task.getActiveFlag(), task.getStartDate(), task.getDeadline(), listInDb);
+                Task newTask = new Task(task.getTitle(), task.getStartDate(), task.getDeadline(), listInDb);
+                        newTask.setActiveFlag(task.getActiveFlag());
                 saveTask(newTask);
                 tasksInDb.add(newTask);
                 newTaskId = newTask.getId();
