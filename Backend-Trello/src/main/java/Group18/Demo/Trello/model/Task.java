@@ -64,10 +64,8 @@ public class Task {
 
     //Constructors
 
-
-    public Task(String title, String activeFlag, String startDate, String deadline, Group18.Demo.Trello.model.List list) {
+    public Task(String title, String startDate, String deadline, Group18.Demo.Trello.model.List list) {
         this.title = title;
-        this.activeFlag = activeFlag;
         this.startDate = startDate;
         this.deadline = deadline;
         this.list = list;

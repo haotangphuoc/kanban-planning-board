@@ -1,0 +1,193 @@
+Project Name,Package Name,Type Name,Method Name,LOC,CC,PC,Line no,IsTest,Main prod class tested,Production classes tested
+group18,Group18.Demo.Trello,DemoTrelloBackendApplication,main,3,1,1,9,0,,
+group18,Group18.Demo.Trello,TrelloController,createWorkspace,3,1,1,29,0,Group18.Demo.Trello.service.WorkspaceService,Group18.Demo.Trello.service.WorkspaceService
+group18,Group18.Demo.Trello,TrelloController,createBoard,3,1,1,35,0,Group18.Demo.Trello.service.BoardService,Group18.Demo.Trello.service.BoardService
+group18,Group18.Demo.Trello,TrelloController,deleteBoard,3,1,1,41,0,Group18.Demo.Trello.service.BoardService,Group18.Demo.Trello.service.BoardService
+group18,Group18.Demo.Trello,TrelloController,resetPassword,3,1,1,47,0,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.service.UserService
+group18,Group18.Demo.Trello,TrelloController,addMembersToWorkspace,3,1,1,53,0,Group18.Demo.Trello.service.WorkspaceService,Group18.Demo.Trello.service.WorkspaceService
+group18,Group18.Demo.Trello,TrelloController,findUserIdByEmail,3,1,1,59,0,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.service.UserService
+group18,Group18.Demo.Trello,TrelloController,findWorkspaceIdByName,3,1,1,65,0,Group18.Demo.Trello.service.WorkspaceService,Group18.Demo.Trello.service.WorkspaceService
+group18,Group18.Demo.Trello,TrelloController,findBoardIdByTitle,3,1,1,71,0,Group18.Demo.Trello.service.BoardService,Group18.Demo.Trello.service.BoardService
+group18,Group18.Demo.Trello,TrelloController,modifyWorkspace,3,1,1,77,0,Group18.Demo.Trello.service.WorkspaceService,Group18.Demo.Trello.service.WorkspaceService
+group18,Group18.Demo.Trello,TrelloController,findTaskByIdOrTitle,3,1,2,83,0,Group18.Demo.Trello.service.TaskService,Group18.Demo.Trello.service.TaskService
+group18,Group18.Demo.Trello,TrelloController,modifyTask,3,1,1,90,0,Group18.Demo.Trello.service.TaskService,Group18.Demo.Trello.service.TaskService
+group18,Group18.Demo.Trello,TrelloController,createTask,3,1,1,96,0,Group18.Demo.Trello.service.TaskService,Group18.Demo.Trello.service.TaskService
+group18,Group18.Demo.Trello,TrelloController,assignMembersToTask,3,1,1,102,0,Group18.Demo.Trello.service.TaskService,Group18.Demo.Trello.service.TaskService
+group18,Group18.Demo.Trello,TrelloController,getUserWorkspaces,3,1,1,108,0,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.service.UserService
+group18,Group18.Demo.Trello,TrelloController,getUserBoards,3,1,1,114,0,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.service.UserService
+group18,Group18.Demo.Trello,TrelloController,getUserTasks,3,1,1,120,0,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.service.UserService
+group18,Group18.Demo.Trello,TrelloController,getWorkspaceBoards,3,1,1,126,0,Group18.Demo.Trello.service.WorkspaceService,Group18.Demo.Trello.service.WorkspaceService
+group18,Group18.Demo.Trello,TrelloController,getBoardLists,3,1,1,132,0,Group18.Demo.Trello.service.BoardService,Group18.Demo.Trello.service.BoardService
+group18,Group18.Demo.Trello,TrelloControllerUser,home,3,1,0,16,0,,
+group18,Group18.Demo.Trello,TrelloControllerUser,signup,3,1,1,21,0,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.service.UserService
+group18,Group18.Demo.Trello,TrelloControllerUser,login,3,1,1,27,0,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.service.UserService
+group18,Group18.Demo.Trello,DemoTrelloBackendApplicationTests,contextLoads,2,1,0,9,1,,
+group18,Group18.Demo.Trello.model,Board,Board,4,1,2,50,0,,
+group18,Group18.Demo.Trello.model,Board,Board,4,1,2,55,0,,
+group18,Group18.Demo.Trello.model,Board,getId,3,1,0,62,0,,
+group18,Group18.Demo.Trello.model,Board,setId,3,1,1,66,0,,
+group18,Group18.Demo.Trello.model,Board,getTitle,3,1,0,70,0,,
+group18,Group18.Demo.Trello.model,Board,setTitle,3,1,1,74,0,,
+group18,Group18.Demo.Trello.model,Board,getUsers,3,1,0,78,0,,
+group18,Group18.Demo.Trello.model,Board,setUsers,3,1,1,82,0,,
+group18,Group18.Demo.Trello.model,Board,getWorkspace,3,1,0,86,0,,
+group18,Group18.Demo.Trello.model,Board,setWorkspace,3,1,1,90,0,,
+group18,Group18.Demo.Trello.model,Board,getLists,3,1,0,94,0,,
+group18,Group18.Demo.Trello.model,Board,setLists,3,1,1,98,0,,
+group18,Group18.Demo.Trello.model,List,List,4,1,2,45,0,,
+group18,Group18.Demo.Trello.model,List,getId,3,1,0,51,0,,
+group18,Group18.Demo.Trello.model,List,setId,3,1,1,55,0,,
+group18,Group18.Demo.Trello.model,List,getStatus,3,1,0,59,0,,
+group18,Group18.Demo.Trello.model,List,setStatus,3,1,1,63,0,,
+group18,Group18.Demo.Trello.model,List,getBoard,3,1,0,67,0,,
+group18,Group18.Demo.Trello.model,List,setBoard,3,1,1,71,0,,
+group18,Group18.Demo.Trello.model,List,getTasks,3,1,0,75,0,,
+group18,Group18.Demo.Trello.model,List,setTasks,3,1,1,79,0,,
+group18,Group18.Demo.Trello.model,Task,Task,6,1,4,67,0,,
+group18,Group18.Demo.Trello.model,Task,getId,3,1,0,75,0,,
+group18,Group18.Demo.Trello.model,Task,setId,3,1,1,79,0,,
+group18,Group18.Demo.Trello.model,Task,getTitle,3,1,0,83,0,,
+group18,Group18.Demo.Trello.model,Task,setTitle,3,1,1,87,0,,
+group18,Group18.Demo.Trello.model,Task,getActiveFlag,3,1,0,91,0,,
+group18,Group18.Demo.Trello.model,Task,setActiveFlag,3,1,1,95,0,,
+group18,Group18.Demo.Trello.model,Task,getUsers,3,1,0,99,0,,
+group18,Group18.Demo.Trello.model,Task,setUsers,3,1,1,103,0,,
+group18,Group18.Demo.Trello.model,Task,getList,3,1,0,107,0,,
+group18,Group18.Demo.Trello.model,Task,setList,3,1,1,111,0,,
+group18,Group18.Demo.Trello.model,Task,getStartDate,3,1,0,115,0,,
+group18,Group18.Demo.Trello.model,Task,setStartDate,3,1,1,119,0,,
+group18,Group18.Demo.Trello.model,Task,getDeadline,3,1,0,123,0,,
+group18,Group18.Demo.Trello.model,Task,setDeadline,3,1,1,127,0,,
+group18,Group18.Demo.Trello.model,User,User,6,1,4,80,0,,
+group18,Group18.Demo.Trello.model,User,getId,3,1,0,89,0,,
+group18,Group18.Demo.Trello.model,User,setId,3,1,1,93,0,,
+group18,Group18.Demo.Trello.model,User,getEmail,3,1,0,97,0,,
+group18,Group18.Demo.Trello.model,User,setEmail,3,1,1,101,0,,
+group18,Group18.Demo.Trello.model,User,getPassword,3,1,0,105,0,,
+group18,Group18.Demo.Trello.model,User,setPassword,3,1,1,109,0,,
+group18,Group18.Demo.Trello.model,User,getQuestionAns,3,1,0,113,0,,
+group18,Group18.Demo.Trello.model,User,setQuestionAns,3,1,1,117,0,,
+group18,Group18.Demo.Trello.model,User,getFirstName,3,1,0,121,0,,
+group18,Group18.Demo.Trello.model,User,setFirstName,3,1,1,125,0,,
+group18,Group18.Demo.Trello.model,User,getLastName,3,1,0,129,0,,
+group18,Group18.Demo.Trello.model,User,setLastName,3,1,1,133,0,,
+group18,Group18.Demo.Trello.model,User,getWorkspaces,3,1,0,137,0,,
+group18,Group18.Demo.Trello.model,User,setWorkspaces,3,1,1,141,0,,
+group18,Group18.Demo.Trello.model,User,getBoards,3,1,0,145,0,,
+group18,Group18.Demo.Trello.model,User,setBoards,3,1,1,149,0,,
+group18,Group18.Demo.Trello.model,User,getTasks,3,1,0,153,0,,
+group18,Group18.Demo.Trello.model,User,setTasks,3,1,1,157,0,,
+group18,Group18.Demo.Trello.model,Workspace,Workspace,5,1,3,48,0,,
+group18,Group18.Demo.Trello.model,Workspace,Workspace,6,1,4,55,0,,
+group18,Group18.Demo.Trello.model,Workspace,getId,3,1,0,63,0,,
+group18,Group18.Demo.Trello.model,Workspace,setId,3,1,1,67,0,,
+group18,Group18.Demo.Trello.model,Workspace,getName,3,1,0,71,0,,
+group18,Group18.Demo.Trello.model,Workspace,setName,3,1,1,75,0,,
+group18,Group18.Demo.Trello.model,Workspace,getDescription,3,1,0,79,0,,
+group18,Group18.Demo.Trello.model,Workspace,setDescription,3,1,1,83,0,,
+group18,Group18.Demo.Trello.model,Workspace,getUsers,3,1,0,87,0,,
+group18,Group18.Demo.Trello.model,Workspace,setUsers,3,1,1,91,0,,
+group18,Group18.Demo.Trello.model,Workspace,getBoards,3,1,0,95,0,,
+group18,Group18.Demo.Trello.model,Workspace,setBoards,3,1,1,99,0,,
+group18,Group18.Demo.Trello.repository,BoardRepository,findByTitle,0,1,1,7,0,,
+group18,Group18.Demo.Trello.repository,TaskRepository,findByTitle,0,1,1,7,0,,
+group18,Group18.Demo.Trello.repository,UserRepository,findByEmailAndPassword,0,1,2,7,0,,
+group18,Group18.Demo.Trello.repository,UserRepository,findByEmail,0,1,1,9,0,,
+group18,Group18.Demo.Trello.repository,UserRepository,existsByEmail,0,1,1,11,0,,
+group18,Group18.Demo.Trello.repository,WorkspaceRepository,findByName,0,1,1,7,0,,
+group18,Group18.Demo.Trello.security,CustomUserDetails,CustomUserDetails,4,1,1,12,0,,
+group18,Group18.Demo.Trello.security,CustomUserDetails,getAuthorities,3,1,0,17,0,,
+group18,Group18.Demo.Trello.security,CustomUserDetails,getPassword,3,1,0,22,0,Group18.Demo.Trello.model.User,Group18.Demo.Trello.model.User
+group18,Group18.Demo.Trello.security,CustomUserDetails,getUsername,3,1,0,27,0,Group18.Demo.Trello.model.User,Group18.Demo.Trello.model.User
+group18,Group18.Demo.Trello.security,CustomUserDetails,isAccountNonExpired,3,1,0,32,0,,
+group18,Group18.Demo.Trello.security,CustomUserDetails,isAccountNonLocked,3,1,0,37,0,,
+group18,Group18.Demo.Trello.security,CustomUserDetails,isCredentialsNonExpired,3,1,0,42,0,,
+group18,Group18.Demo.Trello.security,CustomUserDetails,isEnabled,3,1,0,47,0,,
+group18,Group18.Demo.Trello.security,CustomUserDetailsService,loadUserByUsername,7,2,1,16,0,Group18.Demo.Trello.repository.UserRepository,Group18.Demo.Trello.repository.UserRepository
+group18,Group18.Demo.Trello.security,WebSecurityConfig,authenticationProvider,6,1,0,21,0,,
+group18,Group18.Demo.Trello.security,WebSecurityConfig,securityFilterChain,4,1,1,29,0,,
+group18,Group18.Demo.Trello.service,BoardService,createBoard,24,3,1,27,0,Group18.Demo.Trello.service.BoardService,Group18.Demo.Trello.service.BoardService; Group18.Demo.Trello.service.WorkspaceService; Group18.Demo.Trello.model.Board; Group18.Demo.Trello.service.ListService; Group18.Demo.Trello.model.Workspace
+group18,Group18.Demo.Trello.service,BoardService,deleteBoard,10,1,1,57,0,,
+group18,Group18.Demo.Trello.service,BoardService,getBoard,4,1,1,67,0,,
+group18,Group18.Demo.Trello.service,BoardService,findBoardIdByTitle,13,2,1,72,0,Group18.Demo.Trello.service.BoardService,Group18.Demo.Trello.service.BoardService; Group18.Demo.Trello.model.Board
+group18,Group18.Demo.Trello.service,BoardService,saveBoard,4,1,1,85,0,,
+group18,Group18.Demo.Trello.service,BoardService,updateList,8,2,2,90,0,Group18.Demo.Trello.model.Board,Group18.Demo.Trello.model.Board
+group18,Group18.Demo.Trello.service,BoardService,fetchUserById,4,1,1,102,0,Group18.Demo.Trello.model.Board,Group18.Demo.Trello.model.Board
+group18,Group18.Demo.Trello.service,BoardService,fetchBoardList,3,1,0,107,0,,
+group18,Group18.Demo.Trello.service,BoardService,fetchListById,14,2,1,111,0,Group18.Demo.Trello.service.BoardService,Group18.Demo.Trello.service.BoardService; Group18.Demo.Trello.model.Board
+group18,Group18.Demo.Trello.service,BoardService,findByTitle,3,1,1,126,0,Group18.Demo.Trello.repository.BoardRepository,Group18.Demo.Trello.repository.BoardRepository
+group18,Group18.Demo.Trello.service,ListService,createListsForBoard,13,1,1,18,0,Group18.Demo.Trello.service.ListService,Group18.Demo.Trello.service.ListService
+group18,Group18.Demo.Trello.service,ListService,getList,4,1,1,38,0,,
+group18,Group18.Demo.Trello.service,ListService,saveList,4,1,1,43,0,,
+group18,Group18.Demo.Trello.service,ListService,deleteList,4,1,1,48,0,,
+group18,Group18.Demo.Trello.service,ListService,updateList,8,2,2,53,0,Group18.Demo.Trello.model.List,Group18.Demo.Trello.model.List
+group18,Group18.Demo.Trello.service,ListService,fetchListList,3,1,0,65,0,,
+group18,Group18.Demo.Trello.service,ListService,fetchTaskById,4,1,1,69,0,Group18.Demo.Trello.model.List,Group18.Demo.Trello.model.List
+group18,Group18.Demo.Trello.service,TaskService,findTaskByIdOrTitle,18,3,2,27,0,Group18.Demo.Trello.service.TaskService,Group18.Demo.Trello.service.TaskService; Group18.Demo.Trello.repository.TaskRepository; Group18.Demo.Trello.model.Task
+group18,Group18.Demo.Trello.service,TaskService,modifyTask,10,1,1,45,0,Group18.Demo.Trello.model.Task,Group18.Demo.Trello.model.Task; Group18.Demo.Trello.service.TaskService
+group18,Group18.Demo.Trello.service,TaskService,createTask,24,3,1,55,0,Group18.Demo.Trello.model.Task,Group18.Demo.Trello.model.Task; Group18.Demo.Trello.model.List; Group18.Demo.Trello.service.ListService; Group18.Demo.Trello.service.TaskService
+group18,Group18.Demo.Trello.service,TaskService,assignMembersToTask,18,3,1,80,0,Group18.Demo.Trello.service.TaskService,Group18.Demo.Trello.service.TaskService; Group18.Demo.Trello.model.Task; Group18.Demo.Trello.service.UserService; Group18.Demo.Trello.model.User
+group18,Group18.Demo.Trello.service,TaskService,getTask,4,1,1,100,0,,
+group18,Group18.Demo.Trello.service,TaskService,saveTask,4,1,1,105,0,,
+group18,Group18.Demo.Trello.service,TaskService,deleteTask,4,1,1,110,0,,
+group18,Group18.Demo.Trello.service,TaskService,updateTask,15,4,2,115,0,Group18.Demo.Trello.model.Task,Group18.Demo.Trello.model.Task
+group18,Group18.Demo.Trello.service,TaskService,fetchTaskList,3,1,0,139,0,,
+group18,Group18.Demo.Trello.service,TaskService,fetchUserById,4,1,1,143,0,Group18.Demo.Trello.model.Task,Group18.Demo.Trello.model.Task
+group18,Group18.Demo.Trello.service,UserService,validatePassword,26,6,1,21,0,,
+group18,Group18.Demo.Trello.service,UserService,signup,18,3,1,49,0,Group18.Demo.Trello.model.User,Group18.Demo.Trello.model.User; Group18.Demo.Trello.service.UserService
+group18,Group18.Demo.Trello.service,UserService,login,13,2,1,67,0,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.service.UserService; Group18.Demo.Trello.model.User
+group18,Group18.Demo.Trello.service,UserService,resetPassword,18,3,1,80,0,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.service.UserService; Group18.Demo.Trello.model.User
+group18,Group18.Demo.Trello.service,UserService,findUserIdByEmail,13,2,1,98,0,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.service.UserService; Group18.Demo.Trello.model.User
+group18,Group18.Demo.Trello.service,UserService,getUser,4,1,1,111,0,,
+group18,Group18.Demo.Trello.service,UserService,saveUser,4,1,1,116,0,,
+group18,Group18.Demo.Trello.service,UserService,deleteUser,4,1,1,121,0,,
+group18,Group18.Demo.Trello.service,UserService,fetchUserList,3,1,0,126,0,,
+group18,Group18.Demo.Trello.service,UserService,fetchWorkspaceById,14,2,1,130,0,Group18.Demo.Trello.model.User,Group18.Demo.Trello.model.User
+group18,Group18.Demo.Trello.service,UserService,fetchBoardById,14,2,1,145,0,Group18.Demo.Trello.model.User,Group18.Demo.Trello.model.User
+group18,Group18.Demo.Trello.service,UserService,fetchTaskById,14,2,1,160,0,Group18.Demo.Trello.model.User,Group18.Demo.Trello.model.User
+group18,Group18.Demo.Trello.service,UserService,findByEmailAndPassword,3,1,2,175,0,Group18.Demo.Trello.repository.UserRepository,Group18.Demo.Trello.repository.UserRepository
+group18,Group18.Demo.Trello.service,UserService,findByEmail,3,1,1,179,0,Group18.Demo.Trello.repository.UserRepository,Group18.Demo.Trello.repository.UserRepository
+group18,Group18.Demo.Trello.service,UserService,existsByEmail,3,1,1,183,0,Group18.Demo.Trello.repository.UserRepository,Group18.Demo.Trello.repository.UserRepository
+group18,Group18.Demo.Trello.service,WorkspaceService,createWorkspace,20,3,1,22,0,Group18.Demo.Trello.model.User,Group18.Demo.Trello.model.User; Group18.Demo.Trello.service.UserService; Group18.Demo.Trello.service.WorkspaceService
+group18,Group18.Demo.Trello.service,WorkspaceService,addMembersToWorkspace,18,3,1,42,0,Group18.Demo.Trello.service.WorkspaceService,Group18.Demo.Trello.service.WorkspaceService; Group18.Demo.Trello.service.UserService; Group18.Demo.Trello.model.Workspace; Group18.Demo.Trello.model.User
+group18,Group18.Demo.Trello.service,WorkspaceService,findWorkspaceIdByName,13,2,1,62,0,Group18.Demo.Trello.service.WorkspaceService,Group18.Demo.Trello.service.WorkspaceService; Group18.Demo.Trello.model.Workspace
+group18,Group18.Demo.Trello.service,WorkspaceService,modifyWorkspace,17,2,1,75,0,Group18.Demo.Trello.service.WorkspaceService,Group18.Demo.Trello.service.WorkspaceService; Group18.Demo.Trello.model.Workspace
+group18,Group18.Demo.Trello.service,WorkspaceService,fetchBoardById,14,2,1,92,0,Group18.Demo.Trello.service.WorkspaceService,Group18.Demo.Trello.service.WorkspaceService; Group18.Demo.Trello.model.Workspace
+group18,Group18.Demo.Trello.service,WorkspaceService,getWorkspace,4,1,1,107,0,,
+group18,Group18.Demo.Trello.service,WorkspaceService,saveWorkspace,4,1,1,112,0,,
+group18,Group18.Demo.Trello.service,WorkspaceService,deleteWorkspace,4,1,1,117,0,,
+group18,Group18.Demo.Trello.service,WorkspaceService,fetchUserById,4,1,1,122,0,Group18.Demo.Trello.model.Workspace,Group18.Demo.Trello.model.Workspace
+group18,Group18.Demo.Trello.service,WorkspaceService,fetchWorkspaceList,3,1,0,127,0,,
+group18,Group18.Demo.Trello.service,WorkspaceService,findByName,3,1,1,131,0,Group18.Demo.Trello.repository.WorkspaceRepository,Group18.Demo.Trello.repository.WorkspaceRepository
+group18,Group18.Demo.Trello.service,BoardServiceTest,createSampleBoards,11,1,0,39,0,Group18.Demo.Trello.model.Board,Group18.Demo.Trello.model.Board
+group18,Group18.Demo.Trello.service,BoardServiceTest,createBoard_InvalidUser,2,1,0,55,1,,
+group18,Group18.Demo.Trello.service,BoardServiceTest,createBoard_ValidUser,2,1,0,61,1,,
+group18,Group18.Demo.Trello.service,BoardServiceTest,deleteBoard_ValidWorkspace,6,1,0,67,1,Group18.Demo.Trello.service.BoardService,Group18.Demo.Trello.service.BoardService
+group18,Group18.Demo.Trello.service,BoardServiceTest,findBoardIdByTitle_ValidBoard,7,1,0,77,1,Group18.Demo.Trello.service.BoardService,Group18.Demo.Trello.service.BoardService; Group18.Demo.Trello.model.Board
+group18,Group18.Demo.Trello.service,BoardServiceTest,findBoardIdByTitle_InvalidBoard,7,1,0,88,1,Group18.Demo.Trello.service.BoardService,Group18.Demo.Trello.service.BoardService; Group18.Demo.Trello.model.Board
+group18,Group18.Demo.Trello.service,BoardServiceTest,fetBoardById_Success,10,1,0,99,1,Group18.Demo.Trello.service.BoardService,Group18.Demo.Trello.service.BoardService
+group18,Group18.Demo.Trello.service,ListServiceTest,testCreateListsForBoard,5,1,0,26,1,Group18.Demo.Trello.service.ListService,Group18.Demo.Trello.service.ListService
+group18,Group18.Demo.Trello.service,TaskServiceTest,findTaskByIdOrTitle_NullArguments,5,1,0,33,1,Group18.Demo.Trello.service.TaskService,Group18.Demo.Trello.service.TaskService
+group18,Group18.Demo.Trello.service,TaskServiceTest,findTaskByIdOrTitle_CorrectId,8,1,0,41,1,Group18.Demo.Trello.service.TaskService,Group18.Demo.Trello.model.Task; Group18.Demo.Trello.service.TaskService
+group18,Group18.Demo.Trello.service,TaskServiceTest,findTaskByIdOrTitle_CorrectTitle,8,1,0,55,1,Group18.Demo.Trello.service.TaskService,Group18.Demo.Trello.model.Task; Group18.Demo.Trello.repository.TaskRepository; Group18.Demo.Trello.service.TaskService
+group18,Group18.Demo.Trello.service,TaskServiceTest,modifyTask,9,1,0,69,1,Group18.Demo.Trello.service.TaskService,Group18.Demo.Trello.model.Task; Group18.Demo.Trello.service.TaskService
+group18,Group18.Demo.Trello.service,TaskServiceTest,assignMembersToTask,26,1,0,84,1,Group18.Demo.Trello.service.TaskService,Group18.Demo.Trello.model.Task; Group18.Demo.Trello.service.UserService; Group18.Demo.Trello.model.User; Group18.Demo.Trello.service.TaskService
+group18,Group18.Demo.Trello.service,UserServiceTest,validatePassword,10,1,0,26,1,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.service.UserService
+group18,Group18.Demo.Trello.service,UserServiceTest,signup_ExistingEmail,10,1,0,39,1,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.model.User; Group18.Demo.Trello.repository.UserRepository; Group18.Demo.Trello.service.UserService
+group18,Group18.Demo.Trello.service,UserServiceTest,signup_WeakPassword,8,1,0,55,1,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.model.User; Group18.Demo.Trello.service.UserService
+group18,Group18.Demo.Trello.service,UserServiceTest,signup_ValidInformation,8,1,0,67,1,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.model.User; Group18.Demo.Trello.service.UserService
+group18,Group18.Demo.Trello.service,UserServiceTest,login_CorrectCredentials,10,1,0,80,1,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.model.User; Group18.Demo.Trello.repository.UserRepository; Group18.Demo.Trello.service.UserService
+group18,Group18.Demo.Trello.service,UserServiceTest,login_WrongCredentials,8,1,0,96,1,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.model.User; Group18.Demo.Trello.service.UserService
+group18,Group18.Demo.Trello.service,UserServiceTest,resetPassword_InvalidEmail,10,1,0,108,1,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.service.UserService; Group18.Demo.Trello.model.User; Group18.Demo.Trello.repository.UserRepository
+group18,Group18.Demo.Trello.service,UserServiceTest,resetPassword_IncorrectAnswer,14,1,0,124,1,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.model.User; Group18.Demo.Trello.service.UserService; Group18.Demo.Trello.repository.UserRepository
+group18,Group18.Demo.Trello.service,UserServiceTest,resetPassword_CorrectInfo,14,1,0,145,1,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.model.User; Group18.Demo.Trello.service.UserService; Group18.Demo.Trello.repository.UserRepository
+group18,Group18.Demo.Trello.service,UserServiceTest,getUserIdByEmailTest_CorrectEmail,10,1,0,166,1,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.service.UserService; Group18.Demo.Trello.model.User; Group18.Demo.Trello.repository.UserRepository
+group18,Group18.Demo.Trello.service,UserServiceTest,getUserIdByEmail_WithNonExistingEmail_ShouldReturnBadRequest,8,1,0,181,1,Group18.Demo.Trello.service.UserService,Group18.Demo.Trello.service.UserService; Group18.Demo.Trello.repository.UserRepository
+group18,Group18.Demo.Trello.service,WorkspaceServiceTest,createSampleWorkspaces,8,1,0,37,0,,
+group18,Group18.Demo.Trello.service,WorkspaceServiceTest,createSampleUsers,10,1,0,47,0,Group18.Demo.Trello.model.User,Group18.Demo.Trello.model.User
+group18,Group18.Demo.Trello.service,WorkspaceServiceTest,createWorkspace_InvalidUser,9,1,0,60,1,Group18.Demo.Trello.service.WorkspaceService,Group18.Demo.Trello.model.User; Group18.Demo.Trello.service.WorkspaceService; Group18.Demo.Trello.service.UserService
+group18,Group18.Demo.Trello.service,WorkspaceServiceTest,createWorkspace_ValidUser,12,1,0,75,1,Group18.Demo.Trello.service.WorkspaceService,Group18.Demo.Trello.model.User; Group18.Demo.Trello.service.WorkspaceService; Group18.Demo.Trello.service.UserService
+group18,Group18.Demo.Trello.service,WorkspaceServiceTest,findWorkspaceIdByName_ValidWorkspace,8,1,0,94,1,Group18.Demo.Trello.service.WorkspaceService,Group18.Demo.Trello.service.WorkspaceService; Group18.Demo.Trello.model.Workspace
+group18,Group18.Demo.Trello.service,WorkspaceServiceTest,findWorkspaceIdByName_InvalidWorkspace,8,1,0,107,1,Group18.Demo.Trello.service.WorkspaceService,Group18.Demo.Trello.service.WorkspaceService; Group18.Demo.Trello.model.Workspace
+group18,Group18.Demo.Trello.service,WorkspaceServiceTest,fetBoardById_Success,10,1,0,121,1,Group18.Demo.Trello.service.WorkspaceService,Group18.Demo.Trello.model.Workspace; Group18.Demo.Trello.service.WorkspaceService
+group18,Group18.Demo.Trello.service,WorkspaceServiceTest,fetchBoardById_NotFound,6,1,0,137,1,Group18.Demo.Trello.service.WorkspaceService,Group18.Demo.Trello.service.WorkspaceService

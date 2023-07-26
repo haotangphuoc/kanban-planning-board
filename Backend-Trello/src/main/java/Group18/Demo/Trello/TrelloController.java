@@ -3,9 +3,7 @@ package Group18.Demo.Trello;
 import Group18.Demo.Trello.model.*;
 import Group18.Demo.Trello.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,24 +26,6 @@ public class TrelloController {
     @Autowired
     ListService listService;
 
-    @GetMapping("/home")
-    public String home() {
-        return "This is home endpoint";
-    }
-
-    @PostMapping("/signup")
-    @CrossOrigin(origins = "*")
-    public ResponseEntity<String> signup(@RequestBody User user) {
-        return userService.signup(user);
-    }
-
-    @PostMapping("/login")
-    @CrossOrigin(origins = "*")
-    public ResponseEntity<String> login(@RequestBody User user) {
-        return userService.login(user);
-    }
-
-
     @PostMapping("/createWorkspace")
     @CrossOrigin(origins = "*")
     public ResponseEntity<String> createWorkspace(@RequestBody User user) {
@@ -64,20 +44,17 @@ public class TrelloController {
         return boardService.deleteBoard(boardId);
     }
 
-
     @PostMapping("/resetPassword")
     @CrossOrigin(origins = "*")
     public ResponseEntity<String> resetPassword(@RequestBody User user) {
         return userService.resetPassword(user);
     }
 
-
     @PostMapping("/addMembersToWorkspace")
     @CrossOrigin(origins = "*")
     public ResponseEntity<String> addMembersToWorkspace(@RequestBody Workspace workspace) {
         return workspaceService.addMembersToWorkspace(workspace);
     }
-
 
     @GetMapping("/findUserIdByEmail")
     @CrossOrigin(origins = "*")
@@ -105,8 +82,8 @@ public class TrelloController {
 
     @GetMapping("/findTaskByIdOrTitle")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<Task> findTaskByIdOrTitle(@RequestParam(value = "id",required = false) Integer id,
-                                                    @RequestParam(value = "title",required = false) String title) {
+    public ResponseEntity<Task> findTaskByIdOrTitle(@RequestParam(value = "id", required = false) Integer id,
+            @RequestParam(value = "title", required = false) String title) {
         return taskService.findTaskByIdOrTitle(id, title);
     }
 
@@ -130,31 +107,33 @@ public class TrelloController {
 
     @GetMapping("/getUserWorkspaces")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<List<Workspace>> getUserWorkspaces(@RequestParam(value = "id")Integer userId) {
+    public ResponseEntity<List<Workspace>> getUserWorkspaces(@RequestParam(value = "id") Integer userId) {
         return userService.fetchWorkspaceById(userId);
     }
 
     @GetMapping("/getUserBoards")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<List<Board>> getUserBoards(@RequestParam(value = "id")Integer userId) {
+    public ResponseEntity<List<Board>> getUserBoards(@RequestParam(value = "id") Integer userId) {
         return userService.fetchBoardById(userId);
     }
 
     @GetMapping("/getUserTasks")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<List<Task>> getUserTasks(@RequestParam(value = "id")Integer userId) {
+    public ResponseEntity<List<Task>> getUserTasks(@RequestParam(value = "id") Integer userId) {
         return userService.fetchTaskById(userId);
     }
 
     @GetMapping("/getWorkspaceBoards")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<List<Board>> getWorkspaceBoards(@RequestParam(value = "id")Integer workspaceId) {
+    public ResponseEntity<List<Board>> getWorkspaceBoards(@RequestParam(value = "id") Integer workspaceId) {
         return workspaceService.fetchBoardById(workspaceId);
     }
 
     @GetMapping("/getBoardLists")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<List<Group18.Demo.Trello.model.List>> getBoardLists(@RequestParam(value = "id")Integer boardId) {
+    public ResponseEntity<List<Group18.Demo.Trello.model.List>> getBoardLists(
+            @RequestParam(value = "id") Integer boardId) {
         return boardService.fetchListById(boardId);
     }
+
 }

@@ -1,12 +1,13 @@
 package Group18.Demo.Trello.service;
 
 import Group18.Demo.Trello.model.Board;
-import Group18.Demo.Trello.model.User;
+
 import Group18.Demo.Trello.model.Workspace;
 import Group18.Demo.Trello.repository.BoardRepository;
-import Group18.Demo.Trello.repository.UserRepository;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -80,7 +81,7 @@ class BoardServiceTest {
 
         ResponseEntity responseEntity = boardService.findBoardIdByTitle(board.getTitle());
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "Board Id should be found");
+        assertEquals(HttpStatus.OK, boardService.findBoardIdByTitle(board.getTitle()).getStatusCode(), "Board Id should be found");
         assertEquals(board.getId(), responseEntity.getBody(), "Wrong value");
     }
 

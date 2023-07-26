@@ -1,6 +1,5 @@
 package Group18.Demo.Trello.repository;
 
-import Group18.Demo.Trello.model.User;
 import Group18.Demo.Trello.model.Workspace;
 import org.springframework.data.jpa.repository.JpaRepository;
 
