@@ -41,33 +41,12 @@ public class ListService {
     }
 
     public String saveList(Group18.Demo.Trello.model.List list) {
-        listRepository.save(list);
-        return "List successfully saved";
-    }
-
-    public String deleteList(int listId) {
-        listRepository.deleteById(listId);
-        return "List successfully deleted";
-    }
-
-    public String updateList(int listId, Group18.Demo.Trello.model.List newList) {
-        Group18.Demo.Trello.model.List oldList = listRepository.findById(listId).get();
-
-        if(Objects.nonNull(newList.getStatus()) &&
-                !"".equalsIgnoreCase(newList.getStatus())) {
-            oldList.setStatus(newList.getStatus());
+        try {
+            listRepository.save(list);
+            return "List successfully saved";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error: Unable to save list";
         }
-
-        listRepository.save(oldList);
-        return "List successfully updated";
-    }
-
-    public List<Group18.Demo.Trello.model.List> fetchListList() {
-        return listRepository.findAll();
-    }
-
-    public List<Task> fetchTaskById(int listId) {
-        Group18.Demo.Trello.model.List list = listRepository.findById(listId).get();
-        return list.getTasks();
     }
 }
