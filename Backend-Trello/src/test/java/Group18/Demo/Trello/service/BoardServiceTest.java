@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,37 +31,50 @@ class BoardServiceTest {
     private BoardRepository boardRepository;
 
     @Mock
-    private UserService userService;
-
-    @Mock
     private WorkspaceService workspaceService;
 
-    //Helper methods that create board for test cases
-    private List<Board> createSampleBoards() {
-        List<Board> boards = new ArrayList<>();
-
-        Workspace workspace = new Workspace(1, "sample workspace", "description");
-        Board board1 = new Board(1, "board 1");
-        Board board2 = new Board(2, "board 2");
-
-        board1.setWorkspace(workspace);
-        board2.setWorkspace(workspace);
-
-        boards.add(board1);
-        boards.add(board2);
-        return boards;
-    }
-
+    @Mock
+    private ListService listService;
 
     @Test
-    void createBoard_InvalidUser() {
-        //To be implemented
+    void createBoard_ValidWorkspace() {
+        Workspace workspace = new Workspace(1, "Sample workspace", "Workspace description");
+        Board board = new Board(1, "Sample board");
+        List<Board> workspaceBoards = new ArrayList<>();
+        workspaceBoards.add(board);
+        workspace.setBoards(workspaceBoards);
+
+        when(workspaceService.getWorkspace(1)).thenReturn(workspace);
+
+        ResponseEntity<String> response = boardService.createBoard(workspace);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Create board successfully!", response.getBody());
+    }
+    @Test
+    void createBoard_InvalidWorkspace() {
+        Workspace workspace = new Workspace(1, "Sample workspace", "Workspace description");
+
+        when(workspaceService.getWorkspace(1)).thenReturn(null);
+
+        ResponseEntity<String> response = boardService.createBoard(workspace);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Can't find workspace object!", response.getBody());
     }
 
-
     @Test
-    void createBoard_ValidUser() {
-        //To be implemented
+    void createBoard_InternalServerError() {
+        Workspace workspace = new Workspace(1, "Sample workspace", "Workspace description");
+        Board board = new Board(1, "Sample board");
+        List<Board> workspaceBoards = new ArrayList<>();
+        workspaceBoards.add(board);
+        workspace.setBoards(workspaceBoards);
+
+        when(workspaceService.getWorkspace(1)).thenReturn(workspace);
+        doThrow(new RuntimeException("Internal Server Error")).when(listService).createListsForBoard(any(Board.class));
+
+        ResponseEntity<String> response = boardService.createBoard(workspace);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("Error", response.getBody());
     }
 
 
@@ -68,19 +82,53 @@ class BoardServiceTest {
     void deleteBoard_ValidWorkspace() {
         Integer boardId = 1;
 
-        ResponseEntity responseEntity = boardService.deleteBoard(boardId);
+        doNothing().when(boardRepository).deleteById(boardId);
 
+        ResponseEntity responseEntity = boardService.deleteBoard(boardId);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "Board should be deleted for valid board id");
         assertEquals("Board successfully deleted", responseEntity.getBody(), "Wrong message");
     }
 
     @Test
-    void findBoardIdByTitle_ValidBoard() {
+    void deleteBoard_InternalServerError() {
+        Integer boardId = 1;
+
+        doThrow(new RuntimeException("Internal Server Error")).when(boardRepository).deleteById(boardId);
+
+        ResponseEntity responseEntity = boardService.deleteBoard(boardId);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode(), "Board should be deleted for valid board id");
+        assertEquals("Error", responseEntity.getBody(), "Wrong message");
+    }
+
+    @Test
+    void getBoard_ValidBoardId() {
+        Integer boardId = 1;
+        Board board = new Board(boardId, "Sample board");
+
+        when(boardRepository.findById(boardId)).thenReturn(Optional.of(board));
+
+        Board returnBoard = boardService.getBoard(1);
+        assertEquals(board, returnBoard);
+        verify(boardRepository).findById(boardId);
+    }
+
+    @Test
+    void getBoard_InternalServerError() {
+        Integer boardId = 69;
+
+        when(boardRepository.findById(boardId)).thenReturn(Optional.empty());
+
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> boardService.getBoard(boardId));
+        assertEquals("Board not found with ID: " + boardId, exception.getMessage());
+        verify(boardRepository).findById(boardId);
+    }
+
+    @Test
+    void findBoardIdByTitle_ValidBoardId() {
         Board board = new Board(1, "sample board");
         when(boardService.findByTitle(board.getTitle())).thenReturn(board);
 
         ResponseEntity responseEntity = boardService.findBoardIdByTitle(board.getTitle());
-
         assertEquals(HttpStatus.OK, boardService.findBoardIdByTitle(board.getTitle()).getStatusCode(), "Board Id should be found");
         assertEquals(board.getId(), responseEntity.getBody(), "Wrong value");
     }
@@ -91,24 +139,82 @@ class BoardServiceTest {
         when(boardService.findByTitle(board.getTitle())).thenReturn(null);
 
         ResponseEntity responseEntity = boardService.findBoardIdByTitle(board.getTitle());
-
-        // Assert
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode(), "Board Id should not be found");
         assertEquals(-1, responseEntity.getBody(), "Wrong value");
     }
+
     @Test
-    public void fetBoardById_Success() {
-        Board board = new Board(1, "sample board");
+    void findBoardIdByTitle_InternalServerError() {
+        String boardTittle = "Not exist";
+        when(boardService.findByTitle(boardTittle)).thenThrow(new RuntimeException());
+
+        ResponseEntity responseEntity = boardService.findBoardIdByTitle(boardTittle);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+        assertEquals(-1, responseEntity.getBody(), "Wrong value");
+    }
+
+    @Test
+    void saveBoard_ValidBoard() {
+        Board board = new Board(1, "Sample board");
+
+        String result = boardService.saveBoard(board);
+        assertEquals("Board successfully saved", result);
+        verify(boardRepository).save(board);
+    }
+
+    @Test
+    void saveBoard_InternalServerError() {
+        Board board = new Board(1, "Sample board");
+
+        doThrow(new RuntimeException("Some database error")).when(boardRepository).save(board);
+
+        String result = boardService.saveBoard(board);
+        assertEquals("Error: Unable to save board", result);
+        verify(boardRepository).save(board);
+    }
+
+    @Test
+    void fetchListById_ValidBoardId() {
+        Board board = new Board(1, "Sample board");
         List<Group18.Demo.Trello.model.List> lists = new ArrayList<>();
-        lists.add(new Group18.Demo.Trello.model.List());
+        lists.add(new Group18.Demo.Trello.model.List(board, "to-do"));
+        lists.add(new Group18.Demo.Trello.model.List(board, "doing"));
+        lists.add(new Group18.Demo.Trello.model.List(board, "done"));
         board.setLists(lists);
 
-        when(boardRepository.findById(1)).thenReturn(Optional.of(board));
+        when(boardRepository.findById(board.getId())).thenReturn(Optional.of(board));
 
-        ResponseEntity<List<Group18.Demo.Trello.model.List>> responseEntity = boardService.fetchListById(1);
+        ResponseEntity<List<Group18.Demo.Trello.model.List>> response = boardService.fetchListById(board.getId());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(lists, response.getBody());
+    }
+    @Test
+    void fetchListById_InternalServerError() {
+        Integer boardId = 69;
 
-        // Assertions
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(lists, responseEntity.getBody());
+        when(boardRepository.findById(boardId)).thenReturn(Optional.empty());
+
+        ResponseEntity<List<Group18.Demo.Trello.model.List>> response = boardService.fetchListById(boardId);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    void findByTitle_ExistingBoard() {
+        Board board = new Board(1, "Sample Board");
+
+        when(boardRepository.findByTitle(board.getTitle())).thenReturn(board);
+
+        Board returnBoard = boardService.findByTitle(board.getTitle());
+        assertEquals(board, returnBoard);
+    }
+
+    @Test
+    void findByTitle_NotFoundBoard() {
+        String boardTitle = "Not exist";
+
+        when(boardRepository.findByTitle(boardTitle)).thenReturn(null);
+
+        Board returnBoard = boardService.findByTitle(boardTitle);
+        assertEquals(null, returnBoard);
     }
 }

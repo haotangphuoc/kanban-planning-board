@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 @Service
@@ -30,7 +32,7 @@ public class BoardService {
             if(workspaceInDb==null){
                 return new ResponseEntity<>("Can't find workspace object!", HttpStatus.BAD_REQUEST);
             }
-            List<Board> boardInDb = workspaceInDb.getBoards();
+            List<Board> boardInDb = new ArrayList<>(workspaceInDb.getBoards());
             //Create new board instances for the submitted data
             for(Board board:workspace.getBoards()){
                 Board newBoard = new Board();
@@ -65,8 +67,8 @@ public class BoardService {
     }
 
     public Board getBoard(int boardId) {
-        Board board = boardRepository.findById(boardId).get();
-        return board;
+        return boardRepository.findById(boardId)
+                .orElseThrow(() -> new NoSuchElementException("Board not found with ID: " + boardId));
     }
 
     public ResponseEntity<Integer> findBoardIdByTitle(String title) {
@@ -83,29 +85,13 @@ public class BoardService {
     }
 
     public String saveBoard(Board board) {
-        boardRepository.save(board);
-        return "Board successfully saved";
-    }
-
-    public String updateList(int boardId, Board newBoard) {
-        Board oldBoard = boardRepository.findById(boardId).get();
-
-        if(Objects.nonNull(newBoard.getTitle()) &&
-                !"".equalsIgnoreCase(newBoard.getTitle())) {
-            oldBoard.setTitle(newBoard.getTitle());
+        try {
+            boardRepository.save(board);
+            return "Board successfully saved";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error: Unable to save board";
         }
-
-        boardRepository.save(oldBoard);
-        return "Board successfully updated";
-    }
-
-    public List<User> fetchUserById(int boardId) {
-        Board board = boardRepository.findById(boardId).get();
-        return board.getUsers();
-    }
-
-    public List<Board> fetchBoardList() {
-        return boardRepository.findAll();
     }
 
     public ResponseEntity<List<Group18.Demo.Trello.model.List>> fetchListById(Integer boardId) {
