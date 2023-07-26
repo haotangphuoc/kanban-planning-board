@@ -114,20 +114,6 @@ public class WorkspaceService {
         return "Workspace successfully saved";
     }
 
-    public String deleteWorkspace(int workspaceId) {
-        workspaceRepository.deleteById(workspaceId);
-        return "Workspace successfully deleted";
-    }
-
-    public List<User> fetchUserById(int workspaceId) {
-        Workspace workspace = workspaceRepository.findById(workspaceId).get();
-        return workspace.getUsers();
-    }
-
-    public List<Workspace> fetchWorkspaceList() {
-        return workspaceRepository.findAll();
-    }
-
     public  Workspace findByName(String name) {
         return workspaceRepository.findByName(name);
     }

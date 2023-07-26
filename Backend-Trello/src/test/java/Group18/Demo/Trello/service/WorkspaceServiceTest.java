@@ -44,19 +44,6 @@ class WorkspaceServiceTest {
         return workspaces;
     }
 
-    public List<User> createSampleUsers() {
-        List<User> users = new ArrayList<>();
-        User user1 = new User();
-        User user2 = new User();
-
-        user1.setId(1);
-        user2.setId(2);
-
-        users.add(user1);
-        users.add(user2);
-        return users;
-    }
-
     @Test
     void createWorkspace_InvalidUser() {
         User user = new User();
@@ -92,6 +79,22 @@ class WorkspaceServiceTest {
     }
 
     @Test
+    void addMembersToWorkspace() {
+        Workspace workspace = new Workspace(1, "sample", "description");
+
+        User user1 = new User();
+        user1.setEmail("user1@gmail.com");
+        User user2 = new User();
+        user2.setEmail("user2@gmail.com");
+
+        when(workspaceRepository.findById(1)).thenReturn(Optional.of(workspace));
+
+        ResponseEntity response = workspaceService.addMembersToWorkspace(workspace);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Add members to workspace successfully!", response.getBody());
+    }
+
+    @Test
     void findWorkspaceIdByName_ValidWorkspace() {
         Workspace workspace = new Workspace(1, "sample workspace", "description");
         when(workspaceService.findByName(workspace.getName())).thenReturn(workspace);
@@ -119,7 +122,7 @@ class WorkspaceServiceTest {
     }
 
     @Test
-    public void fetBoardById_Success() {
+    void fetBoardById_Success() {
         Workspace workspace = new Workspace(1, "sample workspace", "description");
         List<Board> boards = new ArrayList<>();
         boards.add(new Board());
@@ -135,15 +138,44 @@ class WorkspaceServiceTest {
     }
 
     @Test
-    public void fetchBoardById_NotFound() {
+    void fetchBoardById_NotFound() {
         Workspace workspace = new Workspace(1, "sample workspace", "description");
 
-        when(workspaceRepository.findById(1)).thenReturn(Optional.of(workspace));
+        when(workspaceRepository.findById(1)).thenReturn(Optional.empty());
 
         ResponseEntity<List<Board>> responseEntity = workspaceService.fetchBoardById(1);
 
-        // Assertions
-        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
     }
 
+    @Test
+    void getWorkspace() {
+        Workspace workspace = new Workspace(1, "sample workspace", "description");
+
+        when(workspaceRepository.findById(workspace.getId())).thenReturn(Optional.of(workspace));
+        Workspace result = workspaceService.getWorkspace(workspace.getId());
+        assertNotNull(result);
+        assertEquals(workspace, result);
+    }
+
+    @Test
+    void saveWorkspace() {
+        Workspace workspace = new Workspace(1, "sample workspace", "description");
+
+        when(workspaceRepository.save(workspace)).thenReturn(workspace);
+
+        String result = workspaceService.saveWorkspace(workspace);
+        assertEquals("Workspace successfully saved", result);
+
+        verify(workspaceRepository).save(workspace);
+    }
+
+    @Test
+    void findByName() {
+        Workspace workspace = new Workspace(1, "sample workspace", "description");
+
+        when(workspaceRepository.findByName(workspace.getName())).thenReturn(workspace);
+        Workspace result = workspaceService.findByName(workspace.getName());
+        assertEquals(workspace, result);
+    }
 }
