@@ -9,6 +9,7 @@ import {
   Stack,
   Nav,
 } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Settings = () => {
   const [workspaceName, setWorkspaceName] = useState("");
@@ -17,6 +18,7 @@ const Settings = () => {
   const [workspace, setWorkspace] = useState([]);
   const [workspaceId, setWorkspaceId] = useState("");
   const [workspaceNameOld, setWorkspaceNameOld] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const selectedWorkspace = localStorage.getItem("selectedWorkspace");
@@ -75,6 +77,7 @@ const Settings = () => {
       console.error("Request encountered an error:", error);
       // Handle network errors or other exceptions
     }
+    navigate(`../Pages/Workspace.js?name=${workspaceName}`);
   };
 
   const handleWorkspaceNameChange = (event) => {
