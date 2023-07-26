@@ -37,7 +37,7 @@ public class List {
     @JsonIgnoreProperties("lists")
     private Board board;
 
-    @OneToMany(mappedBy = "list")
+    @OneToMany(mappedBy = "list", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("list")
     private java.util.List<Task> tasks = new ArrayList<>();
 
