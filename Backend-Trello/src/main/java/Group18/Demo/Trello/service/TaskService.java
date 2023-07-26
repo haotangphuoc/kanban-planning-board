@@ -42,16 +42,6 @@ public class TaskService {
         }
     }
 
-    public ResponseEntity<String> modifyTask(Task task) {
-        try {
-            updateTask(task.getId(), task);
-            return new ResponseEntity<>("Modify task successfully!", HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     public ResponseEntity<Integer> createTask(Group18.Demo.Trello.model.List list) {
         try {
             Integer newTaskId = -1;
@@ -103,45 +93,12 @@ public class TaskService {
     }
 
     public String saveTask(Task task) {
-        taskRepository.save(task);
-        return "Task successfully saved";
-    }
-
-    public String deleteTask(int taskId) {
-        taskRepository.deleteById(taskId);
-        return "Task successfully deleted";
-    }
-
-    public String updateTask(int taskId, Group18.Demo.Trello.model.Task newTask) {
-        Group18.Demo.Trello.model.Task oldTask = taskRepository.findById(taskId).get();
-
-        if(Objects.nonNull(newTask.getTitle()) &&
-                !"".equalsIgnoreCase(newTask.getTitle())) {
-            oldTask.setTitle(newTask.getTitle());
+        try {
+            taskRepository.save(task);
+            return "Task successfully saved";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error: Unable to save task";
         }
-
-        if(Objects.nonNull(newTask.getStartDate()) &&
-                !"".equalsIgnoreCase(newTask.getStartDate())) {
-            oldTask.setStartDate(newTask.getStartDate());
-        }
-
-        if(Objects.nonNull(newTask.getDeadline()) &&
-                !"".equalsIgnoreCase(newTask.getDeadline())) {
-            oldTask.setDeadline(newTask.getDeadline());
-        }
-
-        oldTask.setActiveFlag(newTask.getActiveFlag());
-
-        taskRepository.save(oldTask);
-        return "Task successfully updated";
-    }
-
-    public List<Task> fetchTaskList() {
-        return taskRepository.findAll();
-    }
-
-    public List<User> fetchUserById(int taskId) {
-        Task task = taskRepository.findById(taskId).get();
-        return task.getUsers();
     }
 }

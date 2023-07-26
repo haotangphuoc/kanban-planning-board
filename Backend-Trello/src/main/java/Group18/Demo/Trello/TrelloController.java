@@ -87,12 +87,6 @@ public class TrelloController {
         return taskService.findTaskByIdOrTitle(id, title);
     }
 
-    @PostMapping("/modifyTask")
-    @CrossOrigin(origins = "*")
-    public ResponseEntity<String> modifyTask(@RequestBody Task task) {
-        return taskService.modifyTask(task);
-    }
-
     @PostMapping("/createTask")
     @CrossOrigin(origins = "*")
     public ResponseEntity<Integer> createTask(@RequestBody Group18.Demo.Trello.model.List list) {

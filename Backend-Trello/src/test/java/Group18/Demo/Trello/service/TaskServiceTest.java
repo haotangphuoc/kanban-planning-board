@@ -1,7 +1,9 @@
 package Group18.Demo.Trello.service;
 
+import Group18.Demo.Trello.model.Board;
 import Group18.Demo.Trello.model.Task;
 import Group18.Demo.Trello.model.User;
+import Group18.Demo.Trello.repository.ListRepository;
 import Group18.Demo.Trello.repository.TaskRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,16 +15,18 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class TaskServiceTest {
-    @InjectMocks
-    private TaskService taskService;
+
+    @Mock
+    private ListService listService;
 
     @Mock
     private TaskRepository taskRepository;
@@ -30,22 +34,24 @@ class TaskServiceTest {
     @Mock
     private UserService userService;
 
+    @InjectMocks
+    private TaskService taskService;
+
     @Test
     void findTaskByIdOrTitle_NullArguments() {
         ResponseEntity responseEntity = taskService.findTaskByIdOrTitle(null, null);
-
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode(), "Task is not returned correctly");
         assertEquals(null, responseEntity.getBody(), "Wrong value");
     }
 
     @Test
-    void findTaskByIdOrTitle_CorrectId() {
+    void findTaskByIdOrTitle_ValidId() {
         Task task = new Task();
+        task.setId(1);
 
         when(taskRepository.findById(task.getId())).thenReturn(Optional.of(task));
 
         ResponseEntity responseEntity = taskService.findTaskByIdOrTitle(task.getId(), null);
-
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "Task is not returned correctly");
         assertEquals(task, responseEntity.getBody(), "Wrong value");
 
@@ -53,13 +59,13 @@ class TaskServiceTest {
     }
 
     @Test
-    void findTaskByIdOrTitle_CorrectTitle() {
+    void findTaskByIdOrTitle_ValidTitle() {
         Task task = new Task();
+        task.setTitle("Sample task");
 
         when(taskRepository.findByTitle(task.getTitle())).thenReturn(task);
 
         ResponseEntity responseEntity = taskService.findTaskByIdOrTitle(null, task.getTitle());
-
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "Task is not returned correctly");
         assertEquals(task, responseEntity.getBody(), "Wrong value");
 
@@ -67,23 +73,40 @@ class TaskServiceTest {
     }
 
     @Test
-    void modifyTask() {
-        Task task = new Task();
+    void testCreateTask_ValidList() {
+        Board board = new Board(1, "Sample Board");
+        Group18.Demo.Trello.model.List list = new Group18.Demo.Trello.model.List(board, "sample");
+        list.setId(1);
+        List<Task> tasks = new ArrayList<>();
+        Task task = new Task("Sample Task", null, null, list);
+        tasks.add(task);
 
-        when(taskRepository.findById(task.getId())).thenReturn(Optional.of(task));
+        when(listService.getList(list.getId())).thenReturn(list);
 
-        ResponseEntity responseEntity = taskService.modifyTask(task);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "Task should be modified");
-        assertEquals("Modify task successfully!", responseEntity.getBody(), "Wrong message");
-
-        verify(taskRepository).findById(task.getId());
-        verify(taskRepository).save(task);
+        ResponseEntity<Integer> response = taskService.createTask(list);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
     }
 
     @Test
-    void assignMembersToTask() {
+    void testCreateTask_InvalidList() {
+        Board board = new Board(1, "Sample Board");
+        Group18.Demo.Trello.model.List list = new Group18.Demo.Trello.model.List(board, "sample");
+        list.setId(1);
+        List<Task> tasks = new ArrayList<>();
+        Task task = new Task("Sample Task", null, null, list);
+        tasks.add(task);
+
+        when(listService.getList(list.getId())).thenReturn(null);
+
+        ResponseEntity<Integer> response = taskService.createTask(list);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void assignMembersToTask_ValidTask() {
         Task task = new Task();
+        task.setId(1);
 
         List<Task> tasks = new ArrayList<>();
         tasks.add(task);
@@ -105,7 +128,6 @@ class TaskServiceTest {
         when(userService.findByEmail(user2.getEmail())).thenReturn(user2);
 
         ResponseEntity responseEntity = taskService.assignMembersToTask(task);
-
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals("Assign members to task successfully!", responseEntity.getBody());
 
@@ -114,5 +136,71 @@ class TaskServiceTest {
         verify(userService).findByEmail(user2.getEmail());
         verify(userService).saveUser(user1);
         verify(userService).saveUser(user2);
+    }
+
+    @Test
+    void assignMembersToTask_InternalServerError() {
+        Task task = new Task();
+        task.setId(69);
+
+
+        when(taskRepository.findById(task.getId())).thenReturn(Optional.empty());
+
+        ResponseEntity responseEntity = taskService.assignMembersToTask(task);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+        assertEquals("Error", responseEntity.getBody());
+
+        verify(taskRepository).findById(task.getId());
+    }
+
+    @Test
+    void testGetTask_ValidTask() {
+        Task task = new Task();
+        task.setId(1);
+
+        when(taskRepository.findById(1)).thenReturn(Optional.of(task));
+
+        Task actualTask = taskService.getTask(1);
+        assertNotNull(actualTask);
+        assertEquals(task, actualTask);
+
+        verify(taskRepository).findById(1);
+    }
+
+    @Test
+    void testGetTask_InternalServerError() {
+        int taskId = 69;
+
+        when(taskRepository.findById(taskId)).thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class, () -> taskService.getTask(taskId));
+
+        verify(taskRepository).findById(taskId);
+    }
+
+    @Test
+    void saveTask_ValidTask() {
+        Task task = new Task();
+        task.setId(1);
+
+        when(taskRepository.save(task)).thenReturn(task);
+
+        String result = taskService.saveTask(task);
+        assertEquals("Task successfully saved", result);
+
+        verify(taskRepository).save(task);
+    }
+
+    @Test
+    void saveTask_InternalServerError() {
+        Task task = new Task();
+        task.setId(1);
+
+        doThrow(new RuntimeException("Some database error")).when(taskRepository).save(task);
+
+        String result = taskService.saveTask(task);
+        assertEquals("Error: Unable to save task", result);
+
+        verify(taskRepository).save(task);
     }
 }
