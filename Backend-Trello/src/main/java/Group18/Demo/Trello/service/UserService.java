@@ -118,15 +118,6 @@ public class UserService {
         return "User successfully saved";
     }
 
-    public String deleteUser(int userId) {
-        userRepository.deleteById(userId);
-        return "User successfully deleted";
-    }
-
-    public List<User> fetchUserList() {
-        return userRepository.findAll();
-    }
-
     public ResponseEntity<List<Workspace>> fetchWorkspaceById(int userId) {
         try {
             User user = userRepository.findById(userId).get();
